@@ -30,7 +30,7 @@ function BinderClip({ color = '#1a1a1a' }) {
   )
 }
 
-// ── PAPERCLIP SVG ────────────────────────────────────────────────
+// ── PAPERCLIP SVG ─────────────────────────────────────────────────
 function Paperclip({ color = '#1440FF' }) {
   return (
     <svg width="18" height="48" viewBox="0 0 18 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@ function Paperclip({ color = '#1440FF' }) {
   )
 }
 
-// ── NAV ──────────────────────────────────────────────────────────
+// ── NAV ───────────────────────────────────────────────────────────
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
@@ -58,8 +58,8 @@ function Nav() {
           {content.name}
         </a>
         <div className="hidden md:flex gap-8 font-condensed font-bold text-xs tracking-widest uppercase">
-          {['Sobre mí', 'Rol', 'Trabajo', 'Contacto'].map((label, i) => (
-            <a key={i} href={`#${['about', 'role', 'work', 'contact'][i]}`}
+          {['Perfil', 'Trabajo', 'Process', 'Contacto'].map((label, i) => (
+            <a key={i} href={`#${['about', 'trabajo', 'process', 'contacto'][i]}`}
               className="text-ink hover:text-blue transition-colors duration-200">
               {label}
             </a>
@@ -70,7 +70,7 @@ function Nav() {
   )
 }
 
-// ── HERO ─────────────────────────────────────────────────────────
+// ── HERO ──────────────────────────────────────────────────────────
 function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-[#EBEBEB]">
@@ -86,38 +86,32 @@ function Hero() {
 
           {/* Left: Text */}
           <div>
-            {/* Handwritten blue label */}
             <p className="font-marker text-blue text-xl mb-3 rotate-[-1deg] inline-block">
-              Portafolio 2025
+              {content.hero.eyebrow}
             </p>
 
-            {/* Main name */}
             <h1 className="font-bebas text-[22vw] md:text-[12vw] leading-[0.85] text-ink tracking-tight">
               {content.name.toUpperCase()}
             </h1>
 
-            {/* Blue layered subtitle */}
             <div className="mt-2 mb-6">
               <span className="font-bebas text-[7vw] md:text-[4vw] text-blue leading-none block tracking-tight">
-                {content.title}
+                {content.hero.role}
               </span>
-              <div className="flex gap-4 mt-2 font-condensed font-700 text-sm tracking-widest uppercase text-ink/60">
-                <span>{content.subtitleLine1}</span>
-                <span>·</span>
-                <span>{content.subtitleLine2}</span>
-                <span>·</span>
-                <span>{content.location}</span>
-              </div>
+              <p className="font-condensed font-bold text-sm tracking-widest uppercase text-ink/50 mt-2">
+                {content.hero.descriptor}
+              </p>
+              <p className="font-marker text-gold text-lg mt-2">
+                {content.hero.statement}
+              </p>
             </div>
 
-            {/* Role tags */}
             <div className="flex flex-wrap gap-2 mt-4">
-              {content.rolTags.slice(0, 4).map((tag) => (
+              {content.hero.tags.map((tag) => (
                 <span key={tag} className="skill-badge">{tag}</span>
               ))}
             </div>
 
-            {/* Scroll hint */}
             <div className="mt-12 flex items-center gap-3 font-condensed text-xs tracking-widest uppercase text-ink/40">
               <div className="w-8 h-px bg-ink/30" />
               <span>Scroll</span>
@@ -127,24 +121,19 @@ function Hero() {
           {/* Right: Halftone portrait placeholder */}
           <div className="relative flex justify-center md:justify-end">
             <div className="relative">
-              {/* Main portrait box */}
               <div className="halftone-placeholder w-[280px] h-[360px] md:w-[360px] md:h-[460px] bg-gradient-to-b from-zinc-300 to-zinc-500 rounded-sm overflow-hidden">
-                {/* Placeholder silhouette */}
                 <div className="absolute inset-0 flex items-end justify-center pb-0">
                   <svg viewBox="0 0 200 300" className="w-full h-full opacity-30" fill="none">
                     <circle cx="100" cy="75" r="42" fill="#1a1a1a" />
                     <path d="M20 300 C20 210 180 210 180 300" fill="#1a1a1a" />
                   </svg>
                 </div>
-                {/* Halftone texture done via CSS ::before in globals.css */}
               </div>
 
-              {/* Floating handle tag */}
               <div className="absolute -bottom-5 -left-6 bg-ink text-cream px-4 py-2 font-condensed font-bold text-sm tracking-widest uppercase rotate-[-2deg]">
                 {content.handle}
               </div>
 
-              {/* Gold accent line */}
               <div className="absolute -right-3 top-8 w-1 h-24 bg-gold" />
             </div>
           </div>
@@ -152,13 +141,12 @@ function Hero() {
         </div>
       </div>
 
-      {/* Bottom divider line */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-ink/10" />
     </section>
   )
 }
 
-// ── ABOUT ────────────────────────────────────────────────────────
+// ── ABOUT ─────────────────────────────────────────────────────────
 function About() {
   const ref = useFadeIn()
   return (
@@ -166,41 +154,47 @@ function About() {
       <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
-          {/* Left: Halftone portrait (smaller) */}
+          {/* Left: Halftone portrait */}
           <div className="relative hidden md:block">
             <div className="halftone-placeholder w-[280px] h-[380px] bg-gradient-to-br from-zinc-400 to-zinc-600 rounded-sm" />
-            {/* Blue line accent */}
             <div className="absolute -left-4 top-0 bottom-0 w-0.5 bg-blue/30" />
           </div>
 
           {/* Right: About card */}
           <div className="relative">
-            {/* Paper card */}
             <div className="relative bg-white/80 backdrop-blur-sm border border-black/8 p-8 md:p-10 shadow-sm">
               <BinderClip />
 
+              <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/30 mb-2">
+                {content.about.headline}
+              </p>
               <h2 className="font-bebas text-5xl md:text-6xl tracking-tight mb-1 text-ink">
-                ABOUT ME.
+                {content.name.toUpperCase()}
               </h2>
 
               <div className="w-12 h-0.5 bg-blue mb-6" />
 
               <div className="flex items-start gap-4 mb-6">
-                {/* Polaroid mini */}
                 <div className="polaroid flex-shrink-0 w-[80px]">
                   <div className="w-full h-[80px] bg-gradient-to-br from-zinc-200 to-zinc-400" />
                 </div>
                 <div>
-                  <p className="font-condensed font-900 text-2xl text-ink tracking-tight">{content.name}</p>
+                  <p className="font-condensed font-900 text-2xl text-ink tracking-tight">{content.hero.role}</p>
                   <p className="font-marker text-blue text-sm mt-0.5">{content.location}</p>
                 </div>
               </div>
 
-              <p className="font-barlow text-sm leading-relaxed text-ink/80 mb-4">
-                {content.bio}
-              </p>
+              {content.about.body.map((paragraph, i) => (
+                <p key={i} className="font-barlow text-sm leading-relaxed text-ink/80 mb-3">
+                  {paragraph}
+                </p>
+              ))}
 
-              <div className="flex items-center gap-2 mt-6 border-t border-black/8 pt-4">
+              <div className="mt-4 border-t border-black/8 pt-4">
+                <p className="font-marker text-blue text-base">{content.about.tag}</p>
+              </div>
+
+              <div className="flex items-center gap-2 mt-4 border-t border-black/8 pt-4">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink/50">
                   <rect x="2" y="2" width="20" height="20" rx="5" />
                   <circle cx="12" cy="12" r="4" />
@@ -210,7 +204,6 @@ function About() {
               </div>
             </div>
 
-            {/* Blue paperclip */}
             <div className="absolute -top-3 right-12">
               <Paperclip color="#1440FF" />
             </div>
@@ -222,33 +215,37 @@ function About() {
   )
 }
 
-// ── ROLE ─────────────────────────────────────────────────────────
-function Role() {
+// ── EN QUÉ AYUDO ──────────────────────────────────────────────────
+function Ayudo() {
   const ref = useFadeIn()
   return (
-    <section id="role" className="bg-ink py-24 md:py-36 overflow-hidden relative">
-      {/* Gold horizontal line */}
+    <section id="ayudo" className="bg-ink py-24 md:py-36 overflow-hidden relative">
       <div className="absolute left-0 right-0 top-1/2 h-px bg-gold/20 pointer-events-none" />
 
       <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
 
-        <p className="font-marker text-gold text-lg mb-4">¿Qué hago?</p>
+        <p className="font-marker text-gold text-lg mb-4">{content.ayudo.headline}</p>
 
-        <h2 className="font-bebas text-[8vw] md:text-[6vw] leading-[1] text-cream tracking-tight max-w-4xl">
-          {content.rolHeadline}
-        </h2>
+        <p className="font-condensed font-bold text-sm tracking-widest uppercase text-cream/40 mb-8 max-w-xl">
+          {content.ayudo.intro}
+        </p>
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-3 mt-10">
-          {content.rolTags.map((tag) => (
-            <span key={tag}
-              className="border border-cream/20 px-4 py-2 font-condensed font-bold text-xs tracking-widest uppercase text-cream/60 hover:border-blue hover:text-blue transition-colors duration-200 cursor-default">
-              {tag}
-            </span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 mt-4">
+          {content.ayudo.areas.map((area, i) => (
+            <div key={i} className="border-t border-cream/10 md:border-t-0 md:border-l first:border-l-0 border-cream/10 pt-8 md:pt-0 md:pl-8 first:pl-0 pb-8 md:pb-0">
+              <span className="font-bebas text-[4rem] leading-none text-blue/30 block mb-3">
+                {area.number}
+              </span>
+              <h3 className="font-bebas text-2xl md:text-3xl text-cream tracking-tight mb-3">
+                {area.title.toUpperCase()}
+              </h3>
+              <p className="font-barlow text-sm text-cream/50 leading-relaxed">
+                {area.description}
+              </p>
+            </div>
           ))}
         </div>
 
-        {/* Big blue word decoration */}
         <div className="mt-16 overflow-hidden">
           <p className="font-bebas text-[20vw] leading-none text-blue/10 select-none pointer-events-none -mb-4">
             STRATEGY
@@ -259,26 +256,27 @@ function Role() {
   )
 }
 
-// ── SKILLS ───────────────────────────────────────────────────────
-function Skills() {
+// ── CAPACIDADES ───────────────────────────────────────────────────
+function Capacidades() {
   const ref = useFadeIn()
   return (
-    <section id="skills" className="bg-[#EBEBEB] py-24 md:py-32">
+    <section id="capacidades" className="bg-[#EBEBEB] py-24 md:py-32">
       <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
 
           <div>
-            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mb-2">Especialidad</p>
-            <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-ink mb-2">
-              {content.specialtyLabel}
+            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mb-2">
+              {content.capacidades.eyebrow}
+            </p>
+            <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-ink mb-6">
+              {content.capacidades.headline.toUpperCase()}
             </h2>
-            <p className="font-marker text-blue text-2xl mt-2">{content.specialtyValue}</p>
 
             <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mt-8 mb-3">
-              My Toolkits
+              Herramientas
             </p>
             <div className="flex gap-2 flex-wrap">
-              {['Ai', 'Ps', 'Ae', 'Pr'].map((tool) => (
+              {content.capacidades.tools.map((tool) => (
                 <span key={tool} className="font-condensed font-900 text-sm border-2 border-ink px-3 py-1 tracking-widest">
                   {tool}
                 </span>
@@ -287,10 +285,19 @@ function Skills() {
           </div>
 
           <div>
-            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mb-4">Skills</p>
-            <div className="flex flex-wrap gap-2">
-              {content.skills.map((skill) => (
-                <span key={skill} className="skill-badge">{skill}</span>
+            <div className="divide-y divide-ink/10">
+              {content.capacidades.items.map((item, i) => (
+                <div key={i} className="py-4 flex items-start justify-between gap-4 group">
+                  <div>
+                    <p className="font-condensed font-bold text-base tracking-wide text-ink group-hover:text-blue transition-colors duration-200">
+                      {item.area}
+                    </p>
+                    <p className="font-barlow text-xs text-ink/50 mt-0.5">{item.detail}</p>
+                  </div>
+                  <span className="font-condensed font-bold text-xs text-ink/20 tracking-widest mt-1 shrink-0">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
@@ -301,8 +308,7 @@ function Skills() {
   )
 }
 
-// ── WORK ─────────────────────────────────────────────────────────
-// Placeholder color blocks for image slots
+// ── MI TRABAJO ────────────────────────────────────────────────────
 const placeholderColors = [
   'from-zinc-300 to-zinc-500',
   'from-blue/20 to-blue/60',
@@ -320,7 +326,6 @@ function WorkGrid({ count = 6, label = '' }) {
           <div className="work-overlay">
             <span>{label || 'Ver proyecto'}</span>
           </div>
-          {/* Placeholder label */}
           <div className="absolute bottom-2 left-3 font-condensed font-bold text-xs text-white/50 uppercase tracking-widest">
             {label} {String(i + 1).padStart(2, '0')}
           </div>
@@ -330,176 +335,284 @@ function WorkGrid({ count = 6, label = '' }) {
   )
 }
 
-function SectionHeader({ title, subtitle, dark = false }) {
+function Trabajo() {
   const ref = useFadeIn()
+  const [activeTab, setActiveTab] = useState(content.trabajo.tabs[0].id)
+  const currentTab = content.trabajo.tabs.find(t => t.id === activeTab)
+
   return (
-    <div ref={ref} className={`fade-in py-20 md:py-28 overflow-hidden relative ${dark ? 'bg-ink' : 'bg-[#EBEBEB]'}`}>
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
-        {/* BG watermark */}
-        <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none">
-          <span className={`font-bebas text-[22vw] leading-none whitespace-nowrap ${dark ? 'text-white/[0.04]' : 'text-black/[0.04]'}`}>
-            {title.toUpperCase()}
-          </span>
+    <section id="trabajo" className="bg-ink py-24 md:py-32 overflow-hidden relative">
+      {/* BG watermark */}
+      <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none">
+        <span className="font-bebas text-[22vw] leading-none whitespace-nowrap text-white/[0.03]">
+          {content.trabajo.headline.toUpperCase()}
+        </span>
+      </div>
+
+      <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+
+        <span className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30 block mb-2">
+          {content.trabajo.eyebrow}
+        </span>
+        <div className="relative inline-block mb-10">
+          <h2 className="font-bebas text-[10vw] md:text-[7vw] leading-none text-cream/80 tracking-tight">
+            {content.trabajo.headline.toUpperCase()}
+          </h2>
         </div>
 
-        <div className="relative z-10">
-          <span className={`font-condensed font-bold text-xs tracking-widest uppercase ${dark ? 'text-cream/30' : 'text-ink/30'} block mb-2`}>
-            Mi trabajo
-          </span>
-          {/* Two-font title like the reference */}
-          <div className="relative inline-block">
-            <h2 className={`font-bebas text-[10vw] md:text-[7vw] leading-none ${dark ? 'text-cream/80' : 'text-ink/80'} tracking-tight`}>
-              {title.toUpperCase()}
-            </h2>
-            <span className="font-marker text-blue text-[5vw] md:text-[3vw] absolute -top-2 right-0 translate-x-1/4 rotate-[-3deg] leading-none">
-              {subtitle}
-            </span>
-          </div>
+        {/* Tabs */}
+        <div className="flex gap-0 border-b border-cream/10 mb-8">
+          {content.trabajo.tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`font-condensed font-bold text-xs tracking-widest uppercase px-6 py-3 transition-all duration-200 border-b-2 -mb-px ${
+                activeTab === tab.id
+                  ? 'text-blue border-blue'
+                  : 'text-cream/30 border-transparent hover:text-cream/60'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
+
+        {/* Active tab description */}
+        <p className="font-barlow text-cream/50 text-sm max-w-md mb-2">
+          {currentTab.description}
+        </p>
+
+        <WorkGrid count={currentTab.count} label={currentTab.label} />
       </div>
-    </div>
+    </section>
   )
 }
 
-function Work() {
+// ── PLANIFICACIÓN ─────────────────────────────────────────────────
+function Planeacion() {
+  const ref = useFadeIn()
   return (
-    <div id="work">
+    <section id="planeacion" className="bg-[#EBEBEB] py-24 md:py-32">
+      <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
 
-      {/* ── BRANDING ── */}
-      <SectionHeader title="Branding" subtitle="Identidad" dark={true} />
-      <section className="bg-ink pb-20">
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <p className="font-barlow text-cream/50 text-sm max-w-md mb-2">
-            {content.workCategories[0].description}
-          </p>
-          <p className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/20 mb-6">
-            Clothes · Food · Places · Fitness · Lifestyle
-          </p>
-          <WorkGrid count={6} label="Brand" />
-        </div>
-      </section>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
 
-      {/* ── SOCIAL MEDIA ── */}
-      <section id="social-section" className="bg-[#EBEBEB] py-0">
-        {/* Torn paper edge on top */}
-        <div className="relative h-8 bg-[#EBEBEB] torn-top overflow-visible" style={{ background: '#EBEBEB' }} />
+          <div>
+            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mb-2">
+              {content.planeacion.eyebrow}
+            </p>
+            <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-ink mb-6">
+              {content.planeacion.headline.toUpperCase()}
+            </h2>
+            <p className="font-barlow text-sm leading-relaxed text-ink/70 mb-8 max-w-sm">
+              {content.planeacion.description}
+            </p>
 
-        <div className="bg-[#EBEBEB] pb-20">
-          <div className="max-w-7xl mx-auto px-6 md:px-10">
-
-            <div className="mb-8">
-              <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/30 mb-1">Social Media</p>
-              {/* Layered title like reference */}
-              <div className="relative inline-block">
-                <h2 className="font-bebas text-[10vw] md:text-[7vw] text-ink/80 leading-none">
-                  SOCIALMEDIA
-                </h2>
-                <span className="font-marker text-gold text-[5vw] md:text-[3vw] absolute top-0 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                  contenido
-                </span>
-              </div>
-              <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/30 mt-2">
-                Post · Reels · Carrousel · Stories
-              </p>
-            </div>
-
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
-              {Array.from({ length: 9 }).map((_, i) => (
-                <div key={i} className={`work-card aspect-square bg-gradient-to-br ${placeholderColors[i % placeholderColors.length]}`}>
-                  <div className="work-overlay"><span>Ver</span></div>
-                  <div className="absolute bottom-2 left-2 font-condensed font-bold text-[10px] text-white/40 uppercase tracking-widest">
-                    SM {String(i + 1).padStart(2, '0')}
-                  </div>
+            <div className="space-y-3">
+              {content.planeacion.items.map((item, i) => (
+                <div key={i} className="flex items-center gap-4 border-l-2 border-blue pl-4 py-1">
+                  <span className="font-condensed font-bold text-xs text-ink/30 tracking-widest">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="font-condensed font-bold text-base tracking-wide text-ink">
+                    {item}
+                  </span>
                 </div>
               ))}
-              {/* Phone mockup */}
-              <div className="hidden md:flex col-span-1 row-span-3 items-center justify-center">
-                <div className="w-[140px] h-[260px] bg-ink rounded-[20px] border-4 border-zinc-700 flex flex-col overflow-hidden shadow-xl">
-                  <div className="h-4 flex items-center justify-center">
-                    <div className="w-10 h-1 bg-zinc-600 rounded-full mt-1" />
-                  </div>
-                  <div className="flex-1 bg-[#EBEBEB] grid grid-cols-3 gap-px p-px">
-                    {Array.from({ length: 9 }).map((_, i) => (
-                      <div key={i} className={`bg-gradient-to-br ${placeholderColors[i % placeholderColors.length]}`} />
-                    ))}
-                  </div>
+            </div>
+          </div>
+
+          {/* Right: placeholder screenshots grid */}
+          <div className="grid grid-cols-2 gap-2">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className={`aspect-[4/3] bg-gradient-to-br ${placeholderColors[i % placeholderColors.length]} rounded-sm work-card`}>
+                <div className="work-overlay"><span>Ver</span></div>
+                <div className="absolute bottom-2 left-2 font-condensed font-bold text-[10px] text-white/40 uppercase tracking-widest">
+                  {content.planeacion.items[i]}
                 </div>
               </div>
-            </div>
-
-            <div className="mt-8 text-right">
-              <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/30">
-                Food · Clothes · Medicine · Carwash · Drinks · Furniture · Jewelry & More…
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── PHOTOGRAPHY ── */}
-      <SectionHeader title="Photography" subtitle="Visual" dark={false} />
-      <section className="bg-[#EBEBEB] pb-20">
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="flex flex-wrap gap-6 mb-6 font-condensed font-bold text-xs tracking-widest uppercase text-ink/40">
-            {['Comercial', 'Editorial', 'Producto', 'Social', 'Moda'].map((cat) => (
-              <span key={cat}>{cat}</span>
             ))}
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className={`work-card ${i === 2 || i === 5 ? 'row-span-2' : ''} ${i % 2 === 0 ? 'aspect-[3/4]' : 'aspect-square'} bg-gradient-to-br ${placeholderColors[i % placeholderColors.length]}`}>
-                <div className="work-overlay"><span>{['Social', 'Moda', 'Producto', 'Comercial', 'Editorial', 'Social', 'Moda', 'Producto'][i]}</span></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-    </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
-// ── CONTACT ──────────────────────────────────────────────────────
-function Contact() {
+// ── IDENTIDAD ─────────────────────────────────────────────────────
+function Identidad() {
   const ref = useFadeIn()
   return (
-    <section id="contact" className="bg-ink py-24 md:py-32 relative overflow-hidden">
+    <section id="identidad" className="bg-ink py-24 md:py-32 overflow-hidden relative">
+      <div className="absolute left-0 right-0 top-1/2 h-px bg-gold/10 pointer-events-none" />
+
+      <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+
+          {/* Left: case info */}
+          <div>
+            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30 mb-2">
+              {content.identidad.eyebrow}
+            </p>
+            <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-cream tracking-tight mb-2">
+              {content.identidad.headline.toUpperCase()}
+            </h2>
+            <div className="w-12 h-0.5 bg-gold mb-6" />
+
+            <div className="mb-6">
+              <p className="font-bebas text-3xl text-blue tracking-tight">{content.identidad.caseName}</p>
+              <span className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30">
+                {content.identidad.caseTag}
+              </span>
+            </div>
+
+            <p className="font-barlow text-sm leading-relaxed text-cream/60 mb-6 max-w-sm">
+              {content.identidad.description}
+            </p>
+
+            <div className="space-y-3">
+              {content.identidad.puntos.map((punto, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <div className="w-1 h-1 rounded-full bg-gold mt-2 shrink-0" />
+                  <p className="font-barlow text-sm text-cream/60 leading-relaxed">{punto}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: image grid */}
+          <div className="grid grid-cols-2 gap-2">
+            {Array.from({ length: content.identidad.imageCount }).map((_, i) => (
+              <div key={i} className={`${i === 0 ? 'col-span-2' : ''} aspect-square bg-gradient-to-br ${placeholderColors[i % placeholderColors.length]} rounded-sm work-card`}>
+                <div className="work-overlay"><span>Ver</span></div>
+                <div className="absolute bottom-2 left-2 font-condensed font-bold text-[10px] text-white/40 uppercase tracking-widest">
+                  {content.identidad.caseName} {String(i + 1).padStart(2, '0')}
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── PROCESS ───────────────────────────────────────────────────────
+function Process() {
+  const ref = useFadeIn()
+  return (
+    <section id="process" className="bg-[#EBEBEB] py-24 md:py-32">
+      <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
+
+        <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mb-2">
+          {content.process.eyebrow}
+        </p>
+        <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-ink mb-12">
+          {content.process.headline.toUpperCase()}
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
+          {content.process.steps.map((step, i) => (
+            <div key={i} className="border-t border-ink/10 pt-8 pb-8 pr-0 md:pr-8 group">
+              <span className="font-bebas text-[3rem] leading-none text-blue/20 block mb-3 group-hover:text-blue/40 transition-colors duration-300">
+                {step.num}
+              </span>
+              <h3 className="font-bebas text-2xl text-ink tracking-tight mb-2">
+                {step.title.toUpperCase()}
+              </h3>
+              <p className="font-barlow text-sm text-ink/60 leading-relaxed">
+                {step.body}
+              </p>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
+// ── TESTIMONIOS ───────────────────────────────────────────────────
+function Testimonios() {
+  const ref = useFadeIn()
+  return (
+    <section id="testimonios" className="bg-ink py-24 md:py-32 overflow-hidden relative">
+      <div className="absolute left-0 right-0 top-1/2 h-px bg-gold/10 pointer-events-none" />
+
+      <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+
+        <p className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30 mb-2">
+          {content.testimonios.eyebrow}
+        </p>
+        <h2 className="font-bebas text-5xl md:text-6xl leading-[0.9] text-cream tracking-tight mb-12">
+          {content.testimonios.headline.toUpperCase()}
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-cream/10">
+          {content.testimonios.items.map((item, i) => (
+            <div key={i} className="bg-ink p-8 md:p-10">
+              <p className="font-marker text-gold text-3xl leading-none mb-6">"</p>
+              <p className="font-barlow text-sm leading-relaxed text-cream/70 mb-8 italic">
+                {item.quote}
+              </p>
+              <div className="border-t border-cream/10 pt-4">
+                <p className="font-condensed font-bold text-sm text-cream tracking-wide">{item.name}</p>
+                <p className="font-condensed text-xs text-cream/30 tracking-widest uppercase">{item.company}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
+// ── CONTACTO ──────────────────────────────────────────────────────
+function Contacto() {
+  const ref = useFadeIn()
+  return (
+    <section id="contacto" className="bg-[#EBEBEB] py-24 md:py-32 relative overflow-hidden">
       {/* Big watermark */}
       <div className="absolute bottom-0 left-0 right-0 overflow-hidden pointer-events-none select-none">
-        <p className="font-bebas text-[20vw] leading-none text-white/[0.03] whitespace-nowrap">
+        <p className="font-bebas text-[20vw] leading-none text-black/[0.03] whitespace-nowrap">
           LET'S WORK
         </p>
       </div>
 
       <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-        <p className="font-marker text-gold text-xl mb-4">¿Hablamos?</p>
-        <h2 className="font-bebas text-[10vw] md:text-[6vw] leading-[0.9] text-cream tracking-tight mb-10">
-          GRACIAS POR LLEGAR HASTA ACÁ.
+        <p className="font-marker text-blue text-xl mb-4">{content.contacto.eyebrow}</p>
+        <h2 className="font-bebas text-[10vw] md:text-[6vw] leading-[0.9] text-ink tracking-tight mb-6">
+          {content.contacto.headline.toUpperCase()}
         </h2>
 
-        {/* Email CTA */}
+        <p className="font-barlow text-sm leading-relaxed text-ink/60 max-w-lg mb-10">
+          {content.contacto.body}
+        </p>
+
         <a href={`mailto:${content.email}`}
-          className="inline-flex items-center gap-3 border border-cream/20 px-8 py-4 font-condensed font-bold text-sm tracking-widest uppercase text-cream hover:bg-blue hover:border-blue transition-all duration-300 mb-12">
-          {content.email}
+          className="inline-flex items-center gap-3 bg-ink text-cream px-8 py-4 font-condensed font-bold text-sm tracking-widest uppercase hover:bg-blue transition-all duration-300 mb-12">
+          {content.contacto.cta}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
 
-        {/* Social links */}
         <div className="flex gap-6 mb-16 flex-wrap">
           {Object.entries(content.social).map(([platform, url]) => (
             <a key={platform} href={url} target="_blank" rel="noreferrer"
-              className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30 hover:text-blue transition-colors duration-200">
+              className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/30 hover:text-blue transition-colors duration-200">
               {platform}
             </a>
           ))}
         </div>
 
-        {/* Footer */}
-        <div className="border-t border-cream/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-          <p className="font-bebas text-2xl text-cream/20 tracking-widest">{content.name}</p>
-          <p className="font-condensed text-xs text-cream/20 tracking-widest uppercase">
+        <div className="border-t border-ink/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+          <p className="font-bebas text-2xl text-ink/20 tracking-widest">{content.name}</p>
+          <p className="font-condensed text-xs text-ink/30 tracking-widest uppercase">
             © {new Date().getFullYear()} — Todos los derechos reservados
           </p>
         </div>
@@ -508,17 +621,21 @@ function Contact() {
   )
 }
 
-// ── PAGE ─────────────────────────────────────────────────────────
+// ── PAGE ──────────────────────────────────────────────────────────
 export default function Page() {
   return (
     <main>
       <Nav />
       <Hero />
       <About />
-      <Role />
-      <Skills />
-      <Work />
-      <Contact />
+      <Ayudo />
+      <Capacidades />
+      <Trabajo />
+      <Planeacion />
+      <Identidad />
+      <Process />
+      <Testimonios />
+      <Contacto />
     </main>
   )
 }
