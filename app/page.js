@@ -159,10 +159,10 @@ function Intro() {
         </div>
 
         {/* Center heading */}
-        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 mt-20">
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-12 mt-20">
           <h1
             ref={headingRef}
-            className="font-bristol text-[14vw] md:text-[10vw] leading-none tracking-tight text-center"
+            className="font-bristol text-[11vw] md:text-[8vw] leading-none tracking-tight text-center"
             style={{
               background: 'linear-gradient(0deg, #2346d1 0%, rgba(35,70,209,0.5) 100%)',
               WebkitBackgroundClip: 'text',
