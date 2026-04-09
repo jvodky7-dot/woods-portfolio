@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── FONTS ── */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Permanent+Marker&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@700;900&display=swap');
+
+:root {
+  --font-bebas:  'Bebas Neue', sans-serif;
+  --font-marker: 'Permanent Marker', cursive;
+  --font-barlow: 'Barlow', sans-serif;
+
+  --cream: #EBEBEB;
+  --ink:   #0D0D0D;
+  --blue:  #1440FF;
+  --gold:  #D4A017;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-barlow);
+  overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* ── TYPOGRAPHY HELPERS ── */
+.font-bebas   { font-family: var(--font-bebas); }
+.font-marker  { font-family: var(--font-marker); }
+.font-barlow  { font-family: var(--font-barlow); }
+.font-condensed { font-family: 'Barlow Condensed', sans-serif; }
+
+/* ── HALFTONE PORTRAIT PLACEHOLDER ── */
+.halftone-placeholder {
+  position: relative;
+  overflow: hidden;
+}
+.halftone-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, #0D0D0D 30%, transparent 31%),
+    radial-gradient(circle, #0D0D0D 30%, transparent 31%);
+  background-size: 6px 6px;
+  background-position: 0 0, 3px 3px;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  z-index: 2;
+}
+
+/* ── TORN PAPER EDGE ── */
+.torn-top {
+  position: relative;
+}
+.torn-top::before {
+  content: '';
+  position: absolute;
+  top: -18px; left: 0; right: 0;
+  height: 20px;
+  background: inherit;
+  clip-path: polygon(
+    0% 100%, 2% 30%, 4% 80%, 6% 20%, 9% 70%, 12% 15%,
+    15% 60%, 18% 10%, 21% 55%, 24% 0%, 27% 50%, 30% 5%,
+    33% 65%, 36% 15%, 39% 75%, 42% 20%, 45% 80%, 48% 25%,
+    51% 85%, 54% 30%, 57% 70%, 60% 10%, 63% 60%, 66% 5%,
+    69% 55%, 72% 0%, 75% 45%, 78% 10%, 81% 60%, 84% 5%,
+    87% 50%, 90% 15%, 93% 65%, 96% 20%, 98% 70%, 100% 100%
+  );
+  z-index: 10;
+}
+
+/* ── SECTION TRANSITIONS ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── BINDER CLIP SVG ELEMENT ── */
+.binder-clip {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 50px;
+}
+
+/* ── POLAROID ── */
+.polaroid {
+  background: white;
+  padding: 10px 10px 32px;
+  box-shadow: 2px 4px 20px rgba(0,0,0,0.12);
+  transform: rotate(2.5deg);
+  display: inline-block;
+}
+
+/* ── CUSTOM SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--ink); border-radius: 2px; }
+
+/* ── WORK GRID HOVER ── */
+.work-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.work-card:hover .work-overlay {
+  opacity: 1;
+}
+.work-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--blue);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.work-overlay span {
+  color: white;
+  font-family: var(--font-bebas);
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+}
+
+/* ── NAV ── */
+nav a {
+  position: relative;
+}
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--blue);
+  transition: width 0.3s ease;
+}
+nav a:hover::after { width: 100%; }
+
+/* ── SKILL BADGE ── */
+.skill-badge {
+  border: 1.5px solid var(--ink);
+  padding: 6px 16px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+.skill-badge:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
