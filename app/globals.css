@@ -159,6 +159,12 @@ nav a::after {
 }
 nav a:hover::after { width: 100%; }
 
+/* ── INTRO MARQUEE ── */
+@keyframes intro-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 /* ── SKILL BADGE ── */
 .skill-badge {
   border: 1.5px solid var(--ink);

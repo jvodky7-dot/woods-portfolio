@@ -47,30 +47,56 @@ function Paperclip({ color = '#1440FF' }) {
 }
 
 // ── INTRO ─────────────────────────────────────────────────────────
+function IntroMarqueeRow() {
+  return (
+    <span className="flex items-center gap-10 px-6">
+      <span>Look at my</span>
+      <span style={{ color: 'rgba(20,64,255,0.35)' }}>✦</span>
+      <span>Look at my</span>
+      <span style={{ color: 'rgba(212,160,23,0.35)' }}>✦</span>
+      <span>Look at my</span>
+      <span style={{ color: 'rgba(20,64,255,0.35)' }}>✦</span>
+    </span>
+  )
+}
+
 function Intro() {
   const wrapperRef = useRef(null)
-  const contentRef = useRef(null)
+  const giantTextRef = useRef(null)
+  const headingRef = useRef(null)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        contentRef.current,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', delay: 0.3 }
+        giantTextRef.current,
+        { y: '10vh', scale: 0.8, opacity: 0 },
+        {
+          y: '0vh', scale: 1, opacity: 1,
+          ease: 'power1.out',
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: 'top 80%',
+            end: 'bottom bottom',
+            scrub: 1,
+          },
+        }
       )
-      gsap.to(contentRef.current, {
-        y: -80,
-        opacity: 0,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: wrapperRef.current,
-          start: 'top top',
-          end: '60% top',
-          scrub: true,
-        },
-      })
+      gsap.fromTo(
+        headingRef.current,
+        { y: 50, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: 'top 40%',
+            end: 'bottom bottom',
+            scrub: 1,
+          },
+        }
+      )
     }, wrapperRef)
 
     return () => ctx.revert()
@@ -82,29 +108,80 @@ function Intro() {
       className="relative h-screen w-full"
       style={{ clipPath: 'polygon(0% 0, 100% 0%, 100% 100%, 0 100%)' }}
     >
-      <div className="fixed inset-0 flex flex-col items-center justify-center bg-[#EBEBEB] overflow-hidden">
-        {/* Giant watermark */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-          <span className="font-bebas text-[28vw] leading-none text-ink/[0.04] whitespace-nowrap">
-            PORTAFOLIO
-          </span>
+      <div className="fixed inset-0 flex flex-col justify-between overflow-hidden bg-[#EBEBEB]">
+
+        {/* Subtle aurora — light mode */}
+        <div
+          className="absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-[50%] blur-[80px] pointer-events-none z-0"
+          style={{ background: 'radial-gradient(circle at 50% 50%, rgba(20,64,255,0.05) 0%, rgba(212,160,23,0.03) 40%, transparent 70%)' }}
+        />
+
+        {/* Subtle grid */}
+        <div
+          className="absolute inset-0 z-0 pointer-events-none"
+          style={{
+            backgroundSize: '60px 60px',
+            backgroundImage: 'linear-gradient(to right, rgba(13,13,13,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(13,13,13,0.04) 1px, transparent 1px)',
+            maskImage: 'linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)',
+          }}
+        />
+
+        {/* Giant background text */}
+        <div
+          ref={giantTextRef}
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none font-bebas"
+          style={{
+            fontSize: '26vw',
+            lineHeight: 0.75,
+            fontWeight: 900,
+            letterSpacing: '-0.05em',
+            color: 'transparent',
+            WebkitTextStroke: '1px rgba(13,13,13,0.06)',
+            background: 'linear-gradient(180deg, rgba(13,13,13,0.08) 0%, transparent 60%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+          }}
+        >
+          CREATIVE
         </div>
 
-        {/* Main content */}
-        <div ref={contentRef} className="relative z-10 text-center">
-          <h1 className="font-bebas text-[16vw] md:text-[10vw] leading-none text-ink tracking-tight">
+        {/* Marquee */}
+        <div className="absolute top-12 left-0 w-full overflow-hidden border-y border-ink/10 bg-[#EBEBEB]/80 backdrop-blur-md py-4 z-10 -rotate-2 scale-110">
+          <div
+            className="flex w-max font-condensed font-bold text-xs tracking-[0.3em] uppercase text-ink/25"
+            style={{ animation: 'intro-marquee 30s linear infinite' }}
+          >
+            <IntroMarqueeRow /><IntroMarqueeRow />
+            <IntroMarqueeRow /><IntroMarqueeRow />
+          </div>
+        </div>
+
+        {/* Center heading */}
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 mt-20">
+          <h1
+            ref={headingRef}
+            className="font-bebas text-[14vw] md:text-[10vw] leading-none tracking-tight text-center"
+            style={{
+              background: 'linear-gradient(180deg, #0D0D0D 0%, rgba(13,13,13,0.4) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'drop-shadow(0px 0px 20px rgba(13,13,13,0.08))',
+            }}
+          >
             PORTAFOLIO
           </h1>
           <div className="w-16 h-px bg-blue mx-auto mt-6" />
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
-          <div className="w-px h-12 bg-ink" />
-          <p className="font-condensed font-bold text-[9px] tracking-[0.3em] uppercase text-ink">
-            Scroll
+        {/* Bottom: scroll hint */}
+        <div className="relative z-20 w-full pb-10 flex items-center justify-center">
+          <p className="font-marker text-ink/40 text-base">
+            Te invito a que me conozcas ;)
           </p>
         </div>
+
       </div>
     </div>
   )
