@@ -200,17 +200,11 @@ function Nav() {
     <nav className={`fixed top-0 left-0 right-0 z-[9000] transition-all duration-300 ${
       scrolled ? 'bg-[#EBEBEB]/90 backdrop-blur-sm border-b border-black/10' : ''
     }`}>
-      <div className="max-w-7xl mx-auto px-6 md:px-10 h-14 flex items-center justify-between">
-        <a href="#hero" className="font-bebas text-xl tracking-widest text-ink">
-          {content.name}
-        </a>
-        <div className="hidden md:flex gap-8 font-condensed font-bold text-xs tracking-widest uppercase">
-          {['Perfil', 'Trabajo', 'Process', 'Contacto'].map((label, i) => (
-            <a key={i} href={`#${['about', 'trabajo', 'process', 'contacto'][i]}`}
-              className="text-ink hover:text-blue transition-colors duration-200">
-              {label}
-            </a>
-          ))}
+      <div className="max-w-7xl mx-auto px-6 md:px-10 h-14 flex items-center justify-end">
+        <div className="flex font-condensed font-bold text-xs tracking-widest uppercase">
+          <a href="#contacto" className="text-ink hover:text-blue transition-colors duration-200">
+            Contacto
+          </a>
         </div>
       </div>
     </nav>
@@ -229,62 +223,45 @@ function Hero() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full pt-24 pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+          {/* Name — full width, one continuous line */}
+          <h1 className="font-bebas text-[15vw] md:text-[11vw] leading-[0.85] text-ink tracking-tight whitespace-nowrap">
+            {content.name.toUpperCase()}
+          </h1>
 
-          {/* Left: Text */}
-          <div>
-            <p className="font-marker text-blue text-xl mb-3 rotate-[-1deg] inline-block">
-              {content.hero.eyebrow}
+          {/* Instagram badge below name */}
+          <div className="mt-3 mb-6 inline-block">
+            <div className="bg-ink text-cream px-4 py-2 font-condensed font-bold text-sm tracking-widest uppercase rotate-[-2deg] inline-flex items-center gap-2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+              </svg>
+              {content.handle}
+            </div>
+          </div>
+
+          {/* Creative Strategist */}
+          <div className="mb-6">
+            <span className="font-bebas text-[7vw] md:text-[4vw] text-blue leading-none block tracking-tight">
+              {content.hero.role}
+            </span>
+            <p className="font-marker text-gold text-lg mt-2">
+              {content.hero.statement}
             </p>
-
-            <h1 className="font-bebas text-[22vw] md:text-[12vw] leading-[0.85] text-ink tracking-tight">
-              {content.name.toUpperCase()}
-            </h1>
-
-            <div className="mt-2 mb-6">
-              <span className="font-bebas text-[7vw] md:text-[4vw] text-blue leading-none block tracking-tight">
-                {content.hero.role}
-              </span>
-              <p className="font-condensed font-bold text-sm tracking-widest uppercase text-ink/50 mt-2">
-                {content.hero.descriptor}
-              </p>
-              <p className="font-marker text-gold text-lg mt-2">
-                {content.hero.statement}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2 mt-4">
-              {content.hero.tags.map((tag) => (
-                <span key={tag} className="skill-badge">{tag}</span>
-              ))}
-            </div>
-
-            <div className="mt-12 flex items-center gap-3 font-condensed text-xs tracking-widest uppercase text-ink/40">
-              <div className="w-8 h-px bg-ink/30" />
-              <span>Scroll</span>
-            </div>
           </div>
 
-          {/* Right: Halftone portrait placeholder */}
-          <div className="relative flex justify-center md:justify-end">
-            <div className="relative">
-              <div className="halftone-placeholder w-[280px] h-[360px] md:w-[360px] md:h-[460px] bg-gradient-to-b from-zinc-300 to-zinc-500 rounded-sm overflow-hidden">
-                <div className="absolute inset-0 flex items-end justify-center pb-0">
-                  <svg viewBox="0 0 200 300" className="w-full h-full opacity-30" fill="none">
-                    <circle cx="100" cy="75" r="42" fill="#1a1a1a" />
-                    <path d="M20 300 C20 210 180 210 180 300" fill="#1a1a1a" />
-                  </svg>
-                </div>
-              </div>
-
-              <div className="absolute -bottom-5 -left-6 bg-ink text-cream px-4 py-2 font-condensed font-bold text-sm tracking-widest uppercase rotate-[-2deg]">
-                {content.handle}
-              </div>
-
-              <div className="absolute -right-3 top-8 w-1 h-24 bg-gold" />
-            </div>
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            {content.hero.tags.map((tag) => (
+              <span key={tag} className="skill-badge">{tag}</span>
+            ))}
           </div>
 
+          <div className="mt-12 flex items-center gap-3 font-condensed text-xs tracking-widest uppercase text-ink/40">
+            <div className="w-8 h-px bg-ink/30" />
+            <span>Scroll</span>
+          </div>
         </div>
       </div>
 

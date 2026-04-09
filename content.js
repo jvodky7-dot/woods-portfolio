@@ -6,7 +6,7 @@ export const content = {
 
   // ── IDENTIDAD BASE ─────────────────────────────────────────────
   name:     "Bryan Orozco",
-  handle:   "@bryan.orozco",
+  handle:   "@Joudew_8",
   email:    "hello@bryanorozco.co",
   location: "Bogotá, Colombia",
   social: {
