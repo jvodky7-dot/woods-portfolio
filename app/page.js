@@ -164,11 +164,11 @@ function Intro() {
             ref={headingRef}
             className="font-bristol text-[14vw] md:text-[10vw] leading-none tracking-tight text-center"
             style={{
-              background: 'linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.4) 100%)',
+              background: 'linear-gradient(0deg, #2346d1 0%, rgba(35,70,209,0.5) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              filter: 'drop-shadow(0px 0px 20px rgba(13,13,13,0.08))',
+              filter: 'drop-shadow(0px 0px 20px rgba(35,70,209,0.15))',
             }}
           >
             PORTAFOLIO
