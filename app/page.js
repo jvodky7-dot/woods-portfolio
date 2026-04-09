@@ -1,8 +1,9 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { content } from '../content'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import createGlobe from 'cobe'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -270,6 +271,118 @@ function Hero() {
   )
 }
 
+// ── GLOBE PULSE ───────────────────────────────────────────────────
+const BOGOTA_MARKER = [{ id: 'bogota', location: [4.71, -74.07], delay: 0 }]
+
+function GlobePulse({ className = '', speed = 0.003 }) {
+  const canvasRef = useRef(null)
+  const pointerInteracting = useRef(null)
+  const dragOffset = useRef({ phi: 0, theta: 0 })
+  const phiOffsetRef = useRef(0)
+  const thetaOffsetRef = useRef(0)
+  const isPausedRef = useRef(false)
+
+  const handlePointerDown = useCallback((e) => {
+    pointerInteracting.current = { x: e.clientX, y: e.clientY }
+    if (canvasRef.current) canvasRef.current.style.cursor = 'grabbing'
+    isPausedRef.current = true
+  }, [])
+
+  const handlePointerUp = useCallback(() => {
+    if (pointerInteracting.current !== null) {
+      phiOffsetRef.current += dragOffset.current.phi
+      thetaOffsetRef.current += dragOffset.current.theta
+      dragOffset.current = { phi: 0, theta: 0 }
+    }
+    pointerInteracting.current = null
+    if (canvasRef.current) canvasRef.current.style.cursor = 'grab'
+    isPausedRef.current = false
+  }, [])
+
+  useEffect(() => {
+    const handlePointerMove = (e) => {
+      if (pointerInteracting.current !== null) {
+        dragOffset.current = {
+          phi: (e.clientX - pointerInteracting.current.x) / 300,
+          theta: (e.clientY - pointerInteracting.current.y) / 1000,
+        }
+      }
+    }
+    window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    window.addEventListener('pointerup', handlePointerUp, { passive: true })
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', handlePointerUp)
+    }
+  }, [handlePointerUp])
+
+  useEffect(() => {
+    if (!canvasRef.current) return
+    const canvas = canvasRef.current
+    let globe = null
+    let animationId
+    // Start phi at ~1.3 rad to show South America (Bogotá at lon -74°)
+    let phi = 1.3
+
+    function init() {
+      const width = canvas.offsetWidth
+      if (width === 0 || globe) return
+
+      globe = createGlobe(canvas, {
+        devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+        width, height: width,
+        phi: 1.3, theta: 0.15,
+        dark: 1, diffuse: 1.5,
+        mapSamples: 16000, mapBrightness: 10,
+        baseColor: [0.5, 0.5, 0.5],
+        markerColor: [0.2, 0.8, 0.9],
+        glowColor: [0.05, 0.05, 0.05],
+        markers: BOGOTA_MARKER.map((m) => ({ location: m.location, size: 0.06 })),
+        arcs: [],
+        opacity: 0.7,
+      })
+
+      function animate() {
+        if (!isPausedRef.current) phi += speed
+        globe.update({
+          phi: phi + phiOffsetRef.current + dragOffset.current.phi,
+          theta: 0.15 + thetaOffsetRef.current + dragOffset.current.theta,
+        })
+        animationId = requestAnimationFrame(animate)
+      }
+      animate()
+      setTimeout(() => canvas && (canvas.style.opacity = '1'))
+    }
+
+    if (canvas.offsetWidth > 0) {
+      init()
+    } else {
+      const ro = new ResizeObserver((entries) => {
+        if (entries[0]?.contentRect.width > 0) { ro.disconnect(); init() }
+      })
+      ro.observe(canvas)
+    }
+
+    return () => {
+      if (animationId) cancelAnimationFrame(animationId)
+      if (globe) globe.destroy()
+    }
+  }, [speed])
+
+  return (
+    <div className={`relative aspect-square select-none ${className}`}>
+      <canvas
+        ref={canvasRef}
+        onPointerDown={handlePointerDown}
+        style={{
+          width: '100%', height: '100%', cursor: 'grab', opacity: 0,
+          transition: 'opacity 1.2s ease', borderRadius: '50%', touchAction: 'none',
+        }}
+      />
+    </div>
+  )
+}
+
 // ── ABOUT ─────────────────────────────────────────────────────────
 function About() {
   const ref = useFadeIn()
@@ -278,10 +391,12 @@ function About() {
       <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
-          {/* Left: Halftone portrait */}
-          <div className="relative hidden md:block">
-            <div className="halftone-placeholder w-[280px] h-[380px] bg-gradient-to-br from-zinc-400 to-zinc-600 rounded-sm" />
-            <div className="absolute -left-4 top-0 bottom-0 w-0.5 bg-blue/30" />
+          {/* Left: Globe */}
+          <div className="hidden md:flex flex-col items-center gap-4">
+            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40">
+              Bogotá, Colombia
+            </p>
+            <GlobePulse className="w-[300px]" />
           </div>
 
           {/* Right: About card */}
@@ -289,43 +404,21 @@ function About() {
             <div className="relative bg-white/80 backdrop-blur-sm border border-black/8 p-8 md:p-10 shadow-sm">
               <BinderClip />
 
-              <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/30 mb-2">
+              <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/30 mb-4">
                 {content.about.headline}
               </p>
-              <h2 className="font-bebas text-5xl md:text-6xl tracking-tight mb-1 text-ink">
-                {content.name.toUpperCase()}
-              </h2>
+
+              <p className="font-condensed font-bold text-2xl text-ink tracking-tight mb-4">
+                {content.hero.role}
+              </p>
 
               <div className="w-12 h-0.5 bg-blue mb-6" />
-
-              <div className="flex items-start gap-4 mb-6">
-                <div className="polaroid flex-shrink-0 w-[80px]">
-                  <div className="w-full h-[80px] bg-gradient-to-br from-zinc-200 to-zinc-400" />
-                </div>
-                <div>
-                  <p className="font-condensed font-900 text-2xl text-ink tracking-tight">{content.hero.role}</p>
-                  <p className="font-marker text-blue text-sm mt-0.5">{content.location}</p>
-                </div>
-              </div>
 
               {content.about.body.map((paragraph, i) => (
                 <p key={i} className="font-barlow text-sm leading-relaxed text-ink/80 mb-3">
                   {paragraph}
                 </p>
               ))}
-
-              <div className="mt-4 border-t border-black/8 pt-4">
-                <p className="font-marker text-blue text-base">{content.about.tag}</p>
-              </div>
-
-              <div className="flex items-center gap-2 mt-4 border-t border-black/8 pt-4">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink/50">
-                  <rect x="2" y="2" width="20" height="20" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-                </svg>
-                <span className="font-condensed font-bold text-sm text-ink/60 tracking-wide">{content.handle}</span>
-              </div>
             </div>
 
             <div className="absolute -top-3 right-12">
