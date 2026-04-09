@@ -13,6 +13,7 @@ module.exports = {
         bebas: ['var(--font-bebas)', 'sans-serif'],
         marker: ['var(--font-marker)', 'cursive'],
         barlow: ['var(--font-barlow)', 'sans-serif'],
+        bristol: ['var(--font-bristol)', 'serif'],
       },
     },
   },

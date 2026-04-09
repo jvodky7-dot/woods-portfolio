@@ -162,9 +162,9 @@ function Intro() {
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 mt-20">
           <h1
             ref={headingRef}
-            className="font-bebas text-[14vw] md:text-[10vw] leading-none tracking-tight text-center"
+            className="font-bristol text-[14vw] md:text-[10vw] leading-none tracking-tight text-center"
             style={{
-              background: 'linear-gradient(180deg, #0D0D0D 0%, rgba(13,13,13,0.4) 100%)',
+              background: 'linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.4) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -178,8 +178,8 @@ function Intro() {
 
         {/* Bottom: scroll hint */}
         <div className="relative z-20 w-full pb-10 flex items-center justify-center">
-          <p className="font-marker text-ink/40 text-base">
-            Te invito a que me conozcas ;)
+          <p className="font-condensed font-bold text-xs tracking-widest text-ink/40">
+            TE INVITO A QUE ME CONOZCAS ;)
           </p>
         </div>
 

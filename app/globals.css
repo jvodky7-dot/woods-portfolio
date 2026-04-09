@@ -5,10 +5,19 @@
 /* ── FONTS ── */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Permanent+Marker&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@700;900&display=swap');
 
+@font-face {
+  font-family: 'Bristol';
+  src: url('/fonts/Bristol.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --font-bebas:  'Bebas Neue', sans-serif;
   --font-marker: 'Permanent Marker', cursive;
   --font-barlow: 'Barlow', sans-serif;
+  --font-bristol: 'Bristol', serif;
 
   --cream: #EBEBEB;
   --ink:   #0D0D0D;
@@ -42,6 +51,7 @@ body::after {
 .font-bebas   { font-family: var(--font-bebas); }
 .font-marker  { font-family: var(--font-marker); }
 .font-barlow  { font-family: var(--font-barlow); }
+.font-bristol { font-family: var(--font-bristol); }
 .font-condensed { font-family: 'Barlow Condensed', sans-serif; }
 
 /* ── HALFTONE PORTRAIT PLACEHOLDER ── */
