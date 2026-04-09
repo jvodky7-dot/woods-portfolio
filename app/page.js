@@ -1,6 +1,12 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { content } from '../content'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 // ── FADE IN ON SCROLL ─────────────────────────────────────────────
 function useFadeIn() {
@@ -37,6 +43,70 @@ function Paperclip({ color = '#1440FF' }) {
       <path d="M9 4 C4 4 2 8 2 12 L2 38 C2 43 5 46 9 46 C13 46 16 43 16 38 L16 14 C16 10 13.5 8 11 8 C8.5 8 6 10 6 14 L6 36 C6 38.5 7.5 40 9 40 C10.5 40 12 38.5 12 36 L12 16"
         stroke={color} strokeWidth="2.2" strokeLinecap="round" fill="none" />
     </svg>
+  )
+}
+
+// ── INTRO ─────────────────────────────────────────────────────────
+function Intro() {
+  const wrapperRef = useRef(null)
+  const contentRef = useRef(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        contentRef.current,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', delay: 0.3 }
+      )
+      gsap.to(contentRef.current, {
+        y: -80,
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: wrapperRef.current,
+          start: 'top top',
+          end: '60% top',
+          scrub: true,
+        },
+      })
+    }, wrapperRef)
+
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <div
+      ref={wrapperRef}
+      className="relative h-screen w-full"
+      style={{ clipPath: 'polygon(0% 0, 100% 0%, 100% 100%, 0 100%)' }}
+    >
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-[#EBEBEB] overflow-hidden">
+        {/* Giant watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+          <span className="font-bebas text-[28vw] leading-none text-ink/[0.04] whitespace-nowrap">
+            PORTAFOLIO
+          </span>
+        </div>
+
+        {/* Main content */}
+        <div ref={contentRef} className="relative z-10 text-center">
+          <h1 className="font-bebas text-[16vw] md:text-[10vw] leading-none text-ink tracking-tight">
+            PORTAFOLIO
+          </h1>
+          <div className="w-16 h-px bg-blue mx-auto mt-6" />
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
+          <div className="w-px h-12 bg-ink" />
+          <p className="font-condensed font-bold text-[9px] tracking-[0.3em] uppercase text-ink">
+            Scroll
+          </p>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -625,6 +695,7 @@ function Contacto() {
 export default function Page() {
   return (
     <main>
+      <Intro />
       <Nav />
       <Hero />
       <About />
