@@ -4,7 +4,7 @@ import { content } from '../content'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import createGlobe from 'cobe'
-import { motion, useMotionValue, animate } from 'framer-motion'
+import { motion, useMotionValue, useMotionTemplate, animate } from 'framer-motion'
 import { Layers, Grid2X2, Lightbulb, Settings2 } from 'lucide-react'
 import useMeasure from 'react-use-measure'
 
@@ -1151,50 +1151,110 @@ function Testimonios() {
 }
 
 // ── CONTACTO ──────────────────────────────────────────────────────
-function Contacto() {
-  const ref = useFadeIn()
+function GridPattern({ offsetX, offsetY }) {
   return (
-    <section id="contacto" className="bg-[#EBEBEB] py-24 md:py-32 relative overflow-hidden">
-      {/* Big watermark */}
-      <div className="absolute bottom-0 left-0 right-0 overflow-hidden pointer-events-none select-none">
-        <p className="font-bebas text-[20vw] leading-none text-black/[0.03] whitespace-nowrap">
-          LET'S WORK
-        </p>
+    <svg className="w-full h-full">
+      <defs>
+        <motion.pattern
+          id="contact-grid"
+          width="40" height="40"
+          patternUnits="userSpaceOnUse"
+          x={offsetX} y={offsetY}
+        >
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1" className="text-cream" />
+        </motion.pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#contact-grid)" />
+    </svg>
+  )
+}
+
+function Contacto() {
+  const containerRef = useRef(null)
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const gridOffsetX = useMotionValue(0)
+  const gridOffsetY = useMotionValue(0)
+
+  const handleMouseMove = (e) => {
+    const { left, top } = e.currentTarget.getBoundingClientRect()
+    mouseX.set(e.clientX - left)
+    mouseY.set(e.clientY - top)
+  }
+
+  useEffect(() => {
+    let id
+    const step = () => {
+      gridOffsetX.set((gridOffsetX.get() + 0.5) % 40)
+      gridOffsetY.set((gridOffsetY.get() + 0.5) % 40)
+      id = requestAnimationFrame(step)
+    }
+    id = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(id)
+  }, [])
+
+  const maskImage = `radial-gradient(300px circle at ${mouseX.get()}px ${mouseY.get()}px, black, transparent)`
+
+  return (
+    <section
+      id="contacto"
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      className="relative bg-ink overflow-hidden min-h-[60vh] flex flex-col justify-between"
+    >
+      {/* Grid base tenue */}
+      <div className="absolute inset-0 z-0 opacity-[0.04] text-cream">
+        <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} />
       </div>
 
-      <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-        <p className="font-marker text-blue text-xl mb-4">{content.contacto.eyebrow}</p>
-        <h2 className="font-bebas text-[10vw] md:text-[6vw] leading-[0.9] text-ink tracking-tight mb-6">
-          {content.contacto.headline.toUpperCase()}
+      {/* Grid revelado con máscara de mouse */}
+      <motion.div
+        className="absolute inset-0 z-0 opacity-30 text-cream"
+        style={{ maskImage: useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)`, WebkitMaskImage: useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)` }}
+      >
+        <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} />
+      </motion.div>
+
+      {/* Contenido */}
+      <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-10 py-24 md:py-36 w-full">
+        <p className="font-bristol text-blue text-2xl md:text-3xl mb-4 uppercase">
+          ¿Tienes un proyecto?
+        </p>
+
+        <h2 className="font-bebas text-[14vw] md:text-[10vw] leading-[0.85] text-cream tracking-tight mb-8">
+          HABLEMOS.
         </h2>
 
-        <p className="font-barlow text-sm leading-relaxed text-ink/60 max-w-lg mb-10">
+        <p className="font-barlow text-sm leading-relaxed text-cream/50 max-w-lg mb-12">
           {content.contacto.body}
         </p>
 
-        <a href={`mailto:${content.email}`}
-          className="inline-flex items-center gap-3 bg-ink text-cream px-8 py-4 font-condensed font-bold text-sm tracking-widest uppercase hover:bg-blue transition-all duration-300 mb-12">
-          {content.contacto.cta}
+        <a
+          href="https://wa.me/573104047075"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-3 bg-blue text-cream px-8 py-4 font-akshar font-bold text-sm tracking-widest uppercase hover:bg-blue/80 transition-all duration-300"
+        >
+          Contáctame
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
+      </div>
 
-        <div className="flex gap-6 mb-16 flex-wrap">
+      {/* Footer */}
+      <div className="relative z-10 border-t border-cream/10 px-6 md:px-10 py-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+        <div className="flex gap-6 flex-wrap">
           {Object.entries(content.social).map(([platform, url]) => (
             <a key={platform} href={url} target="_blank" rel="noreferrer"
-              className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/30 hover:text-blue transition-colors duration-200">
+              className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30 hover:text-blue transition-colors duration-200">
               {platform}
             </a>
           ))}
         </div>
-
-        <div className="border-t border-ink/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-          <p className="font-bebas text-2xl text-ink/20 tracking-widest">{content.name}</p>
-          <p className="font-condensed text-xs text-ink/30 tracking-widest uppercase">
-            © {new Date().getFullYear()} — Todos los derechos reservados
-          </p>
-        </div>
+        <p className="font-condensed text-xs text-cream/20 tracking-widest uppercase">
+          © {new Date().getFullYear()} {content.name} — Todos los derechos reservados
+        </p>
       </div>
     </section>
   )
