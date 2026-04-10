@@ -817,7 +817,7 @@ function Trabajo() {
         {/* Título */}
         <div className="mb-2">
           <h2 className="font-akshar font-bold text-[10vw] md:text-[7vw] leading-none tracking-tight whitespace-nowrap">
-            <span className="text-blue font-bristol normal-case">Conoce </span>
+            <span className="text-blue font-bristol uppercase">CONOCE </span>
             <span className="text-ink uppercase">MI TRABAJO</span>
           </h2>
         </div>
