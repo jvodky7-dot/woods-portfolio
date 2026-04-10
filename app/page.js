@@ -913,25 +913,27 @@ function Trabajo() {
   const ref = useFadeIn()
 
   return (
-    <section id="trabajo" className="bg-[#EBEBEB] py-24 md:py-32 overflow-hidden relative">
+    <section id="trabajo" className="bg-[#EBEBEB] py-24 md:py-32 relative">
       {/* BG watermark */}
-      <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none">
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none">
         <span className="font-bebas text-[22vw] leading-none whitespace-nowrap text-ink/[0.03]">
           MI TRABAJO
         </span>
       </div>
 
-      <div ref={ref} className="fade-in relative z-10 max-w-5xl mx-auto px-6 md:px-10">
+      <div ref={ref} className="fade-in relative z-10 w-full flex flex-col items-center px-6 md:px-10">
 
         {/* Título */}
-        <div className="mb-8 text-center">
+        <div className="mb-8 text-center w-full max-w-5xl">
           <h2 className="font-akshar font-bold text-[10vw] md:text-[7vw] leading-none tracking-tight">
             <span className="text-blue font-bristol uppercase">CONOCE </span>
             <span className="text-ink uppercase">MI TRABAJO</span>
           </h2>
         </div>
 
-        <WorkExplorer />
+        <div className="w-full max-w-5xl">
+          <WorkExplorer />
+        </div>
       </div>
     </section>
   )
