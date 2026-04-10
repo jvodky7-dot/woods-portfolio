@@ -1303,6 +1303,104 @@ function Contacto() {
   )
 }
 
+// ── GOOEY TEXT ────────────────────────────────────────────────────
+function GooeyText({ texts, morphTime = 1, cooldownTime = 0.25, className = '' }) {
+  const text1Ref = useRef(null)
+  const text2Ref = useRef(null)
+  const indexRef = useRef(0)
+  const morphRef = useRef(0)
+  const cooldownRef = useRef(0)
+  const timeRef = useRef(null)
+
+  useEffect(() => {
+    let animId
+    let lastTime = performance.now()
+
+    const setMorph = (fraction) => {
+      if (!text1Ref.current || !text2Ref.current) return
+      const f = fraction
+      text2Ref.current.style.filter = `url(#gooey-morph) blur(${Math.min(8 / f - 8, 100)}px)`
+      text2Ref.current.style.opacity = `${Math.pow(f, 0.4) * 100}%`
+      const f2 = 1 - f
+      text1Ref.current.style.filter = `url(#gooey-morph) blur(${Math.min(8 / f2 - 8, 100)}px)`
+      text1Ref.current.style.opacity = `${Math.pow(f2, 0.4) * 100}%`
+      text1Ref.current.textContent = texts[indexRef.current % texts.length]
+      text2Ref.current.textContent = texts[(indexRef.current + 1) % texts.length]
+    }
+
+    const doCooldown = () => {
+      if (!text1Ref.current || !text2Ref.current) return
+      morphRef.current = 0
+      text2Ref.current.style.filter = ''
+      text2Ref.current.style.opacity = '100%'
+      text1Ref.current.style.filter = ''
+      text1Ref.current.style.opacity = '0%'
+    }
+
+    const animate = (now) => {
+      animId = requestAnimationFrame(animate)
+      const dt = (now - lastTime) / 1000
+      lastTime = now
+
+      cooldownRef.current -= dt
+      if (cooldownRef.current <= 0) {
+        morphRef.current += dt
+        if (morphRef.current >= morphTime) {
+          cooldownRef.current = cooldownTime
+          morphRef.current = 0
+          indexRef.current++
+          doCooldown()
+        } else {
+          setMorph(morphRef.current / morphTime)
+        }
+      }
+    }
+
+    // init
+    if (text1Ref.current) text1Ref.current.textContent = texts[0]
+    if (text2Ref.current) text2Ref.current.textContent = texts[1]
+    animId = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(animId)
+  }, [texts, morphTime, cooldownTime])
+
+  return (
+    <>
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <defs>
+          <filter id="gooey-morph">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+            <feBlend in="SourceGraphic" in2="goo" />
+          </filter>
+        </defs>
+      </svg>
+      <div style={{ position: 'relative', filter: 'url(#gooey-morph)' }}>
+        <span ref={text1Ref} className={className} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', whiteSpace: 'nowrap' }} />
+        <span ref={text2Ref} className={className} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', whiteSpace: 'nowrap' }} />
+        {/* Invisible spacer para el texto más largo */}
+        <span className={className} style={{ visibility: 'hidden', whiteSpace: 'nowrap' }}>
+          {texts.reduce((a, b) => a.length > b.length ? a : b, '')}
+        </span>
+      </div>
+    </>
+  )
+}
+
+function GooeySection() {
+  return (
+    <section className="bg-[#EBEBEB] py-12 md:py-16 flex items-center justify-center overflow-hidden">
+      <div className="flex items-center justify-center h-32 md:h-40 w-full">
+        <GooeyText
+          texts={["Estrategia", "Planificación", "Ejecución"]}
+          morphTime={1}
+          cooldownTime={0.25}
+          className="font-bebas text-[10vw] md:text-[7vw] text-ink leading-none"
+        />
+      </div>
+    </section>
+  )
+}
+
 // ── PAGE ──────────────────────────────────────────────────────────
 export default function Page() {
   return (
@@ -1318,6 +1416,7 @@ export default function Page() {
       <Process />
       <Testimonios />
       <Contacto />
+      <GooeySection />
     </main>
   )
 }
