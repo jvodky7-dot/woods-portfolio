@@ -556,17 +556,19 @@ function Herramientas() {
     <section id="herramientas" className="bg-[#EBEBEB] py-24 md:py-32">
       <div ref={ref} className="fade-in">
 
-        {/* Heading */}
-        <div className="mb-10 px-6 max-w-5xl mx-auto">
-          <p className="font-marker text-blue text-2xl md:text-3xl leading-none mb-0 uppercase">
-            Utilizo estas
-          </p>
-          <h2 className="font-akshar font-bold text-[13vw] md:text-[9vw] leading-[0.88] text-ink tracking-tight uppercase">
-            HERRAMIENTAS
-          </h2>
-          <p className="font-marker text-blue text-2xl md:text-3xl leading-none mt-0 uppercase text-right">
-            EN MI TRABAJO
-          </p>
+        {/* Heading — centrado en la página, texto alineado igual que la referencia */}
+        <div className="mb-10 px-6 flex justify-center">
+          <div className="inline-block">
+            <p className="font-marker text-blue text-2xl md:text-3xl leading-none mb-0 uppercase">
+              Utilizo estas
+            </p>
+            <h2 className="font-akshar font-bold text-[13vw] md:text-[9vw] leading-[0.88] text-ink tracking-tight uppercase">
+              HERRAMIENTAS
+            </h2>
+            <p className="font-marker text-blue text-2xl md:text-3xl leading-none mt-0 uppercase text-right">
+              EN MI TRABAJO
+            </p>
+          </div>
         </div>
 
         {/* Divider + subline */}
@@ -576,27 +578,21 @@ function Herramientas() {
           <span className="block font-semibold text-ink">Used by the leaders.</span>
         </p>
 
-        {/* Infinite slider */}
-        <div className="[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] overflow-hidden">
-          <InfiniteSlider gap={48} duration={40} durationOnHover={80} reverse={false}>
+        {/* Infinite slider — solo texto, sin imágenes externas rotas */}
+        <div className="[mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] overflow-hidden">
+          <InfiniteSlider gap={32} duration={35} durationOnHover={70}>
             {herramientas.map((tool) => (
-              <div key={tool.name} className="flex items-center gap-2 shrink-0">
-                <img
-                  src={tool.src}
-                  alt={tool.name}
-                  className="h-6 md:h-7 w-auto object-contain pointer-events-none select-none"
-                  loading="lazy"
-                  onError={(e) => { e.currentTarget.style.display = 'none' }}
-                />
-                <span className="font-condensed font-bold text-sm text-ink/60 tracking-widest uppercase whitespace-nowrap">
-                  {tool.name}
-                </span>
-              </div>
+              <span
+                key={tool.name}
+                className="shrink-0 font-condensed font-bold text-sm tracking-widest uppercase whitespace-nowrap border border-ink/20 px-4 py-2 text-ink/70 hover:border-ink hover:text-ink transition-colors duration-200"
+              >
+                {tool.name}
+              </span>
             ))}
           </InfiniteSlider>
         </div>
 
-        <div className="mt-6 h-px bg-ink/15 [mask-image:linear-gradient(to_right,transparent,black,transparent)]" />
+        <div className="mt-8 h-px bg-ink/15 [mask-image:linear-gradient(to_right,transparent,black,transparent)]" />
       </div>
     </section>
   )
