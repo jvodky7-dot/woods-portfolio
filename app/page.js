@@ -822,12 +822,18 @@ function Process() {
 }
 
 // ── TESTIMONIOS ───────────────────────────────────────────────────
-const testimonialsData = [
+const col1Testimonials = [
   {
-    text: "Antes de trabajar con Bryan teníamos contenido, pero no una dirección clara. Nos ayudó a organizar todo, definir mejor la identidad y empezar a ejecutar de forma más coherente. Se notó bastante en cómo empezó a percibirse la marca.",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
-    name: "Daniel Torres",
-    role: "Director de Marca",
+    text: "Lo que más valoro de trabajar con Bryan es que no se queda solo en hacer algo visualmente bonito. Tiene una forma de ordenar las ideas que ayuda mucho a entender mejor la dirección del proyecto y a tomar decisiones con más claridad.",
+    image: "https://randomuser.me/api/portraits/women/21.jpg",
+    name: "María Gómez",
+    role: "Directora Creativa",
+  },
+  {
+    text: "Desde el principio se notó que no iba a entregar cosas por cumplir. Se tomó el tiempo de entender el proyecto, de proponer con intención y de darle una estructura que nos ayudó bastante a ver todo con más sentido.",
+    image: "https://randomuser.me/api/portraits/men/45.jpg",
+    name: "Andrés Castro",
+    role: "Emprendedor",
   },
   {
     text: "En mi caso, que manejo marca personal, necesitaba alguien que no solo diseñara sino que entendiera cómo posicionar lo que hago. Bryan me ayudó a ordenar el mensaje, el contenido y la forma en la que me presento. Todo empezó a tener más sentido.",
@@ -835,11 +841,47 @@ const testimonialsData = [
     name: "Sofía Ramírez",
     role: "Creadora de Contenido",
   },
+]
+
+const col2Testimonials = [
+  {
+    text: "Antes de trabajar con Bryan teníamos contenido, pero no una dirección clara. Nos ayudó a organizar todo, definir mejor la identidad y empezar a ejecutar de forma más coherente. Se notó bastante en cómo empezó a percibirse la marca.",
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    name: "Daniel Torres",
+    role: "Director de Marca",
+  },
   {
     text: "Lo que hizo Bryan fue bajar todo a tierra. Teníamos ideas, pero no una estructura clara para ejecutarlas. Nos ayudó a organizar campañas, contenido y piezas de forma que realmente pudiéramos movernos y no quedarnos en lo conceptual.",
     image: "https://randomuser.me/api/portraits/men/67.jpg",
     name: "Alejandro Vargas",
     role: "Fundador",
+  },
+  {
+    text: "Bryan tiene algo que no es tan común, y es que entiende muy bien la parte visual, pero también sabe aterrizar las ideas para que realmente funcionen. Trabajar con él se sintió claro, ordenado y muy bien llevado.",
+    image: "https://randomuser.me/api/portraits/women/58.jpg",
+    name: "Laura Martínez",
+    role: "Gerente de Marca",
+  },
+]
+
+const col3Testimonials = [
+  {
+    text: "Lo que marcó la diferencia fue que no se quedó en lo creativo. Bryan entendió el punto en el que estábamos, propuso una dirección clara y nos ayudó a estructurar cómo llevar eso a contenido y acciones concretas. Se sintió mucho más ordenado y enfocado.",
+    image: "https://randomuser.me/api/portraits/men/11.jpg",
+    name: "Sergio López",
+    role: "CEO",
+  },
+  {
+    text: "Lo que más me gustó fue su criterio. Tiene sensibilidad creativa, pero también sabe poner orden y pensar en cómo se ejecutan las cosas de verdad. Eso hizo que el proceso se sintiera mucho más sólido.",
+    image: "https://randomuser.me/api/portraits/women/36.jpg",
+    name: "Paula Herrera",
+    role: "Consultora",
+  },
+  {
+    text: "Trabajar con Bryan fue muy positivo porque no solo aporta ideas, también aporta dirección. Tiene una forma muy clara de leer lo que necesita un proyecto y convertirlo en algo coherente, útil y bien resuelto.",
+    image: "https://randomuser.me/api/portraits/men/83.jpg",
+    name: "Javier Moreno",
+    role: "Director de Proyectos",
   },
 ]
 
@@ -905,11 +947,11 @@ function Testimonios() {
           </h2>
         </motion.div>
 
-        {/* Columnas — cada una con un cliente distinto */}
+        {/* Columnas — 3 clientes distintos por columna, sin cruzarse */}
         <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] max-h-[680px] overflow-hidden">
-          <TestimonialsColumn testimonials={[testimonialsData[0]]} duration={12} />
-          <TestimonialsColumn testimonials={[testimonialsData[1]]} className="hidden md:block" duration={15} />
-          <TestimonialsColumn testimonials={[testimonialsData[2]]} className="hidden lg:block" duration={13} />
+          <TestimonialsColumn testimonials={col1Testimonials} duration={18} />
+          <TestimonialsColumn testimonials={col2Testimonials} className="hidden md:block" duration={22} />
+          <TestimonialsColumn testimonials={col3Testimonials} className="hidden lg:block" duration={20} />
         </div>
 
       </div>
