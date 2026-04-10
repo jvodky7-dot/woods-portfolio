@@ -333,7 +333,7 @@ function GlobePulse({ className = '', speed = 0.003 }) {
         phi: 1.3, theta: 0.15,
         dark: 1, diffuse: 1.5,
         mapSamples: 16000, mapBrightness: 10,
-        baseColor: [0.5, 0.5, 0.5],
+        baseColor: [0.05, 0.05, 0.05],
         markerColor: [0.2, 0.8, 0.9],
         glowColor: [0.05, 0.05, 0.05],
         markers: BOGOTA_MARKER.map((m) => ({ location: m.location, size: 0.06 })),
