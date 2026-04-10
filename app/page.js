@@ -900,19 +900,19 @@ function Testimonios() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mb-3">
-            {content.testimonios.eyebrow}
-          </p>
-          <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-ink tracking-tight">
-            {content.testimonios.headline.toUpperCase()}
+          <h2 className="font-akshar font-bold text-[7vw] md:text-[5vw] leading-[1] text-ink">
+            QUE PIENSAN DE MI
+          </h2>
+          <h2 className="font-bristol text-[7vw] md:text-[5vw] leading-[1.2] text-blue uppercase">
+            DE MI TRABAJO
           </h2>
         </motion.div>
 
-        {/* Columnas */}
+        {/* Columnas — cada una con un cliente distinto */}
         <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] max-h-[680px] overflow-hidden">
-          <TestimonialsColumn testimonials={testimonialsData} duration={15} />
-          <TestimonialsColumn testimonials={[...testimonialsData].reverse()} className="hidden md:block" duration={19} />
-          <TestimonialsColumn testimonials={testimonialsData} className="hidden lg:block" duration={17} />
+          <TestimonialsColumn testimonials={[testimonialsData[0]]} duration={12} />
+          <TestimonialsColumn testimonials={[testimonialsData[1]]} className="hidden md:block" duration={15} />
+          <TestimonialsColumn testimonials={[testimonialsData[2]]} className="hidden lg:block" duration={13} />
         </div>
 
       </div>
