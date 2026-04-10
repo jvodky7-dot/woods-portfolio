@@ -275,10 +275,7 @@ function Hero() {
 
 // ── GLOBE BARS ────────────────────────────────────────────────────
 const GLOBE_MARKERS = [
-  { id: 'bogota',   location: [4.71,  -74.07], value: 100, label: 'Bogotá' },
-  { id: 'miami',    location: [25.77, -80.19], value: 72,  label: 'Miami'  },
-  { id: 'madrid',   location: [40.42,  -3.70], value: 58,  label: 'Madrid' },
-  { id: 'cdmx',     location: [19.43, -99.13], value: 65,  label: 'CDMX'   },
+  { id: 'bogota', location: [4.71, -74.07], size: 0.06 },
 ]
 
 function GlobeBars({ className = '', speed = 0.003 }) {
@@ -338,14 +335,14 @@ function GlobeBars({ className = '', speed = 0.003 }) {
         devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
         width, height: width,
         phi: 1.3, theta: 0.2,
-        dark: 0, diffuse: 1.5,
-        mapSamples: 16000, mapBrightness: 9,
-        baseColor: [0, 0, 0],
+        dark: 0, diffuse: 1.2,
+        mapSamples: 16000, mapBrightness: 6,
+        baseColor: [1, 1, 1],
         markerColor: [0.08, 0.25, 1],
-        glowColor: [0.92, 0.92, 0.92],
-        markers: GLOBE_MARKERS.map((m) => ({ location: m.location, size: 0.05 })),
+        glowColor: [0.9, 0.9, 0.9],
+        markers: GLOBE_MARKERS.map((m) => ({ location: m.location, size: m.size })),
         arcs: [],
-        opacity: 0.8,
+        opacity: 0.85,
       })
 
       function animate() {
