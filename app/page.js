@@ -542,7 +542,7 @@ const herramientas = [
   { name: "Metricool",       src: "/icons/metricool.svg" },
   { name: "Meta Business",   src: "/icons/meta.svg" },
   { name: "Meta Ads",        src: "/icons/facebook.svg" },
-  { name: "OpenAI",          src: "/icons/openai.svg" },
+  { name: "ChatGPT",         src: "/icons/chatgpt.svg" },
   { name: "Claude",          src: "/icons/anthropic.svg" },
   { name: "NotebookLM",      src: "/icons/notebooklm.svg" },
   { name: "Gemini",          src: "/icons/gemini.svg" },
