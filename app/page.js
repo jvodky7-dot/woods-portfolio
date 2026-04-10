@@ -273,10 +273,15 @@ function Hero() {
   )
 }
 
-// ── GLOBE PULSE ───────────────────────────────────────────────────
-const BOGOTA_MARKER = [{ id: 'bogota', location: [4.71, -74.07], delay: 0 }]
+// ── GLOBE BARS ────────────────────────────────────────────────────
+const GLOBE_MARKERS = [
+  { id: 'bogota',   location: [4.71,  -74.07], value: 100, label: 'Bogotá' },
+  { id: 'miami',    location: [25.77, -80.19], value: 72,  label: 'Miami'  },
+  { id: 'madrid',   location: [40.42,  -3.70], value: 58,  label: 'Madrid' },
+  { id: 'cdmx',     location: [19.43, -99.13], value: 65,  label: 'CDMX'   },
+]
 
-function GlobePulse({ className = '', speed = 0.003 }) {
+function GlobeBars({ className = '', speed = 0.003 }) {
   const canvasRef = useRef(null)
   const pointerInteracting = useRef(null)
   const dragOffset = useRef({ phi: 0, theta: 0 })
@@ -302,18 +307,18 @@ function GlobePulse({ className = '', speed = 0.003 }) {
   }, [])
 
   useEffect(() => {
-    const handlePointerMove = (e) => {
+    const onMove = (e) => {
       if (pointerInteracting.current !== null) {
         dragOffset.current = {
-          phi: (e.clientX - pointerInteracting.current.x) / 300,
+          phi:   (e.clientX - pointerInteracting.current.x) / 300,
           theta: (e.clientY - pointerInteracting.current.y) / 1000,
         }
       }
     }
-    window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    window.addEventListener('pointermove', onMove, { passive: true })
     window.addEventListener('pointerup', handlePointerUp, { passive: true })
     return () => {
-      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointermove', onMove)
       window.removeEventListener('pointerup', handlePointerUp)
     }
   }, [handlePointerUp])
@@ -323,7 +328,6 @@ function GlobePulse({ className = '', speed = 0.003 }) {
     const canvas = canvasRef.current
     let globe = null
     let animationId
-    // Start phi at ~1.3 rad to show South America (Bogotá at lon -74°)
     let phi = 1.3
 
     function init() {
@@ -333,22 +337,22 @@ function GlobePulse({ className = '', speed = 0.003 }) {
       globe = createGlobe(canvas, {
         devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
         width, height: width,
-        phi: 1.3, theta: 0.15,
-        dark: 1, diffuse: 1.5,
-        mapSamples: 16000, mapBrightness: 10,
-        baseColor: [0.05, 0.05, 0.05],
-        markerColor: [0.2, 0.8, 0.9],
-        glowColor: [0.05, 0.05, 0.05],
-        markers: BOGOTA_MARKER.map((m) => ({ location: m.location, size: 0.06 })),
+        phi: 1.3, theta: 0.2,
+        dark: 0, diffuse: 1.5,
+        mapSamples: 16000, mapBrightness: 9,
+        baseColor: [0, 0, 0],
+        markerColor: [0.08, 0.25, 1],
+        glowColor: [0.92, 0.92, 0.92],
+        markers: GLOBE_MARKERS.map((m) => ({ location: m.location, size: 0.05 })),
         arcs: [],
-        opacity: 0.7,
+        opacity: 0.8,
       })
 
       function animate() {
         if (!isPausedRef.current) phi += speed
         globe.update({
-          phi: phi + phiOffsetRef.current + dragOffset.current.phi,
-          theta: 0.15 + thetaOffsetRef.current + dragOffset.current.theta,
+          phi:   phi + phiOffsetRef.current + dragOffset.current.phi,
+          theta: 0.2 + thetaOffsetRef.current + dragOffset.current.theta,
         })
         animationId = requestAnimationFrame(animate)
       }
@@ -398,7 +402,7 @@ function About() {
             <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40">
               Bogotá, Colombia
             </p>
-            <GlobePulse className="w-[300px]" />
+            <GlobeBars className="w-[300px]" />
           </div>
 
           {/* Right: About card */}
