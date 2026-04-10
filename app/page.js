@@ -807,65 +807,6 @@ function Planeacion() {
   )
 }
 
-// ── IDENTIDAD ─────────────────────────────────────────────────────
-function Identidad() {
-  const ref = useFadeIn()
-  return (
-    <section id="identidad" className="bg-ink py-24 md:py-32 overflow-hidden relative">
-      <div className="absolute left-0 right-0 top-1/2 h-px bg-gold/10 pointer-events-none" />
-
-      <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-
-          {/* Left: case info */}
-          <div>
-            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30 mb-2">
-              {content.identidad.eyebrow}
-            </p>
-            <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-cream tracking-tight mb-2">
-              {content.identidad.headline.toUpperCase()}
-            </h2>
-            <div className="w-12 h-0.5 bg-gold mb-6" />
-
-            <div className="mb-6">
-              <p className="font-bebas text-3xl text-blue tracking-tight">{content.identidad.caseName}</p>
-              <span className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30">
-                {content.identidad.caseTag}
-              </span>
-            </div>
-
-            <p className="font-barlow text-sm leading-relaxed text-cream/60 mb-6 max-w-sm">
-              {content.identidad.description}
-            </p>
-
-            <div className="space-y-3">
-              {content.identidad.puntos.map((punto, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-1 h-1 rounded-full bg-gold mt-2 shrink-0" />
-                  <p className="font-barlow text-sm text-cream/60 leading-relaxed">{punto}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right: image grid */}
-          <div className="grid grid-cols-2 gap-2">
-            {Array.from({ length: content.identidad.imageCount }).map((_, i) => (
-              <div key={i} className={`${i === 0 ? 'col-span-2' : ''} aspect-square bg-gradient-to-br ${placeholderColors[i % placeholderColors.length]} rounded-sm work-card`}>
-                <div className="work-overlay"><span>Ver</span></div>
-                <div className="absolute bottom-2 left-2 font-condensed font-bold text-[10px] text-white/40 uppercase tracking-widest">
-                  {content.identidad.caseName} {String(i + 1).padStart(2, '0')}
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </div>
-    </section>
-  )
-}
 
 // ── PROCESS ───────────────────────────────────────────────────────
 function Process() {
@@ -1102,7 +1043,6 @@ export default function Page() {
       <Herramientas />
       <Trabajo />
       <Planeacion />
-      <Identidad />
       <Process />
       <Testimonios />
       <Contacto />
