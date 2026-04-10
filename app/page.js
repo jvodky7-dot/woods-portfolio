@@ -1329,22 +1329,25 @@ function GooeyText({ texts, morphTime = 1, cooldownTime = 0.25, className = '' }
     const setMorph = (fraction) => {
       if (!text1Ref.current || !text2Ref.current) return
       const f = fraction
-      text2Ref.current.style.filter = `url(#gooey-morph) blur(${Math.min(8 / f - 8, 100)}px)`
-      text2Ref.current.style.opacity = `${Math.pow(f, 0.4) * 100}%`
-      const f2 = 1 - f
-      text1Ref.current.style.filter = `url(#gooey-morph) blur(${Math.min(8 / f2 - 8, 100)}px)`
-      text1Ref.current.style.opacity = `${Math.pow(f2, 0.4) * 100}%`
-      text1Ref.current.textContent = texts[indexRef.current % texts.length]
-      text2Ref.current.textContent = texts[(indexRef.current + 1) % texts.length]
+      const blurOut = Math.min(8 / (1 - f + 0.001) - 8, 40)
+      const blurIn  = Math.min(8 / (f + 0.001) - 8, 40)
+      text1Ref.current.style.filter  = `blur(${blurOut}px)`
+      text1Ref.current.style.opacity = `${Math.pow(1 - f, 0.4)}`
+      text2Ref.current.style.filter  = `blur(${blurIn}px)`
+      text2Ref.current.style.opacity = `${Math.pow(f, 0.4)}`
+      text1Ref.current.textContent   = texts[indexRef.current % texts.length]
+      text2Ref.current.textContent   = texts[(indexRef.current + 1) % texts.length]
     }
 
     const doCooldown = () => {
       if (!text1Ref.current || !text2Ref.current) return
       morphRef.current = 0
-      text2Ref.current.style.filter = ''
-      text2Ref.current.style.opacity = '100%'
-      text1Ref.current.style.filter = ''
-      text1Ref.current.style.opacity = '0%'
+      // texto entrante: completamente visible y nítido
+      text2Ref.current.style.filter  = 'none'
+      text2Ref.current.style.opacity = '1'
+      // texto saliente: invisible
+      text1Ref.current.style.filter  = 'none'
+      text1Ref.current.style.opacity = '0'
     }
 
     const animate = (now) => {
@@ -1384,7 +1387,7 @@ function GooeyText({ texts, morphTime = 1, cooldownTime = 0.25, className = '' }
           </filter>
         </defs>
       </svg>
-      <div style={{ position: 'relative', filter: 'url(#gooey-morph)', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <span ref={text1Ref} className={className} style={{ position: 'absolute', whiteSpace: 'nowrap' }} />
         <span ref={text2Ref} className={className} style={{ position: 'absolute', whiteSpace: 'nowrap' }} />
         {/* Spacer invisible para dar altura al contenedor */}
