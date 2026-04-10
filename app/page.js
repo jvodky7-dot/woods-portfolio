@@ -557,15 +557,15 @@ function Herramientas() {
       <div ref={ref} className="fade-in">
 
         {/* Heading */}
-        <div className="text-center mb-10 px-6">
-          <p className="font-marker text-blue text-xl md:text-2xl leading-none mb-1">
+        <div className="mb-10 px-6 max-w-5xl mx-auto">
+          <p className="font-marker text-blue text-2xl md:text-3xl leading-none mb-0 uppercase">
             Utilizo estas
           </p>
-          <h2 className="font-bebas text-[14vw] md:text-[8vw] leading-[0.85] text-ink tracking-tight">
+          <h2 className="font-akshar font-bold text-[13vw] md:text-[9vw] leading-[0.88] text-ink tracking-tight uppercase">
             HERRAMIENTAS
           </h2>
-          <p className="font-marker text-blue text-xl md:text-2xl leading-none mt-1">
-            en mi trabajo
+          <p className="font-marker text-blue text-2xl md:text-3xl leading-none mt-0 uppercase text-right">
+            EN MI TRABAJO
           </p>
         </div>
 
