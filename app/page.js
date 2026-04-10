@@ -802,7 +802,7 @@ function WorkExplorer() {
   ]
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 mt-10 items-start">
+    <div className="flex flex-col md:flex-row gap-6 mt-10 items-stretch">
 
       {/* Explorer panel */}
       <div className="w-full md:w-[280px] shrink-0 rounded-xl border border-ink/10 bg-white shadow-sm overflow-hidden select-none">
@@ -868,7 +868,7 @@ function WorkExplorer() {
       </div>
 
       {/* Panel derecho: bento gallery o placeholder */}
-      <div className="flex-1 min-h-[300px]">
+      <div className="flex-1">
         <AnimatePresence mode="wait">
           {selected ? (
             <ProyectoGallery key={selected.id} proyecto={selected} />
@@ -878,7 +878,7 @@ function WorkExplorer() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center h-full min-h-[300px] text-center gap-3 border border-dashed border-ink/15 rounded-xl"
+              className="flex flex-col items-center justify-center h-full text-center gap-3 border border-dashed border-ink/15 rounded-xl"
             >
               <Folder size={32} className="text-ink/15" />
               <p className="font-akshar font-bold text-xs tracking-widest uppercase text-ink/25">
