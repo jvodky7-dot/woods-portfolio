@@ -217,44 +217,43 @@ function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-[#EBEBEB]">
       {/* Large BG name watermark */}
+      {/* BG watermark — CREATIVE en Akshar */}
       <div className="absolute inset-0 flex items-center pointer-events-none select-none overflow-hidden">
-        <span className="font-bebas text-[28vw] leading-none text-black/[0.04] whitespace-nowrap translate-y-4">
-          {content.name.toUpperCase()}
+        <span className="font-akshar font-bold text-[28vw] leading-none text-black/[0.05] whitespace-nowrap translate-y-4">
+          CREATIVE
         </span>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full pt-24 pb-16">
         <div>
-          {/* Name — full width, one continuous line */}
-          <h1 className="font-bebas text-[15vw] md:text-[11vw] leading-[0.85] text-ink tracking-tight whitespace-nowrap">
+          {/* Name — Akshar Bold */}
+          <h1 className="font-akshar font-bold text-[15vw] md:text-[11vw] leading-[1] text-ink tracking-tight whitespace-nowrap">
             {content.name.toUpperCase()}
           </h1>
 
-          {/* Instagram badge below name */}
-          <div className="mt-3 mb-6 inline-block">
-            <div className="bg-ink text-cream px-4 py-2 font-condensed font-bold text-sm tracking-widest uppercase rotate-[-2deg] inline-flex items-center gap-2">
+          {/* Creative Strategist + badge en la misma fila */}
+          <div className="flex items-center gap-4 mt-2 mb-6 flex-wrap">
+            <span className="font-bristol text-[7vw] md:text-[4vw] text-blue leading-none tracking-tight">
+              {content.hero.role}
+            </span>
+            <a
+              href={content.social.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="bg-ink text-cream px-4 py-2 font-condensed font-bold text-sm tracking-widest uppercase rotate-[-2deg] inline-flex items-center gap-2 hover:bg-blue transition-colors duration-200"
+            >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
                 <rect x="2" y="2" width="20" height="20" rx="5" />
                 <circle cx="12" cy="12" r="4" />
                 <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
               </svg>
               {content.handle}
-            </div>
+            </a>
           </div>
 
-          {/* Creative Strategist */}
-          <div className="mb-6">
-            <span className="font-bebas text-[7vw] md:text-[4vw] text-blue leading-none block tracking-tight">
-              {content.hero.role}
-            </span>
-            <p className="font-marker text-gold text-lg mt-2">
-              {content.hero.statement}
-            </p>
-          </div>
-
-          {/* Tags */}
+          {/* Tags — sin Content */}
           <div className="flex flex-wrap gap-2 mt-4">
-            {content.hero.tags.map((tag) => (
+            {content.hero.tags.filter(t => t !== 'Content').map((tag) => (
               <span key={tag} className="skill-badge">{tag}</span>
             ))}
           </div>

@@ -10,7 +10,7 @@ export const content = {
   email:    "hello@bryanorozco.co",
   location: "Bogotá, Colombia",
   social: {
-    instagram: "https://instagram.com",
+    instagram: "https://www.instagram.com/joudew_8/",
     behance:   "https://behance.net",
     linkedin:  "https://linkedin.com",
   },

@@ -13,11 +13,20 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Akshar';
+  src: url('/fonts/Akshar-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --font-bebas:  'Bebas Neue', sans-serif;
   --font-marker: 'Permanent Marker', cursive;
   --font-barlow: 'Barlow', sans-serif;
   --font-bristol: 'Bristol', serif;
+  --font-akshar:  'Akshar', sans-serif;
 
   --cream: #EBEBEB;
   --ink:   #0D0D0D;
@@ -52,6 +61,7 @@ body::after {
 .font-marker  { font-family: var(--font-marker); }
 .font-barlow  { font-family: var(--font-barlow); }
 .font-bristol { font-family: var(--font-bristol); }
+.font-akshar  { font-family: var(--font-akshar); }
 .font-condensed { font-family: 'Barlow Condensed', sans-serif; }
 
 /* ── HALFTONE PORTRAIT PLACEHOLDER ── */
