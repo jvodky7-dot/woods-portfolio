@@ -705,12 +705,9 @@ function Planeacion() {
             >
               {[...planeacionItems, ...planeacionItems].map((item, i) => (
                 <div key={i} className="flex items-center justify-between gap-3 px-5 py-4 border-b border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-gray-200 w-10 h-10 rounded-xl shadow-sm shrink-0" />
-                    <div>
-                      <p className="font-barlow font-semibold text-sm text-gray-900">{item.title}</p>
-                      <p className="font-barlow text-xs text-gray-400 mt-0.5">{item.subtitle}</p>
-                    </div>
+                  <div>
+                    <p className="font-barlow font-semibold text-sm text-gray-900">{item.title}</p>
+                    <p className="font-barlow text-xs text-gray-400 mt-0.5">{item.subtitle}</p>
                   </div>
                   {item.icon}
                 </div>
