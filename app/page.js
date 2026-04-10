@@ -5,7 +5,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import createGlobe from 'cobe'
 import { motion, useMotionValue, useMotionTemplate, animate } from 'framer-motion'
-import { Layers, Grid2X2, Lightbulb, Settings2, ChevronRight, Folder, FolderOpen, FileText, X, ChevronLeft } from 'lucide-react'
+import { Layers, Grid2X2, Lightbulb, Settings2 } from 'lucide-react'
 import useMeasure from 'react-use-measure'
 
 if (typeof window !== 'undefined') {
@@ -450,7 +450,7 @@ function Ayudo() {
                 onClick={() => setOpen(open === i ? null : i)}
                 className="w-full flex items-center justify-between py-6 text-left group"
               >
-                <span className="font-akshar font-bold text-sm md:text-base text-cream uppercase tracking-wide group-hover:text-blue transition-colors duration-200">
+                <span className="font-akshar font-bold text-lg md:text-2xl text-cream uppercase tracking-wide group-hover:text-blue transition-colors duration-200">
                   {area.title}
                 </span>
                 <span className={`text-cream/30 text-xl transition-transform duration-300 ${open === i ? 'rotate-45' : ''}`}>+</span>
@@ -601,114 +601,29 @@ function Herramientas() {
 }
 
 // ── MI TRABAJO ────────────────────────────────────────────────────
-const bentoImages = [
-  { src: 'https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=800&q=80', title: 'Campaña Visual', tag: 'Branding' },
-  { src: 'https://images.unsplash.com/photo-1510925758641-869d353cecc7?w=800&q=80', title: 'Estrategia Digital', tag: 'Social Media' },
-  { src: 'https://images.unsplash.com/photo-1629901925121-8a141c2a42f4?w=800&q=80', title: 'Identidad de Marca', tag: 'Branding' },
-  { src: 'https://images.unsplash.com/photo-1580238053495-b9720401fd45?w=800&q=80', title: 'Producción de Contenido', tag: 'Video' },
-  { src: 'https://images.unsplash.com/photo-1569074187119-c87815b476da?w=800&q=80', title: 'Dirección Creativa', tag: 'Estrategia' },
-  { src: 'https://images.unsplash.com/photo-1556817411-31ae72fa3ea0?w=800&q=80', title: 'Campaña Publicitaria', tag: 'Ads' },
-  { src: 'https://images.unsplash.com/photo-1599586120429-48281b6f0ece?w=800&q=80', title: 'Plan de Contenidos', tag: 'Planificación' },
-  { src: 'https://plus.unsplash.com/premium_photo-1671436824833-91c0741e89c9?w=800&q=80', title: 'Proyecto Editorial', tag: 'Diseño' },
+const placeholderColors = [
+  'from-zinc-300 to-zinc-500',
+  'from-blue/20 to-blue/60',
+  'from-gold/20 to-gold/60',
+  'from-zinc-400 to-zinc-700',
+  'from-blue/10 to-zinc-400',
+  'from-gold/10 to-zinc-500',
 ]
 
-function BentoCard({ item, onClick }) {
+function WorkGrid({ count = 6, label = '' }) {
   return (
-    <motion.div
-      onClick={() => onClick(item)}
-      whileHover={{ scale: 1.02 }}
-      className="relative shrink-0 w-[260px] md:w-[300px] h-[340px] rounded-xl overflow-hidden cursor-pointer group"
-      style={{ backgroundImage: `url(${item.src})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-        <span className="font-condensed font-bold text-[10px] tracking-widest uppercase text-blue block mb-1">{item.tag}</span>
-        <p className="font-akshar font-bold text-sm text-cream uppercase">{item.title}</p>
-      </div>
-    </motion.div>
-  )
-}
-
-function BentoModal({ item, onClose }) {
-  useEffect(() => {
-    const handleKey = (e) => { if (e.key === 'Escape') onClose() }
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  }, [onClose])
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/80 backdrop-blur-sm p-4"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ type: 'spring', damping: 20 }}
-        className="relative max-w-3xl w-full rounded-2xl overflow-hidden bg-ink"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <img src={item.src} alt={item.title} className="w-full h-[60vh] object-cover" />
-        <div className="p-6">
-          <span className="font-condensed font-bold text-[10px] tracking-widest uppercase text-blue block mb-1">{item.tag}</span>
-          <h3 className="font-akshar font-bold text-xl text-cream uppercase">{item.title}</h3>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-6">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className={`work-card aspect-square bg-gradient-to-br ${placeholderColors[i % placeholderColors.length]}`}>
+          <div className="work-overlay">
+            <span>{label || 'Ver proyecto'}</span>
+          </div>
+          <div className="absolute bottom-2 left-3 font-condensed font-bold text-xs text-white/50 uppercase tracking-widest">
+            {label} {String(i + 1).padStart(2, '0')}
+          </div>
         </div>
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 bg-ink/60 text-cream rounded-full p-1.5 hover:bg-ink transition-colors"
-        >
-          <X size={16} />
-        </button>
-      </motion.div>
-    </motion.div>
-  )
-}
-
-function BentoGallery() {
-  const [selected, setSelected] = useState(null)
-  const trackRef = useRef(null)
-  const isDragging = useRef(false)
-  const startX = useRef(0)
-  const scrollLeft = useRef(0)
-
-  const onMouseDown = (e) => {
-    isDragging.current = true
-    startX.current = e.pageX - trackRef.current.offsetLeft
-    scrollLeft.current = trackRef.current.scrollLeft
-    trackRef.current.style.cursor = 'grabbing'
-  }
-  const onMouseLeave = () => { isDragging.current = false; if (trackRef.current) trackRef.current.style.cursor = 'grab' }
-  const onMouseUp = () => { isDragging.current = false; if (trackRef.current) trackRef.current.style.cursor = 'grab' }
-  const onMouseMove = (e) => {
-    if (!isDragging.current) return
-    e.preventDefault()
-    const x = e.pageX - trackRef.current.offsetLeft
-    const walk = (x - startX.current) * 1.5
-    trackRef.current.scrollLeft = scrollLeft.current - walk
-  }
-
-  return (
-    <>
-      <div
-        ref={trackRef}
-        onMouseDown={onMouseDown}
-        onMouseLeave={onMouseLeave}
-        onMouseUp={onMouseUp}
-        onMouseMove={onMouseMove}
-        className="flex gap-4 overflow-x-auto pb-4 mt-8 select-none"
-        style={{ cursor: 'grab', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
-        <style>{`.bento-track::-webkit-scrollbar { display: none; }`}</style>
-        {bentoImages.map((item, i) => (
-          <BentoCard key={i} item={item} onClick={setSelected} />
-        ))}
-      </div>
-      {selected && <BentoModal item={selected} onClose={() => setSelected(null)} />}
-    </>
+      ))}
+    </div>
   )
 }
 
@@ -759,7 +674,7 @@ function Trabajo() {
           {currentTab.description}
         </p>
 
-        <BentoGallery />
+        <WorkGrid count={currentTab.count} label={currentTab.label} />
       </div>
     </section>
   )
@@ -825,109 +740,14 @@ function ShuffleGrid() {
   )
 }
 
-// ── TREE VIEW ─────────────────────────────────────────────────────
-const treeData = {
-  name: 'Proyecto de Marca',
-  type: 'folder',
-  children: [
-    {
-      name: 'Estrategia',
-      type: 'folder',
-      children: [
-        { name: 'brief_creativo.md', type: 'file' },
-        { name: 'propuesta_de_valor.md', type: 'file' },
-        { name: 'publico_objetivo.md', type: 'file' },
-      ],
-    },
-    {
-      name: 'Contenido',
-      type: 'folder',
-      children: [
-        { name: 'calendario_editorial.md', type: 'file' },
-        { name: 'guion_reels.md', type: 'file' },
-        { name: 'copy_ads.md', type: 'file' },
-      ],
-    },
-    {
-      name: 'Visual',
-      type: 'folder',
-      children: [
-        { name: 'identidad_visual.fig', type: 'file' },
-        { name: 'plantillas.fig', type: 'file' },
-      ],
-    },
-    { name: 'README.md', type: 'file' },
-  ],
-}
-
-function TreeNode({ node, depth = 0, initialDelay = 0 }) {
-  const [open, setOpen] = useState(depth < 2)
-  const isFolder = node.type === 'folder'
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -8 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.3, delay: initialDelay }}
-    >
-      <button
-        onClick={() => isFolder && setOpen(o => !o)}
-        className="flex items-center gap-1.5 w-full text-left py-1 px-2 rounded hover:bg-ink/5 transition-colors group"
-        style={{ paddingLeft: `${depth * 16 + 8}px` }}
-      >
-        {isFolder ? (
-          <>
-            <motion.span animate={{ rotate: open ? 90 : 0 }} transition={{ duration: 0.2 }}>
-              <ChevronRight size={12} className="text-ink/30" />
-            </motion.span>
-            {open
-              ? <FolderOpen size={14} className="text-blue shrink-0" />
-              : <Folder size={14} className="text-blue/60 shrink-0" />
-            }
-          </>
-        ) : (
-          <>
-            <span className="w-3" />
-            <FileText size={14} className="text-ink/30 shrink-0" />
-          </>
-        )}
-        <span className="font-barlow text-xs text-ink/70 group-hover:text-ink transition-colors truncate">
-          {node.name}
-        </span>
-      </button>
-
-      {isFolder && open && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.25, ease: 'easeOut' }}
-          className="overflow-hidden"
-        >
-          {node.children?.map((child, i) => (
-            <TreeNode key={i} node={child} depth={depth + 1} initialDelay={i * 0.04} />
-          ))}
-        </motion.div>
-      )}
-    </motion.div>
-  )
-}
-
-function TreeView() {
-  return (
-    <div className="h-[380px] overflow-auto rounded-lg border border-black/8 bg-white shadow-sm p-3 select-none">
-      <div className="flex items-center gap-1.5 px-2 pb-3 border-b border-gray-100 mb-2">
-        <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
-        <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-        <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
-        <span className="font-barlow text-[10px] text-ink/30 ml-2 uppercase tracking-wider">Explorer</span>
-      </div>
-      <TreeNode node={treeData} depth={0} />
-    </div>
-  )
-}
-
 // ── PLANIFICACIÓN ─────────────────────────────────────────────────
+const planeacionItems = [
+  { title: 'Tableros Creativos',       subtitle: 'Organización visual de ideas',       icon: <Layers size={16} className="text-ink/40" /> },
+  { title: 'Sistemas de Organización', subtitle: 'Estructura que sostiene el proceso', icon: <Grid2X2 size={16} className="text-ink/40" /> },
+  { title: 'Conceptualización',        subtitle: 'De la idea al sistema',              icon: <Lightbulb size={16} className="text-ink/40" /> },
+  { title: 'Estructuras Operativas',   subtitle: 'Flujo claro de ejecución',           icon: <Settings2 size={16} className="text-ink/40" /> },
+]
+
 function Planeacion() {
   const ref = useFadeIn()
   return (
@@ -950,8 +770,26 @@ function Planeacion() {
         {/* 2 columnas */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-          {/* Izquierda: TreeView */}
-          <TreeView />
+          {/* Izquierda: lista animada */}
+          <div className="relative h-[380px] overflow-hidden rounded-lg border border-black/8 bg-white shadow-sm">
+            <motion.div
+              className="flex flex-col absolute w-full"
+              animate={{ y: ['0%', '-50%'] }}
+              transition={{ repeat: Infinity, repeatType: 'loop', duration: 10, ease: 'linear' }}
+            >
+              {[...planeacionItems, ...planeacionItems].map((item, i) => (
+                <div key={i} className="flex items-center justify-between gap-3 px-5 py-4 border-b border-gray-100">
+                  <div>
+                    <p className="font-barlow font-semibold text-sm text-gray-900">{item.title}</p>
+                    <p className="font-barlow text-xs text-gray-400 mt-0.5">{item.subtitle}</p>
+                  </div>
+                  {item.icon}
+                </div>
+              ))}
+            </motion.div>
+            <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
+            <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
+          </div>
 
           {/* Derecha: shuffle grid */}
           <ShuffleGrid />
