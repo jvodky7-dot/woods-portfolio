@@ -1150,6 +1150,51 @@ function Testimonios() {
   )
 }
 
+// ── TEXT SCRAMBLE ─────────────────────────────────────────────────
+const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*"
+
+function TextScramble({ text, className = "" }) {
+  const [displayText, setDisplayText] = useState(text)
+  const [isScrambling, setIsScrambling] = useState(false)
+  const intervalRef = useRef(null)
+  const frameRef = useRef(0)
+
+  const scramble = useCallback(() => {
+    setIsScrambling(true)
+    frameRef.current = 0
+    const duration = text.length * 3
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    intervalRef.current = setInterval(() => {
+      frameRef.current++
+      const progress = frameRef.current / duration
+      const revealedLength = Math.floor(progress * text.length)
+      const newText = text.split('').map((char, i) => {
+        if (char === ' ') return ' '
+        if (i < revealedLength) return text[i]
+        return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)]
+      }).join('')
+      setDisplayText(newText)
+      if (frameRef.current >= duration) {
+        clearInterval(intervalRef.current)
+        setDisplayText(text)
+        setIsScrambling(false)
+      }
+    }, 30)
+  }, [text])
+
+  useEffect(() => () => { if (intervalRef.current) clearInterval(intervalRef.current) }, [])
+
+  return (
+    <span className={className} onMouseEnter={scramble}>
+      {displayText.split('').map((char, i) => (
+        <span key={i} className={`inline-block transition-all duration-150 ${isScrambling && char !== text[i] ? 'text-blue' : ''}`}>
+          {char}
+        </span>
+      ))}
+    </span>
+  )
+}
+
 // ── CONTACTO ──────────────────────────────────────────────────────
 function GridPattern({ offsetX, offsetY }) {
   return (
@@ -1233,7 +1278,7 @@ function Contacto() {
           rel="noreferrer"
           className="inline-flex items-center gap-3 bg-ink text-cream px-8 py-4 font-akshar font-bold text-sm tracking-widest uppercase hover:bg-blue transition-all duration-300"
         >
-          Contáctame
+          <TextScramble text="CONTÁCTAME" />
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
