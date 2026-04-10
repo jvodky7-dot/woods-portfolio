@@ -1384,10 +1384,10 @@ function GooeyText({ texts, morphTime = 1, cooldownTime = 0.25, className = '' }
           </filter>
         </defs>
       </svg>
-      <div style={{ position: 'relative', filter: 'url(#gooey-morph)' }}>
-        <span ref={text1Ref} className={className} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', whiteSpace: 'nowrap' }} />
-        <span ref={text2Ref} className={className} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', whiteSpace: 'nowrap' }} />
-        {/* Invisible spacer para el texto más largo */}
+      <div style={{ position: 'relative', filter: 'url(#gooey-morph)', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span ref={text1Ref} className={className} style={{ position: 'absolute', whiteSpace: 'nowrap' }} />
+        <span ref={text2Ref} className={className} style={{ position: 'absolute', whiteSpace: 'nowrap' }} />
+        {/* Spacer invisible para dar altura al contenedor */}
         <span className={className} style={{ visibility: 'hidden', whiteSpace: 'nowrap' }}>
           {texts.reduce((a, b) => a.length > b.length ? a : b, '')}
         </span>
