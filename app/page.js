@@ -233,7 +233,7 @@ function Hero() {
 
           {/* Creative Strategist + badge en la misma fila */}
           <div className="flex items-center gap-4 mt-2 mb-6 flex-wrap">
-            <span className="font-bristol text-[7vw] md:text-[4vw] text-blue leading-none tracking-tight">
+            <span className="font-bristol text-[7vw] md:text-[4vw] text-blue leading-none tracking-tight uppercase">
               {content.hero.role}
             </span>
             <a
