@@ -574,8 +574,8 @@ function Herramientas() {
         {/* Divider + subline */}
         <div className="max-w-sm mx-auto h-px bg-ink/15 mb-6 [mask-image:linear-gradient(to_right,transparent,black,transparent)]" />
         <p className="text-center font-barlow text-ink/50 text-sm mb-6">
-          <span className="block">Trusted by experts.</span>
-          <span className="block font-semibold text-ink">Used by the leaders.</span>
+          <span className="block">Trusting the experts.</span>
+          <span className="block font-semibold text-ink">Utilizing leaders.</span>
         </p>
 
         {/* Infinite slider — solo texto, sin imágenes externas rotas */}
