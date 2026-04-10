@@ -1198,40 +1198,40 @@ function Contacto() {
       id="contacto"
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative bg-ink overflow-hidden min-h-[60vh] flex flex-col justify-between"
+      className="relative bg-[#EBEBEB] overflow-hidden flex flex-col"
     >
       {/* Grid base tenue */}
-      <div className="absolute inset-0 z-0 opacity-[0.04] text-cream">
+      <div className="absolute inset-0 z-0 opacity-[0.08] text-ink">
         <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} />
       </div>
 
       {/* Grid revelado con máscara de mouse */}
       <motion.div
-        className="absolute inset-0 z-0 opacity-30 text-cream"
+        className="absolute inset-0 z-0 opacity-40 text-ink"
         style={{ maskImage: useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)`, WebkitMaskImage: useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)` }}
       >
         <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} />
       </motion.div>
 
-      {/* Contenido */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-10 py-24 md:py-36 w-full text-center">
+      {/* Contenido centrado */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-24 md:py-36">
         <p className="font-bristol font-bold text-blue text-2xl md:text-3xl mb-4 uppercase">
           ¿Tienes un proyecto?
         </p>
 
-        <h2 className="font-bebas font-bold text-[14vw] md:text-[10vw] leading-[0.85] text-white tracking-tight mb-8">
+        <h2 className="font-bebas font-bold text-[16vw] md:text-[11vw] leading-[0.85] text-ink tracking-tight mb-8">
           HABLEMOS.
         </h2>
 
-        <p className="font-barlow text-sm leading-relaxed text-cream/50 max-w-lg mb-12 mx-auto">
-          {content.contacto.body}
+        <p className="font-barlow text-sm leading-relaxed text-ink/60 max-w-lg mb-12">
+          Si necesitas estrategia creativa, identidad, contenido o estructura — este es el lugar para abrir conversación.
         </p>
 
         <a
           href="https://wa.me/573104047075"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-3 bg-blue text-cream px-8 py-4 font-akshar font-bold text-sm tracking-widest uppercase hover:bg-blue/80 transition-all duration-300"
+          className="inline-flex items-center gap-3 bg-ink text-cream px-8 py-4 font-akshar font-bold text-sm tracking-widest uppercase hover:bg-blue transition-all duration-300"
         >
           Contáctame
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -1241,16 +1241,16 @@ function Contacto() {
       </div>
 
       {/* Footer */}
-      <div className="relative z-10 border-t border-cream/10 px-6 md:px-10 py-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+      <div className="relative z-10 border-t border-ink/10 px-6 md:px-10 py-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
         <div className="flex gap-6 flex-wrap">
           {Object.entries(content.social).map(([platform, url]) => (
             <a key={platform} href={url} target="_blank" rel="noreferrer"
-              className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30 hover:text-blue transition-colors duration-200">
+              className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/30 hover:text-blue transition-colors duration-200">
               {platform}
             </a>
           ))}
         </div>
-        <p className="font-condensed text-xs text-cream/20 tracking-widest uppercase">
+        <p className="font-condensed text-xs text-ink/30 tracking-widest uppercase">
           © {new Date().getFullYear()} {content.name} — Todos los derechos reservados
         </p>
       </div>
