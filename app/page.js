@@ -192,6 +192,17 @@ function Intro() {
 }
 
 // ── NAV ───────────────────────────────────────────────────────────
+const navLinks = [
+  { label: 'Inicio',       href: '#hero' },
+  { label: 'Perfil',       href: '#about' },
+  { label: 'Roles',        href: '#ayudo' },
+  { label: 'Herramientas', href: '#herramientas' },
+  { label: 'Trabajos',     href: '#trabajo' },
+  { label: 'Proceso',      href: '#process' },
+  { label: 'Testimonios',  href: '#testimonios' },
+  { label: 'Contacto',     href: '#contacto' },
+]
+
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
@@ -204,11 +215,17 @@ function Nav() {
     <nav className={`fixed top-0 left-0 right-0 z-[9000] transition-all duration-300 ${
       scrolled ? 'bg-[#EBEBEB]/90 backdrop-blur-sm border-b border-black/10' : ''
     }`}>
-      <div className="max-w-7xl mx-auto px-6 md:px-10 h-14 flex items-center justify-end">
-        <div className="flex font-condensed font-bold text-xs tracking-widest uppercase">
-          <a href="#contacto" className="text-ink hover:text-blue transition-colors duration-200">
-            Contacto
-          </a>
+      <div className="max-w-7xl mx-auto px-6 md:px-10 h-14 flex items-center justify-center">
+        <div className="flex items-center gap-6 font-condensed font-bold text-xs tracking-widest uppercase">
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-ink/60 hover:text-blue transition-colors duration-200 whitespace-nowrap"
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
       </div>
     </nav>
