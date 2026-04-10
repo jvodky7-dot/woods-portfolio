@@ -5,7 +5,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import createGlobe from 'cobe'
 import { motion, useMotionValue, useMotionTemplate, animate } from 'framer-motion'
-import { Layers, Grid2X2, Lightbulb, Settings2 } from 'lucide-react'
+import { Layers, Grid2X2, Lightbulb, Settings2, ChevronRight, Folder, FolderOpen, ChevronLeft } from 'lucide-react'
 import useMeasure from 'react-use-measure'
 
 if (typeof window !== 'undefined') {
@@ -601,80 +601,228 @@ function Herramientas() {
 }
 
 // ── MI TRABAJO ────────────────────────────────────────────────────
-const placeholderColors = [
-  'from-zinc-300 to-zinc-500',
-  'from-blue/20 to-blue/60',
-  'from-gold/20 to-gold/60',
-  'from-zinc-400 to-zinc-700',
-  'from-blue/10 to-zinc-400',
-  'from-gold/10 to-zinc-500',
+const proyectos = [
+  {
+    id: 'biking-village',
+    name: 'Biking Village',
+    images: [
+      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80',
+      'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=900&q=80',
+      'https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=900&q=80',
+      'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=900&q=80',
+    ],
+  },
+  {
+    id: 'coopsominas',
+    name: 'CoopSominas',
+    images: [
+      'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80',
+      'https://images.unsplash.com/photo-1553484771-371a605b060b?w=900&q=80',
+      'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&q=80',
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80',
+    ],
+  },
+  {
+    id: 'jicara',
+    name: 'Jicara',
+    images: [
+      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80',
+      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=80',
+      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=80',
+      'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=900&q=80',
+    ],
+  },
+  {
+    id: 'logos',
+    name: 'Logos',
+    images: [
+      'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=900&q=80',
+      'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&q=80',
+      'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=900&q=80',
+      'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=900&q=80',
+    ],
+  },
 ]
 
-function WorkGrid({ count = 6, label = '' }) {
+function ProyectoCarousel({ proyecto }) {
+  const [idx, setIdx] = useState(0)
+  const images = proyecto.images
+
+  const prev = () => setIdx(i => (i - 1 + images.length) % images.length)
+  const next = () => setIdx(i => (i + 1) % images.length)
+
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-6">
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className={`work-card aspect-square bg-gradient-to-br ${placeholderColors[i % placeholderColors.length]}`}>
-          <div className="work-overlay">
-            <span>{label || 'Ver proyecto'}</span>
-          </div>
-          <div className="absolute bottom-2 left-3 font-condensed font-bold text-xs text-white/50 uppercase tracking-widest">
-            {label} {String(i + 1).padStart(2, '0')}
-          </div>
+    <motion.div
+      key={proyecto.id}
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 20 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="flex flex-col h-full"
+    >
+      {/* Imagen principal */}
+      <div className="relative flex-1 rounded-xl overflow-hidden bg-cream/5 min-h-[320px]">
+        <motion.img
+          key={idx}
+          src={images[idx]}
+          alt={proyecto.name}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          className="w-full h-full object-cover absolute inset-0"
+        />
+        {/* Flechas */}
+        <button
+          onClick={prev}
+          className="absolute left-3 top-1/2 -translate-y-1/2 bg-ink/50 hover:bg-ink/80 text-cream rounded-full p-2 transition-colors backdrop-blur-sm"
+        >
+          <ChevronLeft size={16} />
+        </button>
+        <button
+          onClick={next}
+          className="absolute right-3 top-1/2 -translate-y-1/2 bg-ink/50 hover:bg-ink/80 text-cream rounded-full p-2 transition-colors backdrop-blur-sm"
+        >
+          <ChevronRight size={16} />
+        </button>
+        {/* Contador */}
+        <div className="absolute bottom-3 right-4 font-condensed font-bold text-[10px] tracking-widest text-cream/50 uppercase">
+          {idx + 1} / {images.length}
         </div>
-      ))}
+      </div>
+
+      {/* Thumbnails */}
+      <div className="flex gap-2 mt-3">
+        {images.map((src, i) => (
+          <button
+            key={i}
+            onClick={() => setIdx(i)}
+            className={`flex-1 h-14 rounded-md overflow-hidden border-2 transition-all duration-200 ${
+              i === idx ? 'border-blue' : 'border-transparent opacity-50 hover:opacity-80'
+            }`}
+          >
+            <img src={src} alt="" className="w-full h-full object-cover" />
+          </button>
+        ))}
+      </div>
+    </motion.div>
+  )
+}
+
+function WorkExplorer() {
+  const [selected, setSelected] = useState(null)
+
+  const treeFiles = [
+    { name: 'brief.md', color: 'text-blue/60' },
+    { name: 'assets/', color: 'text-gold/60' },
+    { name: 'entrega.pdf', color: 'text-cream/30' },
+  ]
+
+  return (
+    <div className="flex flex-col md:flex-row gap-6 mt-10 items-start">
+
+      {/* Explorer panel */}
+      <div className="w-full md:w-[280px] shrink-0 rounded-xl border border-cream/10 bg-cream/[0.04] overflow-hidden select-none">
+        {/* Barra título VS Code style */}
+        <div className="flex items-center gap-1.5 px-4 py-3 border-b border-cream/8">
+          <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
+          <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
+          <span className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
+          <span className="font-condensed font-bold text-[10px] tracking-widest uppercase text-cream/25 ml-2">explorer</span>
+        </div>
+
+        <div className="py-2">
+          {/* Root */}
+          <div className="flex items-center gap-1.5 px-4 py-1">
+            <ChevronRight size={11} className="text-cream/20" />
+            <span className="font-barlow font-semibold text-[11px] text-cream/25 uppercase tracking-widest">src</span>
+          </div>
+
+          {/* Carpetas / proyectos */}
+          {proyectos.map((p) => {
+            const isOpen = selected?.id === p.id
+            return (
+              <div key={p.id}>
+                <button
+                  onClick={() => setSelected(isOpen ? null : p)}
+                  className={`w-full flex items-center gap-2 px-4 py-2 transition-all duration-200 group ${
+                    isOpen ? 'bg-blue/15' : 'hover:bg-cream/5'
+                  }`}
+                >
+                  <motion.span animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.2 }}>
+                    <ChevronRight size={12} className={isOpen ? 'text-blue' : 'text-cream/30'} />
+                  </motion.span>
+                  {isOpen
+                    ? <FolderOpen size={15} className="text-blue shrink-0" />
+                    : <Folder size={15} className="text-cream/40 shrink-0 group-hover:text-cream/70" />
+                  }
+                  <span className={`font-barlow text-[13px] transition-colors ${isOpen ? 'text-cream font-semibold' : 'text-cream/50 group-hover:text-cream/80'}`}>
+                    {p.name}
+                  </span>
+                </button>
+
+                {/* Archivos hijos al abrir */}
+                {isOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    {treeFiles.map((f, i) => (
+                      <div key={i} className="flex items-center gap-2 pl-10 pr-4 py-1">
+                        <span className="w-[3px] h-[3px] rounded-full bg-cream/20" />
+                        <span className={`font-barlow text-[11px] ${f.color}`}>{f.name}</span>
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Panel derecho: carrusel o placeholder */}
+      <div className="flex-1 min-h-[420px]">
+        {selected ? (
+          <ProyectoCarousel proyecto={selected} />
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full min-h-[420px] text-center gap-3 border border-dashed border-cream/10 rounded-xl">
+            <Folder size={32} className="text-cream/15" />
+            <p className="font-akshar font-bold text-xs tracking-widest uppercase text-cream/20">
+              Haz click en una carpeta
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 
 function Trabajo() {
   const ref = useFadeIn()
-  const [activeTab, setActiveTab] = useState(content.trabajo.tabs[0].id)
-  const currentTab = content.trabajo.tabs.find(t => t.id === activeTab)
 
   return (
     <section id="trabajo" className="bg-ink py-24 md:py-32 overflow-hidden relative">
       {/* BG watermark */}
       <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none">
         <span className="font-bebas text-[22vw] leading-none whitespace-nowrap text-white/[0.03]">
-          {content.trabajo.headline.toUpperCase()}
+          MI TRABAJO
         </span>
       </div>
 
       <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
 
-        <span className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30 block mb-2">
-          {content.trabajo.eyebrow}
-        </span>
-        <div className="relative inline-block mb-10">
-          <h2 className="font-bebas text-[10vw] md:text-[7vw] leading-none text-cream/80 tracking-tight">
-            {content.trabajo.headline.toUpperCase()}
+        {/* Título */}
+        <div className="mb-2">
+          <h2 className="font-bebas text-[10vw] md:text-[7vw] leading-none tracking-tight">
+            <span className="text-blue font-bristol normal-case">Conoce </span>
+            <span className="text-cream/80">MI TRABAJO</span>
           </h2>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-0 border-b border-cream/10 mb-8">
-          {content.trabajo.tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`font-condensed font-bold text-xs tracking-widest uppercase px-6 py-3 transition-all duration-200 border-b-2 -mb-px ${
-                activeTab === tab.id
-                  ? 'text-blue border-blue'
-                  : 'text-cream/30 border-transparent hover:text-cream/60'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Active tab description */}
-        <p className="font-barlow text-cream/50 text-sm max-w-md mb-2">
-          {currentTab.description}
-        </p>
-
-        <WorkGrid count={currentTab.count} label={currentTab.label} />
+        <WorkExplorer />
       </div>
     </section>
   )
