@@ -442,44 +442,26 @@ function Ayudo() {
 
   return (
     <section id="ayudo" className="bg-ink py-24 md:py-36">
-      <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-
-          {/* Izquierda: acordeón */}
-          <div className="divide-y divide-cream/10">
-            {content.ayudo.areas.map((area, i) => (
-              <div key={i}>
-                <button
-                  onClick={() => setOpen(open === i ? null : i)}
-                  className="w-full flex items-center justify-between py-6 text-left group"
-                >
-                  <span className="font-akshar font-bold text-lg md:text-xl text-cream uppercase tracking-wide group-hover:text-blue transition-colors duration-200">
-                    {area.title}
-                  </span>
-                  <span className={`text-cream/30 text-xl transition-transform duration-300 ${open === i ? 'rotate-45' : ''}`}>+</span>
-                </button>
-                {open === i && (
-                  <p className="font-barlow text-sm text-cream/50 leading-relaxed pb-6 max-w-sm">
-                    {area.description}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Derecha: imagen placeholder con info */}
-          <div className="hidden md:block border border-cream/10 rounded-xl overflow-hidden aspect-[4/3] bg-cream/5 relative">
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8">
-              <p className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/20 mb-4">
-                {content.ayudo.headline}
-              </p>
-              <p className="font-condensed font-bold text-sm text-cream/30 max-w-xs">
-                {content.ayudo.intro}
-              </p>
+      <div ref={ref} className="fade-in max-w-2xl mx-auto px-6 md:px-10">
+        <div className="divide-y divide-cream/10">
+          {content.ayudo.areas.map((area, i) => (
+            <div key={i}>
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                className="w-full flex items-center justify-between py-6 text-left group"
+              >
+                <span className="font-akshar font-bold text-lg md:text-2xl text-cream uppercase tracking-wide group-hover:text-blue transition-colors duration-200">
+                  {area.title}
+                </span>
+                <span className={`text-cream/30 text-xl transition-transform duration-300 ${open === i ? 'rotate-45' : ''}`}>+</span>
+              </button>
+              {open === i && (
+                <p className="font-barlow text-sm text-cream/50 leading-relaxed pb-6">
+                  {area.description}
+                </p>
+              )}
             </div>
-          </div>
-
+          ))}
         </div>
       </div>
     </section>
