@@ -530,24 +530,24 @@ function InfiniteSlider({ children, gap = 16, duration = 25, durationOnHover, re
 
 // ── HERRAMIENTAS ──────────────────────────────────────────────────
 const herramientas = [
-  { name: "Notion",             src: "https://svgl.app/library/notion-wordmark-light.svg" },
-  { name: "Google Drive",       src: "https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_(2020).svg" },
-  { name: "ClickUp",            src: "https://svgl.app/library/clickup.svg" },
-  { name: "Adobe Photoshop",    src: "https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg" },
-  { name: "Figma",              src: "https://svgl.app/library/figma.svg" },
-  { name: "Canva",              src: "https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" },
-  { name: "Pinterest",          src: "https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png" },
-  { name: "Framer",             src: "https://svgl.app/library/framer.svg" },
-  { name: "CapCut",             src: "https://upload.wikimedia.org/wikipedia/commons/7/75/CapCut_logo.png" },
-  { name: "Metricool",          src: "https://upload.wikimedia.org/wikipedia/commons/8/82/Metricool_Logo.png" },
-  { name: "Meta Business",      src: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" },
-  { name: "Meta Ads",           src: "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" },
-  { name: "OpenAI",             src: "https://svgl.app/library/openai_wordmark_light.svg" },
-  { name: "Claude",             src: "https://svgl.app/library/claude-ai-wordmark-icon_light.svg" },
-  { name: "NotebookLM",         src: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Notebooklm_logo.png" },
-  { name: "Gemini",             src: "https://svgl.app/library/gemini-wordmark.svg" },
-  { name: "Vercel",             src: "https://svgl.app/library/vercel_wordmark.svg" },
-  { name: "GitHub",             src: "https://svgl.app/library/github_wordmark_light.svg" },
+  { name: "Notion",          src: "https://cdn.simpleicons.org/notion/0D0D0D" },
+  { name: "Google Drive",    src: "https://cdn.simpleicons.org/googledrive" },
+  { name: "ClickUp",         src: "https://cdn.simpleicons.org/clickup" },
+  { name: "Adobe Photoshop", src: "https://cdn.simpleicons.org/adobephotoshop" },
+  { name: "Figma",           src: "https://cdn.simpleicons.org/figma" },
+  { name: "Canva",           src: "https://cdn.simpleicons.org/canva" },
+  { name: "Pinterest",       src: "https://cdn.simpleicons.org/pinterest" },
+  { name: "Framer",          src: "https://cdn.simpleicons.org/framer/0D0D0D" },
+  { name: "CapCut",          src: "https://cdn.simpleicons.org/capcut/0D0D0D" },
+  { name: "Metricool",       src: "https://cdn.simpleicons.org/metricool" },
+  { name: "Meta Business",   src: "https://cdn.simpleicons.org/meta" },
+  { name: "Meta Ads",        src: "https://cdn.simpleicons.org/meta" },
+  { name: "OpenAI",          src: "https://cdn.simpleicons.org/openai/0D0D0D" },
+  { name: "Claude",          src: "https://cdn.simpleicons.org/anthropic/0D0D0D" },
+  { name: "NotebookLM",      src: "https://cdn.simpleicons.org/googlegemini" },
+  { name: "Gemini",          src: "https://cdn.simpleicons.org/googlegemini" },
+  { name: "Vercel",          src: "https://cdn.simpleicons.org/vercel/0D0D0D" },
+  { name: "GitHub",          src: "https://cdn.simpleicons.org/github/0D0D0D" },
 ]
 
 function Herramientas() {
@@ -578,16 +578,25 @@ function Herramientas() {
           <span className="block font-semibold text-ink">Utilizing leaders.</span>
         </p>
 
-        {/* Infinite slider — solo texto, sin imágenes externas rotas */}
+        {/* Infinite slider */}
         <div className="[mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] overflow-hidden">
-          <InfiniteSlider gap={32} duration={35} durationOnHover={70}>
+          <InfiniteSlider gap={40} duration={35} durationOnHover={70}>
             {herramientas.map((tool) => (
-              <span
+              <div
                 key={tool.name}
-                className="shrink-0 font-condensed font-bold text-sm tracking-widest uppercase whitespace-nowrap border border-ink/20 px-4 py-2 text-ink/70 hover:border-ink hover:text-ink transition-colors duration-200"
+                className="shrink-0 flex items-center gap-2 border border-ink/20 px-4 py-2 hover:border-ink transition-colors duration-200"
               >
-                {tool.name}
-              </span>
+                <img
+                  src={tool.src}
+                  alt={tool.name}
+                  className="h-4 w-4 object-contain select-none pointer-events-none"
+                  loading="lazy"
+                  onError={(e) => { e.currentTarget.style.display = 'none' }}
+                />
+                <span className="font-condensed font-bold text-sm tracking-widest uppercase whitespace-nowrap text-ink/70 hover:text-ink">
+                  {tool.name}
+                </span>
+              </div>
             ))}
           </InfiniteSlider>
         </div>
