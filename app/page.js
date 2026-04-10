@@ -808,33 +808,133 @@ function Planeacion() {
 }
 
 
+// ── CUSTOM CURSOR ─────────────────────────────────────────────────
+function CustomCursor({ cursorType = 'arrow-pointer', color = '#EBEBEB', size = 20, glitchColorB = '#00feff', glitchColorR = '#ff4f71' }) {
+  const cursorRef = useRef(null)
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [isVisible, setIsVisible] = useState(false)
+  const [isHovering, setIsHovering] = useState(false)
+  const [fading, setFading] = useState(false)
+  const positionState = useRef({ distanceX: 0, distanceY: 0, distance: 0, pointerX: 0, pointerY: 0, previousPointerX: 0, previousPointerY: 0, angle: 0, previousAngle: 0, angleDisplace: 0, degrees: 57.296 })
+
+  useEffect(() => {
+    document.body.style.cursor = 'none'
+    const handleMouseMove = (e) => {
+      const s = positionState.current
+      s.previousPointerX = s.pointerX; s.previousPointerY = s.pointerY
+      s.pointerX = e.pageX; s.pointerY = e.pageY
+      s.distanceX = s.previousPointerX - s.pointerX; s.distanceY = s.previousPointerY - s.pointerY
+      s.distance = Math.sqrt(s.distanceY ** 2 + s.distanceX ** 2)
+      setPosition({ x: e.pageX, y: e.pageY })
+      const t = e.target
+      setIsHovering(t.tagName === 'A' || t.tagName === 'BUTTON' || t.onclick !== null || t.classList.contains('cursor-hover'))
+      setIsVisible(true)
+    }
+    const handleLeave = () => setIsVisible(false)
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseleave', handleLeave)
+    return () => { document.body.style.cursor = 'auto'; document.removeEventListener('mousemove', handleMouseMove); document.removeEventListener('mouseleave', handleLeave) }
+  }, [])
+
+  const calcRotation = () => {
+    const s = positionState.current
+    if (s.distance <= 1) return s.angleDisplace
+    const ua = Math.atan(Math.abs(s.distanceY) / Math.abs(s.distanceX)) * s.degrees
+    s.previousAngle = s.angle
+    if (s.distanceX <= 0 && s.distanceY >= 0) s.angle = 90 - ua
+    else if (s.distanceX < 0 && s.distanceY < 0) s.angle = ua + 90
+    else if (s.distanceX >= 0 && s.distanceY <= 0) s.angle = 90 - ua + 180
+    else s.angle = ua + 270
+    if (isNaN(s.angle)) s.angle = s.previousAngle
+    else {
+      if (s.angle - s.previousAngle <= -270) s.angleDisplace += 360 + s.angle - s.previousAngle
+      else if (s.angle - s.previousAngle >= 270) s.angleDisplace += s.angle - s.previousAngle - 360
+      else s.angleDisplace += s.angle - s.previousAngle
+    }
+    return s.angleDisplace
+  }
+
+  const base = { position: 'fixed', top: 0, left: 0, zIndex: 2147483647, pointerEvents: 'none', userSelect: 'none', opacity: isVisible ? 1 : 0, transition: '250ms, transform 100ms' }
+
+  const renderCursor = () => {
+    const s = positionState.current
+    if (cursorType === 'glitch-effect') {
+      const dx = Math.min(Math.max(s.distanceX, -10), 10), dy = Math.min(Math.max(s.distanceY, -10), 10)
+      const cs = isHovering ? 30 : 15
+      return <div ref={cursorRef} style={{ ...base, width: cs, height: cs, backgroundColor: '#222', borderRadius: '50%', backdropFilter: 'invert(1)', boxShadow: `${dx}px ${dy}px 0 ${glitchColorB}, ${-dx}px ${-dy}px 0 ${glitchColorR}`, transform: `translate3d(${position.x - cs / 2}px, ${position.y - cs / 2}px, 0)` }} />
+    }
+    if (cursorType === 'motion-blur') {
+      const dx = Math.min(Math.max(s.distanceX, -20), 20), dy = Math.min(Math.max(s.distanceY, -20), 20)
+      const ua = Math.atan(Math.abs(dy) / Math.abs(dx)) * s.degrees
+      let angle = 0, sd = '0,0'
+      if (!isNaN(ua)) { if (ua <= 45) { angle = dx * dy >= 0 ? ua : -ua; sd = `${Math.abs(dx / 2)},0` } else { angle = dx * dy <= 0 ? 180 - ua : ua; sd = `${Math.abs(dy / 2)},0` } }
+      return <svg ref={cursorRef} style={{ ...base, width: size, height: size, overflow: 'visible', transform: `translate3d(${position.x - size / 2}px, ${position.y - size / 2}px, 0) rotate(${angle}deg)` }}><defs><filter id="mb" x="-100%" y="-100%" width="400%" height="400%"><feGaussianBlur stdDeviation={sd} /></filter></defs><circle cx="50%" cy="50%" r="5" fill={color} filter="url(#mb)" /></svg>
+    }
+    if (cursorType === 'big-circle') {
+      const cs = size * 2.5
+      return <><div style={{ ...base, width: cs, height: cs, backgroundColor: 'transparent', borderRadius: '50%', backdropFilter: 'invert(0.85) grayscale(1)', transform: `translate3d(${position.x - cs / 2}px, ${position.y - cs / 2}px, 0) ${isHovering ? 'scale(2.5)' : 'scale(1)'}` }} /><div style={{ ...base, width: 6, height: 6, backgroundColor: 'transparent', borderRadius: '50%', backdropFilter: 'invert(1)', transform: `translate3d(${position.x - 3}px, ${position.y - 3}px, 0)` }} /></>
+    }
+    if (cursorType === 'ring-dot') {
+      const hs = isHovering ? 40 : size
+      return <div ref={cursorRef} style={{ ...base, display: 'flex', justifyContent: 'center', alignItems: 'center', width: hs, height: hs, borderRadius: '50%', boxShadow: `0 0 0 1.25px ${color}, 0 0 0 2.25px #edf370`, transform: `translate3d(${position.x - hs / 2}px, ${position.y - hs / 2}px, 0)` }}><div style={{ width: 4, height: 4, backgroundColor: color, borderRadius: '50%' }} /></div>
+    }
+    if (cursorType === 'circle-and-dot') {
+      const rot = calcRotation()
+      return <div ref={cursorRef} style={{ ...base, width: size, height: size, border: isHovering ? `10px solid ${color}` : `1.25px solid ${color}`, borderRadius: '50%', boxShadow: `0 ${-15 - s.distance}px 0 -8px ${color}`, transform: `translate3d(${position.x - size / 2}px, ${position.y - size / 2}px, 0) rotate(${rot}deg)` }} />
+    }
+    // default: arrow-pointer
+    const rot = calcRotation()
+    return <div ref={cursorRef} style={{ ...base, width: size, height: size, transform: `translate3d(${position.x - size / 2}px, ${position.y}px, 0) rotate(${rot}deg)` }}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style={{ width: '100%', height: '100%' }}><path d="M25,30a5.82,5.82,0,0,1-1.09-.17l-.2-.07-7.36-3.48a.72.72,0,0,0-.35-.08.78.78,0,0,0-.33.07L8.24,29.54a.66.66,0,0,1-.2.06,5.17,5.17,0,0,1-1,.15,3.6,3.6,0,0,1-3.29-5L12.68,4.2a3.59,3.59,0,0,1,6.58,0l9,20.74A3.6,3.6,0,0,1,25,30Z" fill="#F2F5F8"/><path d="M16,3A2.59,2.59,0,0,1,18.34,4.6l9,20.74A2.59,2.59,0,0,1,25,29a5.42,5.42,0,0,1-.86-.15l-7.37-3.48a1.84,1.84,0,0,0-.77-.17,1.69,1.69,0,0,0-.73.16l-7.4,3.31a5.89,5.89,0,0,1-.79.12,2.59,2.59,0,0,1-2.37-3.62L13.6,4.6A2.58,2.58,0,0,1,16,3m0-2h0A4.58,4.58,0,0,0,11.76,3.8L2.84,24.33A4.58,4.58,0,0,0,7,30.75a6.08,6.08,0,0,0,1.21-.17,1.87,1.87,0,0,0,.4-.13L16,27.18l7.29,3.44a1.64,1.64,0,0,0,.39.14A6.37,6.37,0,0,0,25,31a4.59,4.59,0,0,0,4.21-6.41l-9-20.75A4.62,4.62,0,0,0,16,1Z" fill={color}/></svg></div>
+  }
+
+  return <>{renderCursor()}</>
+}
+
 // ── PROCESS ───────────────────────────────────────────────────────
+const procesoPasos = [
+  { num: '01', title: 'Leer el contexto',       body: 'Entender la marca, el momento y el punto real desde el que hay que construir.', cursor: 'arrow-pointer' },
+  { num: '02', title: 'Encontrar el foco',      body: 'Detectar qué necesita dirección, qué necesita estructura y dónde está la oportunidad.', cursor: 'big-circle' },
+  { num: '03', title: 'Definir la ruta',        body: 'Establecer una dirección visual, narrativa y estratégica antes de ejecutar.', cursor: 'ring-dot' },
+  { num: '04', title: 'Construir el sistema',   body: 'Desarrollar piezas, lógica y estructura con coherencia e intención.', cursor: 'circle-and-dot' },
+  { num: '05', title: 'Aterrizar la ejecución', body: 'Convertir la dirección en contenido, aplicaciones y entregables reales.', cursor: 'glitch-effect' },
+  { num: '06', title: 'Afinar y sostener',      body: 'Revisar, ajustar y fortalecer el resultado para que tenga continuidad.', cursor: 'motion-blur' },
+]
+
 function Process() {
   const ref = useFadeIn()
+  const [activeCursor, setActiveCursor] = useState('arrow-pointer')
+
   return (
-    <section id="process" className="bg-[#EBEBEB] py-24 md:py-32">
+    <section id="process" className="bg-ink py-24 md:py-32">
+      <CustomCursor cursorType={activeCursor} color="#EBEBEB" size={20} />
+
       <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
 
-        <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mb-2">
-          {content.process.eyebrow}
-        </p>
-        <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-ink mb-12">
-          {content.process.headline.toUpperCase()}
+        {/* Heading */}
+        <h2 className="font-akshar font-bold text-4xl md:text-6xl text-cream mb-12 leading-tight">
+          MI PROCESO DE{' '}
+          <span className="font-bristol text-blue">TRABAJO</span>
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
-          {content.process.steps.map((step, i) => (
-            <div key={i} className="border-t border-ink/10 pt-8 pb-8 pr-0 md:pr-8 group">
-              <span className="font-bebas text-[3rem] leading-none text-blue/20 block mb-3 group-hover:text-blue/40 transition-colors duration-300">
-                {step.num}
+        {/* Grid de pasos */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {procesoPasos.map((paso, i) => (
+            <button
+              key={i}
+              onMouseEnter={() => setActiveCursor(paso.cursor)}
+              onMouseLeave={() => setActiveCursor('arrow-pointer')}
+              className="cursor-hover text-left border border-cream/10 rounded-xl p-6 hover:border-cream/30 hover:bg-cream/5 transition-all duration-300 group"
+            >
+              <span className="font-bebas text-4xl text-blue/30 block mb-3 group-hover:text-blue/60 transition-colors duration-300">
+                {paso.num}
               </span>
-              <h3 className="font-bebas text-2xl text-ink tracking-tight mb-2">
-                {step.title.toUpperCase()}
+              <h3 className="font-condensed font-bold text-lg text-cream tracking-wide mb-2">
+                {paso.num} — {paso.title}
               </h3>
-              <p className="font-barlow text-sm text-ink/60 leading-relaxed">
-                {step.body}
+              <p className="font-barlow text-sm text-cream/50 leading-relaxed">
+                {paso.body}
               </p>
-            </div>
+            </button>
           ))}
         </div>
 
