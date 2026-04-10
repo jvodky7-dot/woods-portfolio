@@ -559,13 +559,13 @@ function Herramientas() {
         {/* Heading — centrado en la página, texto alineado igual que la referencia */}
         <div className="mb-10 px-6 flex justify-center">
           <div className="inline-block">
-            <p className="font-marker text-blue text-2xl md:text-3xl leading-none mb-0 uppercase">
-              Utilizo estas
+            <p className="font-bristol text-blue text-2xl md:text-3xl leading-none mb-0 uppercase">
+              UTILIZO ESTAS
             </p>
             <h2 className="font-akshar font-bold text-[13vw] md:text-[9vw] leading-[0.88] text-ink tracking-tight uppercase">
               HERRAMIENTAS
             </h2>
-            <p className="font-marker text-blue text-2xl md:text-3xl leading-none mt-0 uppercase text-right">
+            <p className="font-bristol text-blue text-2xl md:text-3xl leading-none mt-0 uppercase text-right">
               EN MI TRABAJO
             </p>
           </div>
