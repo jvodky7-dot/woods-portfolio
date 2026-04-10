@@ -921,11 +921,11 @@ function Trabajo() {
         </span>
       </div>
 
-      <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+      <div ref={ref} className="fade-in relative z-10 max-w-5xl mx-auto px-6 md:px-10">
 
         {/* Título */}
-        <div className="mb-2">
-          <h2 className="font-akshar font-bold text-[10vw] md:text-[7vw] leading-none tracking-tight whitespace-nowrap">
+        <div className="mb-8 text-center">
+          <h2 className="font-akshar font-bold text-[10vw] md:text-[7vw] leading-none tracking-tight">
             <span className="text-blue font-bristol uppercase">CONOCE </span>
             <span className="text-ink uppercase">MI TRABAJO</span>
           </h2>
