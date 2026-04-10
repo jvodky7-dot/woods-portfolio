@@ -4,8 +4,8 @@ import { content } from '../content'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import createGlobe from 'cobe'
-import { motion, useMotionValue, useMotionTemplate, animate } from 'framer-motion'
-import { Layers, Grid2X2, Lightbulb, Settings2, ChevronRight, Folder, FolderOpen, ChevronLeft } from 'lucide-react'
+import { motion, useMotionValue, useMotionTemplate, animate, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { Layers, Grid2X2, Lightbulb, Settings2, ChevronRight, Folder, FolderOpen, X } from 'lucide-react'
 import useMeasure from 'react-use-measure'
 
 if (typeof window !== 'undefined') {
@@ -644,66 +644,150 @@ const proyectos = [
   },
 ]
 
-function ProyectoCarousel({ proyecto }) {
-  const [idx, setIdx] = useState(0)
-  const images = proyecto.images
+// Animation variants matching original BentoGallery
+const bentoContainerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+}
+const bentoItemVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  visible: {
+    opacity: 1, y: 0, scale: 1,
+    transition: { type: 'spring', stiffness: 100, damping: 15 },
+  },
+}
 
-  const prev = () => setIdx(i => (i - 1 + images.length) % images.length)
-  const next = () => setIdx(i => (i + 1) % images.length)
+function BentoImageModal({ src, title, onClose }) {
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [onClose])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.9, y: 20 }}
+        className="relative w-full max-w-4xl p-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img
+          src={src}
+          alt={title}
+          className="h-auto max-h-[90vh] w-full rounded-lg object-contain"
+        />
+      </motion.div>
+      <button
+        onClick={onClose}
+        className="absolute right-4 top-4 text-white/80 hover:text-white transition-colors"
+      >
+        <X size={24} />
+      </button>
+    </motion.div>
+  )
+}
+
+function ProyectoGallery({ proyecto }) {
+  const [selectedImg, setSelectedImg] = useState(null)
+  const [dragConstraint, setDragConstraint] = useState(0)
+  const containerRef = useRef(null)
+  const gridRef = useRef(null)
+
+  // Mapear las imágenes del proyecto al formato del BentoGallery
+  const imageItems = proyecto.images.map((src, i) => ({
+    id: i,
+    src,
+    title: `${proyecto.name} — ${String(i + 1).padStart(2, '0')}`,
+  }))
+
+  useEffect(() => {
+    const calc = () => {
+      if (gridRef.current && containerRef.current) {
+        const cw = containerRef.current.offsetWidth
+        const gw = gridRef.current.scrollWidth
+        setDragConstraint(Math.min(0, cw - gw - 32))
+      }
+    }
+    calc()
+    window.addEventListener('resize', calc)
+    return () => window.removeEventListener('resize', calc)
+  }, [proyecto])
 
   return (
     <motion.div
       key={proyecto.id}
-      initial={{ opacity: 0, x: 20 }}
+      initial={{ opacity: 0, x: 16 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 20 }}
-      transition={{ duration: 0.35, ease: 'easeOut' }}
-      className="flex flex-col h-full"
+      exit={{ opacity: 0, x: 16 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+      className="flex flex-col gap-2"
     >
-      {/* Imagen principal */}
-      <div className="relative flex-1 rounded-xl overflow-hidden bg-cream/5 min-h-[320px]">
-        <motion.img
-          key={idx}
-          src={images[idx]}
-          alt={proyecto.name}
-          initial={{ opacity: 0, scale: 1.04 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-          className="w-full h-full object-cover absolute inset-0"
-        />
-        {/* Flechas */}
-        <button
-          onClick={prev}
-          className="absolute left-3 top-1/2 -translate-y-1/2 bg-ink/50 hover:bg-ink/80 text-cream rounded-full p-2 transition-colors backdrop-blur-sm"
+      {/* Draggable horizontal bento gallery */}
+      <div
+        ref={containerRef}
+        className="relative w-full overflow-hidden cursor-grab active:cursor-grabbing"
+      >
+        <motion.div
+          className="w-max"
+          drag="x"
+          dragConstraints={{ left: dragConstraint, right: 0 }}
+          dragElastic={0.05}
         >
-          <ChevronLeft size={16} />
-        </button>
-        <button
-          onClick={next}
-          className="absolute right-3 top-1/2 -translate-y-1/2 bg-ink/50 hover:bg-ink/80 text-cream rounded-full p-2 transition-colors backdrop-blur-sm"
-        >
-          <ChevronRight size={16} />
-        </button>
-        {/* Contador */}
-        <div className="absolute bottom-3 right-4 font-condensed font-bold text-[10px] tracking-widest text-cream/50 uppercase">
-          {idx + 1} / {images.length}
-        </div>
+          <motion.div
+            ref={gridRef}
+            className="flex gap-3 px-1 pb-1"
+            variants={bentoContainerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {imageItems.map((item) => (
+              <motion.div
+                key={item.id}
+                variants={bentoItemVariants}
+                className="group relative shrink-0 w-[220px] h-[260px] rounded-xl overflow-hidden border border-ink/10 bg-ink/5 shadow-sm cursor-pointer"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                onClick={() => setSelectedImg(item)}
+              >
+                <img
+                  src={item.src}
+                  alt={item.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Gradient overlay on hover */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                {/* Text slide up on hover */}
+                <div className="relative z-10 absolute bottom-0 left-0 right-0 p-3 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                  <p className="font-akshar font-bold text-xs text-white uppercase tracking-widest">{item.title}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       </div>
 
-      {/* Thumbnails */}
-      <div className="flex gap-2 mt-3">
-        {images.map((src, i) => (
-          <button
-            key={i}
-            onClick={() => setIdx(i)}
-            className={`flex-1 h-14 rounded-md overflow-hidden border-2 transition-all duration-200 ${
-              i === idx ? 'border-blue' : 'border-transparent opacity-50 hover:opacity-80'
-            }`}
-          >
-            <img src={src} alt="" className="w-full h-full object-cover" />
-          </button>
-        ))}
-      </div>
+      <p className="font-barlow text-[10px] text-ink/30 uppercase tracking-widest pl-1">
+        Arrastra para explorar · Click para expandir
+      </p>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {selectedImg && (
+          <BentoImageModal
+            src={selectedImg.src}
+            title={selectedImg.title}
+            onClose={() => setSelectedImg(null)}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
@@ -783,18 +867,26 @@ function WorkExplorer() {
         </div>
       </div>
 
-      {/* Panel derecho: carrusel o placeholder */}
-      <div className="flex-1 min-h-[420px]">
-        {selected ? (
-          <ProyectoCarousel proyecto={selected} />
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full min-h-[420px] text-center gap-3 border border-dashed border-ink/15 rounded-xl">
-            <Folder size={32} className="text-ink/15" />
-            <p className="font-akshar font-bold text-xs tracking-widest uppercase text-ink/25">
-              Haz click en una carpeta
-            </p>
-          </div>
-        )}
+      {/* Panel derecho: bento gallery o placeholder */}
+      <div className="flex-1 min-h-[300px]">
+        <AnimatePresence mode="wait">
+          {selected ? (
+            <ProyectoGallery key={selected.id} proyecto={selected} />
+          ) : (
+            <motion.div
+              key="placeholder"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex flex-col items-center justify-center h-full min-h-[300px] text-center gap-3 border border-dashed border-ink/15 rounded-xl"
+            >
+              <Folder size={32} className="text-ink/15" />
+              <p className="font-akshar font-bold text-xs tracking-widest uppercase text-ink/25">
+                Haz click en una carpeta
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )
