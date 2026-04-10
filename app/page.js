@@ -814,7 +814,7 @@ function CustomCursor({ cursorType = 'arrow-pointer', color = '#EBEBEB', size = 
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
-  const [fading, setFading] = useState(false)
+
   const positionState = useRef({ distanceX: 0, distanceY: 0, distance: 0, pointerX: 0, pointerY: 0, previousPointerX: 0, previousPointerY: 0, angle: 0, previousAngle: 0, angleDisplace: 0, degrees: 57.296 })
 
   useEffect(() => {
@@ -1193,8 +1193,6 @@ function Contacto() {
     return () => cancelAnimationFrame(id)
   }, [])
 
-  const maskImage = `radial-gradient(300px circle at ${mouseX.get()}px ${mouseY.get()}px, black, transparent)`
-
   return (
     <section
       id="contacto"
@@ -1216,16 +1214,16 @@ function Contacto() {
       </motion.div>
 
       {/* Contenido */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-10 py-24 md:py-36 w-full">
-        <p className="font-bristol text-blue text-2xl md:text-3xl mb-4 uppercase">
+      <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-10 py-24 md:py-36 w-full text-center">
+        <p className="font-bristol font-bold text-blue text-2xl md:text-3xl mb-4 uppercase">
           ¿Tienes un proyecto?
         </p>
 
-        <h2 className="font-bebas text-[14vw] md:text-[10vw] leading-[0.85] text-cream tracking-tight mb-8">
+        <h2 className="font-bebas font-bold text-[14vw] md:text-[10vw] leading-[0.85] text-white tracking-tight mb-8">
           HABLEMOS.
         </h2>
 
-        <p className="font-barlow text-sm leading-relaxed text-cream/50 max-w-lg mb-12">
+        <p className="font-barlow text-sm leading-relaxed text-cream/50 max-w-lg mb-12 mx-auto">
           {content.contacto.body}
         </p>
 
