@@ -4,8 +4,9 @@ import { content } from '../content'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import createGlobe from 'cobe'
-import { motion } from 'framer-motion'
+import { motion, useMotionValue, animate } from 'framer-motion'
 import { Layers, Grid2X2, Lightbulb, Settings2 } from 'lucide-react'
+import useMeasure from 'react-use-measure'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -474,53 +475,128 @@ function Ayudo() {
   )
 }
 
-// ── CAPACIDADES ───────────────────────────────────────────────────
-function Capacidades() {
+// ── INFINITE SLIDER ───────────────────────────────────────────────
+function InfiniteSlider({ children, gap = 16, duration = 25, durationOnHover, reverse = false, className }) {
+  const [currentDuration, setCurrentDuration] = useState(duration)
+  const [ref, { width }] = useMeasure()
+  const translation = useMotionValue(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [key, setKey] = useState(0)
+
+  useEffect(() => {
+    let controls
+    const contentSize = width + gap
+    const from = reverse ? -contentSize / 2 : 0
+    const to = reverse ? 0 : -contentSize / 2
+
+    if (isTransitioning) {
+      controls = animate(translation, [translation.get(), to], {
+        ease: 'linear',
+        duration: currentDuration * Math.abs((translation.get() - to) / contentSize),
+        onComplete: () => { setIsTransitioning(false); setKey(k => k + 1) },
+      })
+    } else {
+      controls = animate(translation, [from, to], {
+        ease: 'linear',
+        duration: currentDuration,
+        repeat: Infinity,
+        repeatType: 'loop',
+        repeatDelay: 0,
+        onRepeat: () => { translation.set(from) },
+      })
+    }
+    return controls?.stop
+  }, [key, translation, currentDuration, width, gap, isTransitioning, reverse])
+
+  const hoverProps = durationOnHover ? {
+    onHoverStart: () => { setIsTransitioning(true); setCurrentDuration(durationOnHover) },
+    onHoverEnd:   () => { setIsTransitioning(true); setCurrentDuration(duration) },
+  } : {}
+
+  return (
+    <div className={`overflow-hidden ${className || ''}`}>
+      <motion.div
+        className="flex w-max"
+        style={{ x: translation, gap: `${gap}px` }}
+        ref={ref}
+        {...hoverProps}
+      >
+        {children}
+        {children}
+      </motion.div>
+    </div>
+  )
+}
+
+// ── HERRAMIENTAS ──────────────────────────────────────────────────
+const herramientas = [
+  { name: "Notion",             src: "https://svgl.app/library/notion-wordmark-light.svg" },
+  { name: "Google Drive",       src: "https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_(2020).svg" },
+  { name: "ClickUp",            src: "https://svgl.app/library/clickup.svg" },
+  { name: "Adobe Photoshop",    src: "https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg" },
+  { name: "Figma",              src: "https://svgl.app/library/figma.svg" },
+  { name: "Canva",              src: "https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" },
+  { name: "Pinterest",          src: "https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png" },
+  { name: "Framer",             src: "https://svgl.app/library/framer.svg" },
+  { name: "CapCut",             src: "https://upload.wikimedia.org/wikipedia/commons/7/75/CapCut_logo.png" },
+  { name: "Metricool",          src: "https://upload.wikimedia.org/wikipedia/commons/8/82/Metricool_Logo.png" },
+  { name: "Meta Business",      src: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" },
+  { name: "Meta Ads",           src: "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" },
+  { name: "OpenAI",             src: "https://svgl.app/library/openai_wordmark_light.svg" },
+  { name: "Claude",             src: "https://svgl.app/library/claude-ai-wordmark-icon_light.svg" },
+  { name: "NotebookLM",         src: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Notebooklm_logo.png" },
+  { name: "Gemini",             src: "https://svgl.app/library/gemini-wordmark.svg" },
+  { name: "Vercel",             src: "https://svgl.app/library/vercel_wordmark.svg" },
+  { name: "GitHub",             src: "https://svgl.app/library/github_wordmark_light.svg" },
+]
+
+function Herramientas() {
   const ref = useFadeIn()
   return (
-    <section id="capacidades" className="bg-[#EBEBEB] py-24 md:py-32">
-      <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+    <section id="herramientas" className="bg-[#EBEBEB] py-24 md:py-32">
+      <div ref={ref} className="fade-in">
 
-          <div>
-            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mb-2">
-              {content.capacidades.eyebrow}
-            </p>
-            <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-ink mb-6">
-              {content.capacidades.headline.toUpperCase()}
-            </h2>
-
-            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mt-8 mb-3">
-              Herramientas
-            </p>
-            <div className="flex gap-2 flex-wrap">
-              {content.capacidades.tools.map((tool) => (
-                <span key={tool} className="font-condensed font-900 text-sm border-2 border-ink px-3 py-1 tracking-widest">
-                  {tool}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <div className="divide-y divide-ink/10">
-              {content.capacidades.items.map((item, i) => (
-                <div key={i} className="py-4 flex items-start justify-between gap-4 group">
-                  <div>
-                    <p className="font-condensed font-bold text-base tracking-wide text-ink group-hover:text-blue transition-colors duration-200">
-                      {item.area}
-                    </p>
-                    <p className="font-barlow text-xs text-ink/50 mt-0.5">{item.detail}</p>
-                  </div>
-                  <span className="font-condensed font-bold text-xs text-ink/20 tracking-widest mt-1 shrink-0">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
+        {/* Heading */}
+        <div className="text-center mb-10 px-6">
+          <p className="font-marker text-blue text-xl md:text-2xl leading-none mb-1">
+            Utilizo estas
+          </p>
+          <h2 className="font-bebas text-[14vw] md:text-[8vw] leading-[0.85] text-ink tracking-tight">
+            HERRAMIENTAS
+          </h2>
+          <p className="font-marker text-blue text-xl md:text-2xl leading-none mt-1">
+            en mi trabajo
+          </p>
         </div>
+
+        {/* Divider + subline */}
+        <div className="max-w-sm mx-auto h-px bg-ink/15 mb-6 [mask-image:linear-gradient(to_right,transparent,black,transparent)]" />
+        <p className="text-center font-barlow text-ink/50 text-sm mb-6">
+          <span className="block">Trusted by experts.</span>
+          <span className="block font-semibold text-ink">Used by the leaders.</span>
+        </p>
+
+        {/* Infinite slider */}
+        <div className="[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] overflow-hidden">
+          <InfiniteSlider gap={48} duration={40} durationOnHover={80} reverse={false}>
+            {herramientas.map((tool) => (
+              <div key={tool.name} className="flex items-center gap-2 shrink-0">
+                <img
+                  src={tool.src}
+                  alt={tool.name}
+                  className="h-6 md:h-7 w-auto object-contain pointer-events-none select-none"
+                  loading="lazy"
+                  onError={(e) => { e.currentTarget.style.display = 'none' }}
+                />
+                <span className="font-condensed font-bold text-sm text-ink/60 tracking-widest uppercase whitespace-nowrap">
+                  {tool.name}
+                </span>
+              </div>
+            ))}
+          </InfiniteSlider>
+        </div>
+
+        <div className="mt-6 h-px bg-ink/15 [mask-image:linear-gradient(to_right,transparent,black,transparent)]" />
       </div>
     </section>
   )
@@ -1018,7 +1094,7 @@ export default function Page() {
       <Hero />
       <About />
       <Ayudo />
-      <Capacidades />
+      <Herramientas />
       <Trabajo />
       <Planeacion />
       <Identidad />
