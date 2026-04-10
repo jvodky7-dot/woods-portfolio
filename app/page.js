@@ -900,15 +900,77 @@ const procesoPasos = [
   { num: '06', title: 'Afinar y sostener',      body: 'Revisar, ajustar y fortalecer el resultado para que tenga continuidad.', cursor: 'motion-blur' },
 ]
 
+function GradientBlurBG() {
+  const canvasRef = useRef(null)
+  const mouseRef = useRef({ x: 0, y: 0 })
+  const circsRef = useRef([])
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
+    resize()
+    let raf
+
+    const draw = () => {
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.globalCompositeOperation = 'lighter'
+
+      // blue = #1440FF = rgb(20, 64, 255)
+      circsRef.current.push({
+        x: mouseRef.current.x, y: mouseRef.current.y,
+        alpha: 1,
+        grd: ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 80),
+      })
+
+      circsRef.current = circsRef.current.filter(c => c.alpha > 0)
+      for (const c of circsRef.current) {
+        c.grd.addColorStop(0,   `rgba(20,64,255,0.6)`)
+        c.grd.addColorStop(0.4, `rgba(20,64,255,0.2)`)
+        c.grd.addColorStop(1,   `rgba(20,64,255,0)`)
+        ctx.beginPath()
+        ctx.fillStyle = c.grd
+        ctx.globalAlpha = c.alpha
+        ctx.arc(c.x, c.y, 80, 0, Math.PI * 2)
+        ctx.fill()
+        c.alpha -= 0.02
+      }
+      ctx.globalAlpha = 1
+      raf = requestAnimationFrame(draw)
+    }
+
+    const onMove = (e) => {
+      const rect = canvas.getBoundingClientRect()
+      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
+    }
+    const onTouch = (e) => {
+      const rect = canvas.getBoundingClientRect()
+      mouseRef.current = { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top }
+    }
+
+    canvas.addEventListener('mousemove', onMove)
+    canvas.addEventListener('touchmove', onTouch, { passive: true })
+    window.addEventListener('resize', resize)
+    draw()
+
+    return () => { cancelAnimationFrame(raf); canvas.removeEventListener('mousemove', onMove); canvas.removeEventListener('touchmove', onTouch); window.removeEventListener('resize', resize) }
+  }, [])
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" style={{ background: 'transparent' }} />
+}
+
 function Process() {
   const ref = useFadeIn()
   const [activeCursor, setActiveCursor] = useState('arrow-pointer')
 
   return (
-    <section id="process" className="bg-ink py-24 md:py-32">
+    <section id="process" className="relative bg-ink py-24 md:py-32 overflow-hidden">
       <CustomCursor cursorType={activeCursor} color="#EBEBEB" size={20} />
+      <GradientBlurBG />
 
-      <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
+      <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
 
         {/* Heading */}
         <h2 className="font-akshar font-bold text-4xl md:text-6xl text-cream mb-12 leading-tight">
@@ -925,11 +987,11 @@ function Process() {
               onMouseLeave={() => setActiveCursor('arrow-pointer')}
               className="cursor-hover text-left border border-cream/10 rounded-xl p-6 hover:border-cream/30 hover:bg-cream/5 transition-all duration-300 group"
             >
-              <span className="font-bebas text-4xl text-blue/30 block mb-3 group-hover:text-blue/60 transition-colors duration-300">
+              <span className="font-bristol text-4xl text-blue block mb-3">
                 {paso.num}
               </span>
-              <h3 className="font-condensed font-bold text-lg text-cream tracking-wide mb-2">
-                {paso.num} — {paso.title}
+              <h3 className="font-akshar font-semibold text-lg text-cream tracking-wide mb-2 uppercase">
+                {paso.title}
               </h3>
               <p className="font-barlow text-sm text-cream/50 leading-relaxed">
                 {paso.body}
