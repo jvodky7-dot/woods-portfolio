@@ -721,20 +721,20 @@ function WorkExplorer() {
     <div className="flex flex-col md:flex-row gap-6 mt-10 items-start">
 
       {/* Explorer panel */}
-      <div className="w-full md:w-[280px] shrink-0 rounded-xl border border-cream/10 bg-cream/[0.04] overflow-hidden select-none">
+      <div className="w-full md:w-[280px] shrink-0 rounded-xl border border-ink/10 bg-white shadow-sm overflow-hidden select-none">
         {/* Barra título VS Code style */}
-        <div className="flex items-center gap-1.5 px-4 py-3 border-b border-cream/8">
+        <div className="flex items-center gap-1.5 px-4 py-3 border-b border-ink/8">
           <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
           <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
           <span className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
-          <span className="font-condensed font-bold text-[10px] tracking-widest uppercase text-cream/25 ml-2">explorer</span>
+          <span className="font-condensed font-bold text-[10px] tracking-widest uppercase text-ink/30 ml-2">explorer</span>
         </div>
 
         <div className="py-2">
           {/* Root */}
           <div className="flex items-center gap-1.5 px-4 py-1">
-            <ChevronRight size={11} className="text-cream/20" />
-            <span className="font-barlow font-semibold text-[11px] text-cream/25 uppercase tracking-widest">src</span>
+            <ChevronRight size={11} className="text-ink/20" />
+            <span className="font-barlow font-semibold text-[11px] text-ink/30 uppercase tracking-widest">src</span>
           </div>
 
           {/* Carpetas / proyectos */}
@@ -745,17 +745,17 @@ function WorkExplorer() {
                 <button
                   onClick={() => setSelected(isOpen ? null : p)}
                   className={`w-full flex items-center gap-2 px-4 py-2 transition-all duration-200 group ${
-                    isOpen ? 'bg-blue/15' : 'hover:bg-cream/5'
+                    isOpen ? 'bg-blue/10' : 'hover:bg-ink/5'
                   }`}
                 >
                   <motion.span animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.2 }}>
-                    <ChevronRight size={12} className={isOpen ? 'text-blue' : 'text-cream/30'} />
+                    <ChevronRight size={12} className={isOpen ? 'text-blue' : 'text-ink/30'} />
                   </motion.span>
                   {isOpen
                     ? <FolderOpen size={15} className="text-blue shrink-0" />
-                    : <Folder size={15} className="text-cream/40 shrink-0 group-hover:text-cream/70" />
+                    : <Folder size={15} className="text-ink/40 shrink-0 group-hover:text-ink/70" />
                   }
-                  <span className={`font-barlow text-[13px] transition-colors ${isOpen ? 'text-cream font-semibold' : 'text-cream/50 group-hover:text-cream/80'}`}>
+                  <span className={`font-barlow text-[13px] transition-colors ${isOpen ? 'text-blue font-semibold' : 'text-ink/60 group-hover:text-ink'}`}>
                     {p.name}
                   </span>
                 </button>
@@ -771,8 +771,8 @@ function WorkExplorer() {
                   >
                     {treeFiles.map((f, i) => (
                       <div key={i} className="flex items-center gap-2 pl-10 pr-4 py-1">
-                        <span className="w-[3px] h-[3px] rounded-full bg-cream/20" />
-                        <span className={`font-barlow text-[11px] ${f.color}`}>{f.name}</span>
+                        <span className="w-[3px] h-[3px] rounded-full bg-ink/20" />
+                        <span className="font-barlow text-[11px] text-ink/40">{f.name}</span>
                       </div>
                     ))}
                   </motion.div>
@@ -788,9 +788,9 @@ function WorkExplorer() {
         {selected ? (
           <ProyectoCarousel proyecto={selected} />
         ) : (
-          <div className="flex flex-col items-center justify-center h-full min-h-[420px] text-center gap-3 border border-dashed border-cream/10 rounded-xl">
-            <Folder size={32} className="text-cream/15" />
-            <p className="font-akshar font-bold text-xs tracking-widest uppercase text-cream/20">
+          <div className="flex flex-col items-center justify-center h-full min-h-[420px] text-center gap-3 border border-dashed border-ink/15 rounded-xl">
+            <Folder size={32} className="text-ink/15" />
+            <p className="font-akshar font-bold text-xs tracking-widest uppercase text-ink/25">
               Haz click en una carpeta
             </p>
           </div>
@@ -804,10 +804,10 @@ function Trabajo() {
   const ref = useFadeIn()
 
   return (
-    <section id="trabajo" className="bg-ink py-24 md:py-32 overflow-hidden relative">
+    <section id="trabajo" className="bg-[#EBEBEB] py-24 md:py-32 overflow-hidden relative">
       {/* BG watermark */}
       <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none">
-        <span className="font-bebas text-[22vw] leading-none whitespace-nowrap text-white/[0.03]">
+        <span className="font-bebas text-[22vw] leading-none whitespace-nowrap text-ink/[0.03]">
           MI TRABAJO
         </span>
       </div>
@@ -818,7 +818,7 @@ function Trabajo() {
         <div className="mb-2">
           <h2 className="font-akshar font-bold text-[10vw] md:text-[7vw] leading-none tracking-tight whitespace-nowrap">
             <span className="text-blue font-bristol normal-case">Conoce </span>
-            <span className="text-cream/80 uppercase">MI TRABAJO</span>
+            <span className="text-ink uppercase">MI TRABAJO</span>
           </h2>
         </div>
 
