@@ -437,38 +437,48 @@ function About() {
 // ── EN QUÉ AYUDO ──────────────────────────────────────────────────
 function Ayudo() {
   const ref = useFadeIn()
-  return (
-    <section id="ayudo" className="bg-ink py-24 md:py-36 overflow-hidden relative">
-      <div className="absolute left-0 right-0 top-1/2 h-px bg-gold/20 pointer-events-none" />
+  const [open, setOpen] = useState(null)
 
+  return (
+    <section id="ayudo" className="bg-ink py-24 md:py-36">
       <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
 
-        <p className="font-marker text-gold text-lg mb-4">{content.ayudo.headline}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
 
-        <p className="font-condensed font-bold text-sm tracking-widest uppercase text-cream/40 mb-8 max-w-xl">
-          {content.ayudo.intro}
-        </p>
+          {/* Izquierda: acordeón */}
+          <div className="divide-y divide-cream/10">
+            {content.ayudo.areas.map((area, i) => (
+              <div key={i}>
+                <button
+                  onClick={() => setOpen(open === i ? null : i)}
+                  className="w-full flex items-center justify-between py-6 text-left group"
+                >
+                  <span className="font-akshar font-bold text-lg md:text-xl text-cream uppercase tracking-wide group-hover:text-blue transition-colors duration-200">
+                    {area.title}
+                  </span>
+                  <span className={`text-cream/30 text-xl transition-transform duration-300 ${open === i ? 'rotate-45' : ''}`}>+</span>
+                </button>
+                {open === i && (
+                  <p className="font-barlow text-sm text-cream/50 leading-relaxed pb-6 max-w-sm">
+                    {area.description}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 mt-4">
-          {content.ayudo.areas.map((area, i) => (
-            <div key={i} className="border-t border-cream/10 md:border-t-0 md:border-l first:border-l-0 border-cream/10 pt-8 md:pt-0 md:pl-8 first:pl-0 pb-8 md:pb-0">
-              <span className="font-bebas text-[4rem] leading-none text-blue/30 block mb-3">
-                {area.number}
-              </span>
-              <h3 className="font-bebas text-2xl md:text-3xl text-cream tracking-tight mb-3">
-                {area.title.toUpperCase()}
-              </h3>
-              <p className="font-barlow text-sm text-cream/50 leading-relaxed">
-                {area.description}
+          {/* Derecha: imagen placeholder con info */}
+          <div className="hidden md:block border border-cream/10 rounded-xl overflow-hidden aspect-[4/3] bg-cream/5 relative">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8">
+              <p className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/20 mb-4">
+                {content.ayudo.headline}
+              </p>
+              <p className="font-condensed font-bold text-sm text-cream/30 max-w-xs">
+                {content.ayudo.intro}
               </p>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <div className="mt-16 overflow-hidden">
-          <p className="font-bebas text-[20vw] leading-none text-blue/10 select-none pointer-events-none -mb-4">
-            STRATEGY
-          </p>
         </div>
       </div>
     </section>
