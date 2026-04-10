@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState, useCallback } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { content } from '../content'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -825,34 +825,94 @@ function Process() {
 }
 
 // ── TESTIMONIOS ───────────────────────────────────────────────────
-function Testimonios() {
-  const ref = useFadeIn()
+const testimonialsData = [
+  {
+    text: "Antes de trabajar con Bryan teníamos contenido, pero no una dirección clara. Nos ayudó a organizar todo, definir mejor la identidad y empezar a ejecutar de forma más coherente. Se notó bastante en cómo empezó a percibirse la marca.",
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    name: "Daniel Torres",
+    role: "Director de Marca",
+  },
+  {
+    text: "En mi caso, que manejo marca personal, necesitaba alguien que no solo diseñara sino que entendiera cómo posicionar lo que hago. Bryan me ayudó a ordenar el mensaje, el contenido y la forma en la que me presento. Todo empezó a tener más sentido.",
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    name: "Sofía Ramírez",
+    role: "Creadora de Contenido",
+  },
+  {
+    text: "Lo que hizo Bryan fue bajar todo a tierra. Teníamos ideas, pero no una estructura clara para ejecutarlas. Nos ayudó a organizar campañas, contenido y piezas de forma que realmente pudiéramos movernos y no quedarnos en lo conceptual.",
+    image: "https://randomuser.me/api/portraits/men/67.jpg",
+    name: "Alejandro Vargas",
+    role: "Fundador",
+  },
+]
+
+function TestimonialsColumn({ testimonials, className = '', duration = 10 }) {
   return (
-    <section id="testimonios" className="bg-ink py-24 md:py-32 overflow-hidden relative">
-      <div className="absolute left-0 right-0 top-1/2 h-px bg-gold/10 pointer-events-none" />
-
-      <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-
-        <p className="font-condensed font-bold text-xs tracking-widest uppercase text-cream/30 mb-2">
-          {content.testimonios.eyebrow}
-        </p>
-        <h2 className="font-bebas text-5xl md:text-6xl leading-[0.9] text-cream tracking-tight mb-12">
-          {content.testimonios.headline.toUpperCase()}
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-cream/10">
-          {content.testimonios.items.map((item, i) => (
-            <div key={i} className="bg-ink p-8 md:p-10">
-              <p className="font-marker text-gold text-3xl leading-none mb-6">"</p>
-              <p className="font-barlow text-sm leading-relaxed text-cream/70 mb-8 italic">
-                {item.quote}
-              </p>
-              <div className="border-t border-cream/10 pt-4">
-                <p className="font-condensed font-bold text-sm text-cream tracking-wide">{item.name}</p>
-                <p className="font-condensed text-xs text-cream/30 tracking-widest uppercase">{item.company}</p>
+    <div className={`overflow-hidden ${className}`}>
+      <motion.div
+        animate={{ translateY: '-50%' }}
+        transition={{ duration, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
+        className="flex flex-col gap-6 pb-6"
+      >
+        {[...Array(2)].map((_, index) => (
+          <React.Fragment key={index}>
+            {testimonials.map(({ text, image, name, role }, i) => (
+              <div
+                key={i}
+                className="p-8 rounded-2xl border border-ink/10 shadow-sm bg-white max-w-xs w-full"
+              >
+                <p className="font-marker text-blue text-2xl leading-none mb-4">"</p>
+                <p className="font-barlow text-sm leading-relaxed text-ink/70 italic mb-6">
+                  {text}
+                </p>
+                <div className="flex items-center gap-3 border-t border-ink/8 pt-4">
+                  <img
+                    src={image}
+                    alt={name}
+                    width={40}
+                    height={40}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="font-condensed font-bold text-sm text-ink tracking-wide">{name}</p>
+                    <p className="font-barlow text-xs text-ink/40">{role}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </React.Fragment>
+        ))}
+      </motion.div>
+    </div>
+  )
+}
+
+function Testimonios() {
+  return (
+    <section id="testimonios" className="bg-[#EBEBEB] py-24 md:py-32 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-6 md:px-10">
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mb-3">
+            {content.testimonios.eyebrow}
+          </p>
+          <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-ink tracking-tight">
+            {content.testimonios.headline.toUpperCase()}
+          </h2>
+        </motion.div>
+
+        {/* Columnas */}
+        <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] max-h-[680px] overflow-hidden">
+          <TestimonialsColumn testimonials={testimonialsData} duration={15} />
+          <TestimonialsColumn testimonials={[...testimonialsData].reverse()} className="hidden md:block" duration={19} />
+          <TestimonialsColumn testimonials={testimonialsData} className="hidden lg:block" duration={17} />
         </div>
 
       </div>
