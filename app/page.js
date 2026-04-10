@@ -809,7 +809,7 @@ function Planeacion() {
 
 
 // ── CUSTOM CURSOR ─────────────────────────────────────────────────
-function CustomCursor({ cursorType = 'arrow-pointer', color = '#EBEBEB', size = 20, glitchColorB = '#00feff', glitchColorR = '#ff4f71' }) {
+function CustomCursor({ cursorType = 'arrow-pointer', color = '#EBEBEB', size = 20, glitchColorB = '#00feff', glitchColorR = '#ff4f71', sectionRef }) {
   const cursorRef = useRef(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState(false)
@@ -818,7 +818,9 @@ function CustomCursor({ cursorType = 'arrow-pointer', color = '#EBEBEB', size = 
   const positionState = useRef({ distanceX: 0, distanceY: 0, distance: 0, pointerX: 0, pointerY: 0, previousPointerX: 0, previousPointerY: 0, angle: 0, previousAngle: 0, angleDisplace: 0, degrees: 57.296 })
 
   useEffect(() => {
-    document.body.style.cursor = 'none'
+    const section = sectionRef?.current
+    if (!section) return
+
     const handleMouseMove = (e) => {
       const s = positionState.current
       s.previousPointerX = s.pointerX; s.previousPointerY = s.pointerY
@@ -830,11 +832,19 @@ function CustomCursor({ cursorType = 'arrow-pointer', color = '#EBEBEB', size = 
       setIsHovering(t.tagName === 'A' || t.tagName === 'BUTTON' || t.onclick !== null || t.classList.contains('cursor-hover'))
       setIsVisible(true)
     }
-    const handleLeave = () => setIsVisible(false)
-    document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseleave', handleLeave)
-    return () => { document.body.style.cursor = 'auto'; document.removeEventListener('mousemove', handleMouseMove); document.removeEventListener('mouseleave', handleLeave) }
-  }, [])
+    const handleEnter = () => { section.style.cursor = 'none' }
+    const handleLeave = () => { section.style.cursor = ''; setIsVisible(false) }
+
+    section.addEventListener('mousemove', handleMouseMove)
+    section.addEventListener('mouseenter', handleEnter)
+    section.addEventListener('mouseleave', handleLeave)
+    return () => {
+      section.style.cursor = ''
+      section.removeEventListener('mousemove', handleMouseMove)
+      section.removeEventListener('mouseenter', handleEnter)
+      section.removeEventListener('mouseleave', handleLeave)
+    }
+  }, [sectionRef])
 
   const calcRotation = () => {
     const s = positionState.current
@@ -900,16 +910,17 @@ const procesoPasos = [
   { num: '06', title: 'Afinar y sostener',      body: 'Revisar, ajustar y fortalecer el resultado para que tenga continuidad.', cursor: 'motion-blur' },
 ]
 
-function GradientBlurBG() {
+function GradientBlurBG({ sectionRef }) {
   const canvasRef = useRef(null)
-  const mouseRef = useRef({ x: 0, y: 0 })
+  const mouseRef = useRef({ x: -999, y: -999 })
   const circsRef = useRef([])
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    const section = sectionRef?.current
+    if (!canvas || !section) return
     const ctx = canvas.getContext('2d')
-    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
+    const resize = () => { canvas.width = section.offsetWidth; canvas.height = section.offsetHeight }
     resize()
     let raf
 
@@ -918,57 +929,53 @@ function GradientBlurBG() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.globalCompositeOperation = 'lighter'
 
-      // blue = #1440FF = rgb(20, 64, 255)
       circsRef.current.push({
         x: mouseRef.current.x, y: mouseRef.current.y,
         alpha: 1,
-        grd: ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 80),
+        grd: ctx.createRadialGradient(mouseRef.current.x, mouseRef.current.y, 0, mouseRef.current.x, mouseRef.current.y, 120),
       })
 
       circsRef.current = circsRef.current.filter(c => c.alpha > 0)
       for (const c of circsRef.current) {
-        c.grd.addColorStop(0,   `rgba(20,64,255,0.6)`)
-        c.grd.addColorStop(0.4, `rgba(20,64,255,0.2)`)
+        c.grd.addColorStop(0,   `rgba(20,64,255,0.5)`)
+        c.grd.addColorStop(0.4, `rgba(20,64,255,0.15)`)
         c.grd.addColorStop(1,   `rgba(20,64,255,0)`)
         ctx.beginPath()
         ctx.fillStyle = c.grd
         ctx.globalAlpha = c.alpha
-        ctx.arc(c.x, c.y, 80, 0, Math.PI * 2)
+        ctx.arc(c.x, c.y, 120, 0, Math.PI * 2)
         ctx.fill()
-        c.alpha -= 0.02
+        c.alpha -= 0.018
       }
       ctx.globalAlpha = 1
       raf = requestAnimationFrame(draw)
     }
 
+    // Escucha en la sección, no en el canvas
     const onMove = (e) => {
-      const rect = canvas.getBoundingClientRect()
+      const rect = section.getBoundingClientRect()
       mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
     }
-    const onTouch = (e) => {
-      const rect = canvas.getBoundingClientRect()
-      mouseRef.current = { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top }
-    }
 
-    canvas.addEventListener('mousemove', onMove)
-    canvas.addEventListener('touchmove', onTouch, { passive: true })
+    section.addEventListener('mousemove', onMove)
     window.addEventListener('resize', resize)
     draw()
 
-    return () => { cancelAnimationFrame(raf); canvas.removeEventListener('mousemove', onMove); canvas.removeEventListener('touchmove', onTouch); window.removeEventListener('resize', resize) }
-  }, [])
+    return () => { cancelAnimationFrame(raf); section.removeEventListener('mousemove', onMove); window.removeEventListener('resize', resize) }
+  }, [sectionRef])
 
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" style={{ background: 'transparent' }} />
 }
 
 function Process() {
   const ref = useFadeIn()
+  const sectionRef = useRef(null)
   const [activeCursor, setActiveCursor] = useState('arrow-pointer')
 
   return (
-    <section id="process" className="relative bg-ink py-24 md:py-32 overflow-hidden">
-      <CustomCursor cursorType={activeCursor} color="#EBEBEB" size={20} />
-      <GradientBlurBG />
+    <section ref={sectionRef} id="process" className="relative bg-ink py-24 md:py-32 overflow-hidden">
+      <CustomCursor cursorType={activeCursor} color="#EBEBEB" size={20} sectionRef={sectionRef} />
+      <GradientBlurBG sectionRef={sectionRef} />
 
       <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
 
