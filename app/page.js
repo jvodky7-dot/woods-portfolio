@@ -660,7 +660,7 @@ function ShuffleGrid() {
   }, [])
 
   return (
-    <div className="grid grid-cols-4 grid-rows-4 h-[420px] gap-1">
+    <div className="grid grid-cols-4 grid-rows-4 h-[380px] gap-1">
       {squares}
     </div>
   )
@@ -697,7 +697,7 @@ function Planeacion() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
           {/* Izquierda: lista animada */}
-          <div className="relative h-[320px] overflow-hidden rounded-lg border border-black/8 bg-white shadow-sm">
+          <div className="relative h-[380px] overflow-hidden rounded-lg border border-black/8 bg-white shadow-sm">
             <motion.div
               className="flex flex-col absolute w-full"
               animate={{ y: ['0%', '-50%'] }}
