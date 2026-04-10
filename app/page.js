@@ -1411,7 +1411,7 @@ function GooeySection() {
           texts={["ESTRATEGIA", "PLANIFICACIÓN", "EJECUCIÓN"]}
           morphTime={1.5}
           cooldownTime={2.5}
-          className="font-bristol text-[5vw] md:text-[3.5vw] text-cream leading-none"
+          className="font-akshar font-bold text-[5vw] md:text-[3.5vw] text-cream leading-none"
         />
       </div>
     </section>
