@@ -4,6 +4,7 @@ import { content } from '../content'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import createGlobe from 'cobe'
+import { motion } from 'framer-motion'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -604,51 +605,121 @@ function Trabajo() {
   )
 }
 
+// ── SHUFFLE GRID ──────────────────────────────────────────────────
+const squareData = [
+  { id: 1,  src: "https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=400&q=80" },
+  { id: 2,  src: "https://images.unsplash.com/photo-1510925758641-869d353cecc7?w=400&q=80" },
+  { id: 3,  src: "https://images.unsplash.com/photo-1629901925121-8a141c2a42f4?w=400&q=80" },
+  { id: 4,  src: "https://images.unsplash.com/photo-1580238053495-b9720401fd45?w=400&q=80" },
+  { id: 5,  src: "https://images.unsplash.com/photo-1569074187119-c87815b476da?w=400&q=80" },
+  { id: 6,  src: "https://images.unsplash.com/photo-1556817411-31ae72fa3ea0?w=400&q=80" },
+  { id: 7,  src: "https://images.unsplash.com/photo-1599586120429-48281b6f0ece?w=400&q=80" },
+  { id: 8,  src: "https://plus.unsplash.com/premium_photo-1671436824833-91c0741e89c9?w=400&q=80" },
+  { id: 9,  src: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&q=80" },
+  { id: 10, src: "https://images.unsplash.com/photo-1610768764270-790fbec18178?w=400&q=80" },
+  { id: 11, src: "https://images.unsplash.com/photo-1507034589631-9433cc6bc453?w=400&q=80" },
+  { id: 12, src: "https://images.unsplash.com/photo-1533107862482-0e6974b06ec4?w=400&q=80" },
+  { id: 13, src: "https://images.unsplash.com/photo-1560089000-7433a4ebbd64?w=400&q=80" },
+  { id: 14, src: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400&q=80" },
+  { id: 15, src: "https://images.unsplash.com/photo-1606244864456-8bee63fce472?w=400&q=80" },
+  { id: 16, src: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80" },
+]
+
+const shuffleArr = (arr) => {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+const generateSquares = () =>
+  shuffleArr(squareData).map((sq) => (
+    <motion.div
+      key={sq.id}
+      layout
+      transition={{ duration: 1.5, type: 'spring' }}
+      className="w-full h-full rounded-sm overflow-hidden"
+      style={{ backgroundImage: `url(${sq.src})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+    />
+  ))
+
+function ShuffleGrid() {
+  const timeoutRef = useRef(null)
+  const [squares, setSquares] = useState(generateSquares)
+
+  useEffect(() => {
+    const run = () => {
+      setSquares(generateSquares())
+      timeoutRef.current = setTimeout(run, 3000)
+    }
+    timeoutRef.current = setTimeout(run, 3000)
+    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current) }
+  }, [])
+
+  return (
+    <div className="grid grid-cols-4 grid-rows-4 h-[420px] gap-1">
+      {squares}
+    </div>
+  )
+}
+
 // ── PLANIFICACIÓN ─────────────────────────────────────────────────
+const planeacionItems = [
+  { title: 'TABLEROS CREATIVOS',       subtitle: 'Organización visual de ideas' },
+  { title: 'SISTEMAS DE ORGANIZACIÓN', subtitle: 'Estructura que sostiene el proceso' },
+  { title: 'CONCEPTUALIZACIÓN',        subtitle: 'De la idea al sistema' },
+  { title: 'ESTRUCTURAS OPERATIVAS',   subtitle: 'Flujo claro de ejecución' },
+]
+
 function Planeacion() {
   const ref = useFadeIn()
   return (
-    <section id="planeacion" className="bg-[#EBEBEB] py-24 md:py-32">
+    <section id="planeacion" className="bg-[#EBEBEB] py-24 md:py-32 overflow-hidden">
       <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+        {/* Título centrado */}
+        <div className="text-center mb-16">
+          <h2 className="font-akshar font-bold text-[7vw] md:text-[5vw] leading-[1] text-ink">
+            EXISTE UNA
+          </h2>
+          <h2 className="font-bristol text-[7vw] md:text-[5vw] leading-[1.2] text-blue uppercase">
+            PLANIFICACIÓN
+          </h2>
+          <h2 className="font-akshar font-bold text-[7vw] md:text-[5vw] leading-[1] text-ink">
+            PARA TODO
+          </h2>
+        </div>
 
-          <div>
-            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40 mb-2">
-              {content.planeacion.eyebrow}
-            </p>
-            <h2 className="font-bebas text-5xl md:text-7xl leading-[0.9] text-ink mb-6">
-              {content.planeacion.headline.toUpperCase()}
-            </h2>
-            <p className="font-barlow text-sm leading-relaxed text-ink/70 mb-8 max-w-sm">
-              {content.planeacion.description}
-            </p>
+        {/* 2 columnas */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-            <div className="space-y-3">
-              {content.planeacion.items.map((item, i) => (
-                <div key={i} className="flex items-center gap-4 border-l-2 border-blue pl-4 py-1">
-                  <span className="font-condensed font-bold text-xs text-ink/30 tracking-widest">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <span className="font-condensed font-bold text-base tracking-wide text-ink">
-                    {item}
-                  </span>
+          {/* Izquierda: lista animada */}
+          <div className="relative h-[320px] overflow-hidden rounded-sm border border-ink/10 bg-white/70 backdrop-blur-sm">
+            <motion.div
+              className="flex flex-col absolute w-full"
+              animate={{ y: ['0%', '-50%'] }}
+              transition={{ repeat: Infinity, repeatType: 'loop', duration: 10, ease: 'linear' }}
+            >
+              {[...planeacionItems, ...planeacionItems].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 px-6 py-5 border-b border-ink/[0.06]">
+                  <div className="bg-ink/[0.06] w-10 h-10 rounded-sm shrink-0" />
+                  <div>
+                    <p className="font-condensed font-bold text-sm tracking-widest text-ink uppercase">
+                      {item.title}
+                    </p>
+                    <p className="font-barlow text-xs text-ink/40 mt-0.5">{item.subtitle}</p>
+                  </div>
                 </div>
               ))}
-            </div>
+            </motion.div>
+            <div className="absolute top-0 left-0 w-full h-10 bg-gradient-to-b from-white/70 to-transparent pointer-events-none z-10" />
+            <div className="absolute bottom-0 left-0 w-full h-10 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-10" />
           </div>
 
-          {/* Right: placeholder screenshots grid */}
-          <div className="grid grid-cols-2 gap-2">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className={`aspect-[4/3] bg-gradient-to-br ${placeholderColors[i % placeholderColors.length]} rounded-sm work-card`}>
-                <div className="work-overlay"><span>Ver</span></div>
-                <div className="absolute bottom-2 left-2 font-condensed font-bold text-[10px] text-white/40 uppercase tracking-widest">
-                  {content.planeacion.items[i]}
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* Derecha: shuffle grid */}
+          <ShuffleGrid />
 
         </div>
       </div>
