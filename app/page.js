@@ -1402,8 +1402,8 @@ function GooeyText({ texts, morphTime = 1, cooldownTime = 0.25, className = '' }
 
 function GooeySection() {
   return (
-    <section className="bg-ink py-8 md:py-10 flex items-center justify-center overflow-hidden">
-      <div className="flex items-center justify-center h-20 md:h-24 w-full">
+    <section className="bg-ink py-4 md:py-5 flex items-center justify-center overflow-hidden">
+      <div className="flex items-center justify-center h-12 md:h-14 w-full">
         <GooeyText
           texts={["ESTRATEGIA", "PLANIFICACIÓN", "EJECUCIÓN"]}
           morphTime={1.5}
