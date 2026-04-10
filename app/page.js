@@ -5,6 +5,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import createGlobe from 'cobe'
 import { motion } from 'framer-motion'
+import { Layers, Grid2X2, Lightbulb, Settings2 } from 'lucide-react'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -667,10 +668,10 @@ function ShuffleGrid() {
 
 // ── PLANIFICACIÓN ─────────────────────────────────────────────────
 const planeacionItems = [
-  { title: 'TABLEROS CREATIVOS',       subtitle: 'Organización visual de ideas' },
-  { title: 'SISTEMAS DE ORGANIZACIÓN', subtitle: 'Estructura que sostiene el proceso' },
-  { title: 'CONCEPTUALIZACIÓN',        subtitle: 'De la idea al sistema' },
-  { title: 'ESTRUCTURAS OPERATIVAS',   subtitle: 'Flujo claro de ejecución' },
+  { title: 'Tableros Creativos',       subtitle: 'Organización visual de ideas',       icon: <Layers size={16} className="text-ink/40" /> },
+  { title: 'Sistemas de Organización', subtitle: 'Estructura que sostiene el proceso', icon: <Grid2X2 size={16} className="text-ink/40" /> },
+  { title: 'Conceptualización',        subtitle: 'De la idea al sistema',              icon: <Lightbulb size={16} className="text-ink/40" /> },
+  { title: 'Estructuras Operativas',   subtitle: 'Flujo claro de ejecución',           icon: <Settings2 size={16} className="text-ink/40" /> },
 ]
 
 function Planeacion() {
@@ -696,26 +697,27 @@ function Planeacion() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
           {/* Izquierda: lista animada */}
-          <div className="relative h-[320px] overflow-hidden rounded-sm border border-ink/10 bg-white/70 backdrop-blur-sm">
+          <div className="relative h-[320px] overflow-hidden rounded-lg border border-black/8 bg-white shadow-sm">
             <motion.div
               className="flex flex-col absolute w-full"
               animate={{ y: ['0%', '-50%'] }}
               transition={{ repeat: Infinity, repeatType: 'loop', duration: 10, ease: 'linear' }}
             >
               {[...planeacionItems, ...planeacionItems].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 px-6 py-5 border-b border-ink/[0.06]">
-                  <div className="bg-ink/[0.06] w-10 h-10 rounded-sm shrink-0" />
-                  <div>
-                    <p className="font-condensed font-bold text-sm tracking-widest text-ink uppercase">
-                      {item.title}
-                    </p>
-                    <p className="font-barlow text-xs text-ink/40 mt-0.5">{item.subtitle}</p>
+                <div key={i} className="flex items-center justify-between gap-3 px-5 py-4 border-b border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-gray-200 w-10 h-10 rounded-xl shadow-sm shrink-0" />
+                    <div>
+                      <p className="font-barlow font-semibold text-sm text-gray-900">{item.title}</p>
+                      <p className="font-barlow text-xs text-gray-400 mt-0.5">{item.subtitle}</p>
+                    </div>
                   </div>
+                  {item.icon}
                 </div>
               ))}
             </motion.div>
-            <div className="absolute top-0 left-0 w-full h-10 bg-gradient-to-b from-white/70 to-transparent pointer-events-none z-10" />
-            <div className="absolute bottom-0 left-0 w-full h-10 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-10" />
+            <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
+            <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
           </div>
 
           {/* Derecha: shuffle grid */}
