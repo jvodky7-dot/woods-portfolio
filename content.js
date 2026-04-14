@@ -28,8 +28,8 @@ export const content = {
   about: {
     headline: "Perfil",
     body: [
-      "Soy Bryan Orozco Madera. Trabajo desde un punto donde la creatividad no se separa de la estrategia. Mi enfoque cruza dirección creativa, identidad, contenido y ejecución, con una forma de trabajo que busca coherencia, intención y claridad en cada decisión. No me interesa producir piezas vacías ni construir marcas desde lo genérico. Me interesa desarrollar ideas con fondo, convertir conceptos en sistemas visuales útiles y llevarlos a aplicaciones reales.",
-      "Pienso los proyectos como estructuras: qué dicen, cómo se ven, cómo funcionan y qué percepción construyen con el tiempo. Por eso mi trabajo se mueve entre lo conceptual y lo práctico, entre la sensibilidad visual y la necesidad de que todo tenga dirección.",
+      "Soy Bryan Orozco Madera. Trabajo en el cruce entre creatividad, estrategia e identidad, desarrollando ideas con dirección y aplicaciones reales. Mi enfoque conecta dirección creativa, contenido y ejecución para construir marcas y sistemas visuales con coherencia, intención y fondo.",
+      "No me interesa producir por producir ni resolver desde lo genérico. Me interesa traducir conceptos en estructuras claras: qué dice una marca, cómo se ve, cómo funciona y qué percepción construye con el tiempo.",
     ],
     tag: "Estrategia creativa aplicada.",
   },
