@@ -18,7 +18,7 @@ export const content = {
   // ── 1. HERO ────────────────────────────────────────────────────
   hero: {
     eyebrow:    "Portafolio 2025",
-    role:       "Estratega Creativa",
+    role:       "Estratega Creativo",
     descriptor: "Dirección · Identidad · Contenido · Resultados",
     statement:  "Creatividad con dirección.",
     tags: ["Art Direction", "Brand Strategy", "Content", "Performance"],
