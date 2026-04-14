@@ -769,7 +769,7 @@ function ProyectoGallery({ proyecto }) {
       {/* Draggable horizontal bento gallery */}
       <div
         ref={containerRef}
-        className="relative w-full overflow-hidden cursor-grab active:cursor-grabbing"
+        className="relative w-full overflow-hidden rounded-xl cursor-grab active:cursor-grabbing"
       >
         <motion.div
           className="w-max"
@@ -779,7 +779,7 @@ function ProyectoGallery({ proyecto }) {
         >
           <motion.div
             ref={gridRef}
-            className="flex gap-3 px-1 pb-1"
+            className="flex gap-2"
             variants={bentoContainerVariants}
             initial="hidden"
             animate="visible"
@@ -788,7 +788,8 @@ function ProyectoGallery({ proyecto }) {
               <motion.div
                 key={item.id}
                 variants={bentoItemVariants}
-                className="group relative shrink-0 w-[220px] h-[260px] rounded-xl overflow-hidden border border-ink/10 bg-ink/5 shadow-sm cursor-pointer"
+                className="group relative shrink-0 w-[240px] h-[300px] overflow-hidden bg-ink/5 cursor-pointer"
+                style={{ borderRadius: '8px' }}
                 whileHover={{ scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 onClick={() => setSelectedImg(item)}
@@ -797,11 +798,12 @@ function ProyectoGallery({ proyecto }) {
                   src={item.src}
                   alt={item.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  draggable={false}
                 />
                 {/* Gradient overlay on hover */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 {/* Text slide up on hover */}
-                <div className="relative z-10 absolute bottom-0 left-0 right-0 p-3 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 z-10">
                   <p className="font-akshar font-bold text-xs text-white uppercase tracking-widest">{item.title}</p>
                 </div>
               </motion.div>
@@ -810,7 +812,7 @@ function ProyectoGallery({ proyecto }) {
         </motion.div>
       </div>
 
-      <p className="font-barlow text-[10px] text-ink/30 uppercase tracking-widest pl-1">
+      <p className="font-barlow text-[10px] text-ink/30 uppercase tracking-widest mt-2">
         Arrastra para explorar · Click para expandir
       </p>
 
