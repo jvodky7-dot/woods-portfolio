@@ -2,10 +2,13 @@ import './globals.css'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata = {
-  title: 'Woods — Creative Strategist',
+  title: 'Bryan — Portafolio',
   description: 'Art Direction · Brand Strategy · Content · Performance',
+  icons: {
+    icon: '/favicon.svg',
+  },
   openGraph: {
-    title: 'Woods — Creative Strategist',
+    title: 'Bryan — Portafolio',
     description: 'Art Direction · Brand Strategy · Content · Performance',
   },
 }
