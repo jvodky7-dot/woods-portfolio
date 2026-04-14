@@ -11,8 +11,8 @@ export const content = {
   location: "Bogotá, Colombia",
   social: {
     instagram: "https://www.instagram.com/joudew_8/",
-    behance:   "https://behance.net",
-    linkedin:  "https://linkedin.com",
+    behance:   "https://www.behance.net/bryanor",
+    linkedin:  "http://linkedin.com/in/bryanor/",
   },
 
   // ── 1. HERO ────────────────────────────────────────────────────
