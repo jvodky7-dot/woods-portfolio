@@ -551,22 +551,20 @@ function EtherealShadowBG({ color = 'rgba(180,170,155,1)', scale = 60, speed = 6
 function About() {
   const ref = useFadeIn()
   return (
-    <section id="about" className="bg-[#EBEBEB] py-24 md:py-32 relative overflow-hidden">
+    <section id="about" className="bg-[#EBEBEB] py-24 md:py-32 relative overflow-hidden" style={{ contain: 'paint' }}>
 
-      {/* ── Fondo fusionado: Ethereal shadow + Flickering grain ── */}
-      {/* Capa 1: sombra etérea en esquina izquierda — tono arena/cálido */}
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-30">
-        <EtherealShadowBG color="rgba(160,148,130,1)" scale={55} speed={40} />
-      </div>
-      {/* Capa 2: grid parpadeante — grano de papel viejo */}
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-40"
+      {/* Gradiente CSS estático — sin GPU */}
+      <div className="absolute inset-0 pointer-events-none z-0"
+        style={{ background: 'radial-gradient(ellipse 55% 65% at 20% 60%, rgba(160,148,130,0.18) 0%, transparent 70%)' }} />
+      {/* Grano de papel — canvas ligero aislado */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-35"
         style={{ maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, white 40%, transparent 100%)' }}>
         <FlickeringGrid
           squareSize={2}
-          gridGap={5}
-          flickerChance={0.08}
+          gridGap={6}
+          flickerChance={0.05}
           color="rgb(80,65,50)"
-          maxOpacity={0.18}
+          maxOpacity={0.15}
         />
       </div>
 
@@ -1078,20 +1076,20 @@ function Trabajo() {
   const ref = useFadeIn()
 
   return (
-    <section id="trabajo" className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: '#050508' }}>
+    <section id="trabajo" className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: '#050508', contain: 'paint' }}>
 
-      {/* ── Fondo fusionado (mismo que Perfil, adaptado a oscuro) ── */}
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
-        <EtherealShadowBG color="rgba(60,75,130,1)" scale={55} speed={40} />
-      </div>
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-20"
-        style={{ maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, white 40%, transparent 100%)' }}>
+      {/* Gradiente radial CSS — sin coste de GPU */}
+      <div className="absolute inset-0 pointer-events-none z-0"
+        style={{ background: 'radial-gradient(ellipse 60% 60% at 30% 50%, rgba(40,55,110,0.35) 0%, transparent 70%)' }} />
+      {/* Flickering grain — canvas ligero, sólo visible, aislado */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-15"
+        style={{ maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, white 40%, transparent 100%)', willChange: 'auto' }}>
         <FlickeringGrid
           squareSize={2}
-          gridGap={5}
-          flickerChance={0.06}
-          color="rgb(140,155,200)"
-          maxOpacity={0.12}
+          gridGap={6}
+          flickerChance={0.04}
+          color="rgb(130,145,195)"
+          maxOpacity={0.10}
         />
       </div>
 
