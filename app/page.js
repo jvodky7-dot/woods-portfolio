@@ -410,11 +410,28 @@ function About() {
   return (
     <section id="about" className="bg-[#EBEBEB] py-24 md:py-32 relative overflow-hidden">
 
-      {/* Fondos CSS — coste cero */}
+      {/* ── Textura halftone — puntos tipo papel impreso ── */}
       <div className="absolute inset-0 pointer-events-none z-0"
-        style={{ background: 'radial-gradient(ellipse 55% 65% at 15% 55%, rgba(155,143,126,0.16) 0%, transparent 68%)' }} />
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.07) 1px, transparent 1px)',
+          backgroundSize: '18px 18px',
+        }} />
+
+      {/* Degradados de profundidad */}
       <div className="absolute inset-0 pointer-events-none z-0"
-        style={{ background: 'radial-gradient(ellipse 40% 40% at 85% 30%, rgba(180,168,150,0.08) 0%, transparent 60%)' }} />
+        style={{ background: 'radial-gradient(ellipse 70% 80% at 50% 50%, rgba(235,235,235,0.85) 30%, transparent 100%)' }} />
+      <div className="absolute inset-0 pointer-events-none z-0"
+        style={{ background: 'radial-gradient(ellipse 40% 50% at 80% 20%, rgba(20,64,255,0.04) 0%, transparent 65%)' }} />
+
+      {/* Palabra decorativa ABOUT en Bristol/azul */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden">
+        <span
+          className="font-bristol text-blue uppercase leading-none"
+          style={{ fontSize: 'clamp(100px, 22vw, 280px)', opacity: 0.06, letterSpacing: '-0.02em' }}
+        >
+          About
+        </span>
+      </div>
 
       <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
