@@ -1377,28 +1377,17 @@ function TestimonialsColumn({ testimonials, className = '', duration = 10 }) {
       >
         {[...Array(2)].map((_, index) => (
           <React.Fragment key={index}>
-            {testimonials.map(({ text, image, name, role }, i) => (
+            {testimonials.map(({ text, name }, i) => (
               <div
                 key={i}
                 className="p-8 rounded-2xl border border-ink/10 shadow-sm bg-white max-w-xs w-full"
               >
-                <p className="font-marker text-blue text-2xl leading-none mb-4">"</p>
                 <p className="font-barlow text-sm leading-relaxed text-ink/70 italic mb-6">
-                  {text}
+                  "{text}"
                 </p>
-                <div className="flex items-center gap-3 border-t border-ink/8 pt-4">
-                  <img
-                    src={image}
-                    alt={name}
-                    width={40}
-                    height={40}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="font-condensed font-bold text-sm text-ink tracking-wide">{name}</p>
-                    <p className="font-barlow text-xs text-ink/40">{role}</p>
-                  </div>
-                </div>
+                <p className="font-condensed font-bold text-sm text-ink tracking-wide border-t border-ink/8 pt-4">
+                  {name}
+                </p>
               </div>
             ))}
           </React.Fragment>
@@ -1564,7 +1553,7 @@ function Contacto() {
         </p>
 
         <a
-          href="https://wa.me/573104047075"
+          href="https://wa.me/573104047075?text=Hola%20Bryan!%20Vi%20tu%20portafolio%2C%20me%20interesa%20tu%20trabajo.%20Me%20gustar%C3%ADa%20agendar%20una%20reuni%C3%B3n%20contigo!"
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-3 bg-ink text-cream px-8 py-4 font-akshar font-bold text-sm tracking-widest uppercase hover:bg-blue transition-all duration-300"
