@@ -452,7 +452,7 @@ function About() {
   )
 }
 
-// ── EN QUÉ AYUDO ──────────────────────────────────────────────────
+// ── ROLES QUE ASUMO ───────────────────────────────────────────────
 function Ayudo() {
   const ref = useFadeIn()
   const [open, setOpen] = useState(null)
@@ -460,6 +460,17 @@ function Ayudo() {
   return (
     <section id="ayudo" className="bg-ink py-24 md:py-36">
       <div ref={ref} className="fade-in max-w-2xl mx-auto px-6 md:px-10">
+
+        {/* Título */}
+        <div className="mb-12 text-center">
+          <h2 className="font-bristol text-[13vw] md:text-[8vw] leading-none text-blue uppercase">
+            ROLES
+          </h2>
+          <h2 className="font-akshar font-bold text-[13vw] md:text-[8vw] leading-[1] text-cream uppercase tracking-tight">
+            QUE ASUMO
+          </h2>
+        </div>
+
         <div className="divide-y divide-cream/10">
           {content.ayudo.areas.map((area, i) => (
             <div key={i}>
@@ -467,15 +478,23 @@ function Ayudo() {
                 onClick={() => setOpen(open === i ? null : i)}
                 className="w-full flex items-center justify-between py-6 text-left group"
               >
-                <span className="font-akshar font-bold text-lg md:text-2xl text-cream uppercase tracking-wide group-hover:text-blue transition-colors duration-200">
+                <span className="font-akshar font-bold text-sm md:text-base text-cream uppercase tracking-wide group-hover:text-blue transition-colors duration-200">
                   {area.title}
                 </span>
                 <span className={`text-cream/30 text-xl transition-transform duration-300 ${open === i ? 'rotate-45' : ''}`}>+</span>
               </button>
               {open === i && (
-                <p className="font-barlow text-sm text-cream/50 leading-relaxed pb-6">
-                  {area.description}
-                </p>
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="overflow-hidden"
+                >
+                  <p className="font-barlow text-sm text-cream/50 leading-relaxed pb-6">
+                    {area.description}
+                  </p>
+                </motion.div>
               )}
             </div>
           ))}

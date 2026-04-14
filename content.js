@@ -34,14 +34,18 @@ export const content = {
     tag: "Estrategia creativa aplicada.",
   },
 
-  // ── 3. EN QUÉ AYUDO ────────────────────────────────────────────
+  // ── 3. ROLES QUE ASUMO ─────────────────────────────────────────
   ayudo: {
-    headline: "En qué ayudo",
-    intro: "[ Una línea que encuadre el tipo de problemas que resuelves ]",
+    headline: "Roles que asumo",
+    intro: "",
     areas: [
-      { number: "01", title: "Dirección Creativa",     description: "[ Qué haces en este frente ]" },
-      { number: "02", title: "Identidad y Contenido",  description: "[ Cómo construyes sistema visual + narrativa ]" },
-      { number: "03", title: "Estrategia y Ejecución", description: "[ Cómo llevas la idea al resultado ]" },
+      { number: "01", title: "Director creativo",                     description: "Defino la dirección visual, conceptual y narrativa de una marca, campaña o proyecto." },
+      { number: "02", title: "Estratega creativo",                    description: "Conecto ideas, contenido y posicionamiento para que lo creativo tenga intención, dirección y sentido." },
+      { number: "03", title: "Estratega de marca",                    description: "Traduzco identidad, percepción y propuesta en una dirección clara, coherente y sostenible." },
+      { number: "04", title: "Estratega de contenido",                description: "Diseño sistemas de contenido, mensajes y formatos que ayudan a comunicar con claridad, consistencia e intención." },
+      { number: "05", title: "Project manager en marketing",          description: "Organizo procesos, tableros, tiempos y flujos para que la ejecución avance con orden y no dependa del caos." },
+      { number: "06", title: "Ejecución creativa",                    description: "Aterrizo ideas en piezas, campañas, contenido y entregables reales con coherencia y criterio." },
+      { number: "07", title: "Consultoría en identidad y comunicación", description: "Entro cuando una marca necesita claridad en lo que dice, cómo se ve y cómo quiere sostenerse en el tiempo." },
     ],
   },
 
