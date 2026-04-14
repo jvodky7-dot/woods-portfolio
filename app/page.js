@@ -438,7 +438,7 @@ function About() {
 
           {/* Left: Globe */}
           <div className="hidden md:flex flex-col items-center gap-4">
-            <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/40">
+            <p className="font-akshar font-bold text-sm tracking-widest uppercase text-ink">
               Bogotá, Colombia
             </p>
             <GlobeBars className="w-[300px]" />
@@ -449,11 +449,11 @@ function About() {
             <div className="relative bg-white/80 backdrop-blur-sm border border-black/8 p-8 md:p-10 shadow-sm">
               <BinderClip />
 
-              <p className="font-condensed font-bold text-xs tracking-widest uppercase text-ink/30 mb-4">
+              <p className="font-akshar font-bold text-sm tracking-widest uppercase text-ink mb-4">
                 {content.about.headline}
               </p>
 
-              <p className="font-condensed font-bold text-2xl text-ink tracking-tight mb-4">
+              <p className="font-bristol text-2xl text-ink tracking-tight mb-4">
                 {content.hero.role}
               </p>
 
