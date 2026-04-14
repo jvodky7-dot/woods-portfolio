@@ -986,21 +986,21 @@ function WorkExplorer() {
   return (
     <div className="flex flex-col md:flex-row gap-6 mt-10 items-stretch">
 
-      {/* Explorer panel */}
-      <div className="w-full md:w-[280px] shrink-0 rounded-xl border border-ink/10 bg-white shadow-sm overflow-hidden select-none">
+      {/* Explorer panel — modo oscuro */}
+      <div className="w-full md:w-[280px] shrink-0 rounded-xl border border-cream/10 bg-cream/[0.05] overflow-hidden select-none backdrop-blur-sm">
         {/* Barra título VS Code style */}
-        <div className="flex items-center gap-1.5 px-4 py-3 border-b border-ink/8">
+        <div className="flex items-center gap-1.5 px-4 py-3 border-b border-cream/10">
           <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
           <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
           <span className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
-          <span className="font-condensed font-bold text-[10px] tracking-widest uppercase text-ink/30 ml-2">explorer</span>
+          <span className="font-condensed font-bold text-[10px] tracking-widest uppercase text-cream/25 ml-2">explorer</span>
         </div>
 
         <div className="py-2">
           {/* Root */}
           <div className="flex items-center gap-1.5 px-4 py-1">
-            <ChevronRight size={11} className="text-ink/20" />
-            <span className="font-barlow font-semibold text-[11px] text-ink/30 uppercase tracking-widest">src</span>
+            <ChevronRight size={11} className="text-cream/20" />
+            <span className="font-barlow font-semibold text-[11px] text-cream/25 uppercase tracking-widest">src</span>
           </div>
 
           {/* Carpetas / proyectos */}
@@ -1011,17 +1011,17 @@ function WorkExplorer() {
                 <button
                   onClick={() => setSelected(isOpen ? null : p)}
                   className={`w-full flex items-center gap-2 px-4 py-2 transition-all duration-200 group ${
-                    isOpen ? 'bg-blue/10' : 'hover:bg-ink/5'
+                    isOpen ? 'bg-blue/20' : 'hover:bg-cream/5'
                   }`}
                 >
                   <motion.span animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.2 }}>
-                    <ChevronRight size={12} className={isOpen ? 'text-blue' : 'text-ink/30'} />
+                    <ChevronRight size={12} className={isOpen ? 'text-blue' : 'text-cream/30'} />
                   </motion.span>
                   {isOpen
                     ? <FolderOpen size={15} className="text-blue shrink-0" />
-                    : <Folder size={15} className="text-ink/40 shrink-0 group-hover:text-ink/70" />
+                    : <Folder size={15} className="text-cream/40 shrink-0 group-hover:text-cream/70" />
                   }
-                  <span className={`font-barlow text-[13px] transition-colors ${isOpen ? 'text-blue font-semibold' : 'text-ink/60 group-hover:text-ink'}`}>
+                  <span className={`font-barlow text-[13px] transition-colors ${isOpen ? 'text-blue font-semibold' : 'text-cream/50 group-hover:text-cream/80'}`}>
                     {p.name}
                   </span>
                 </button>
@@ -1037,8 +1037,8 @@ function WorkExplorer() {
                   >
                     {treeFiles.map((f, i) => (
                       <div key={i} className="flex items-center gap-2 pl-10 pr-4 py-1">
-                        <span className="w-[3px] h-[3px] rounded-full bg-ink/20" />
-                        <span className="font-barlow text-[11px] text-ink/40">{f.name}</span>
+                        <span className="w-[3px] h-[3px] rounded-full bg-cream/20" />
+                        <span className="font-barlow text-[11px] text-cream/30">{f.name}</span>
                       </div>
                     ))}
                   </motion.div>
@@ -1049,7 +1049,7 @@ function WorkExplorer() {
         </div>
       </div>
 
-      {/* Panel derecho: bento gallery o placeholder */}
+      {/* Panel derecho: galería o placeholder — modo oscuro */}
       <div className="flex-1">
         <AnimatePresence mode="wait">
           {selected ? (
@@ -1060,10 +1060,10 @@ function WorkExplorer() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center h-full text-center gap-3 border border-dashed border-ink/15 rounded-xl"
+              className="flex flex-col items-center justify-center h-full text-center gap-3 border border-dashed border-cream/10 rounded-xl"
             >
-              <Folder size={32} className="text-ink/15" />
-              <p className="font-akshar font-bold text-xs tracking-widest uppercase text-ink/25">
+              <Folder size={32} className="text-cream/15" />
+              <p className="font-akshar font-bold text-xs tracking-widest uppercase text-cream/20">
                 Haz click en una carpeta
               </p>
             </motion.div>
@@ -1078,10 +1078,26 @@ function Trabajo() {
   const ref = useFadeIn()
 
   return (
-    <section id="trabajo" className="bg-[#EBEBEB] py-24 md:py-32 relative">
+    <section id="trabajo" className="bg-ink py-24 md:py-32 relative overflow-hidden">
+
+      {/* ── Fondo fusionado (mismo que Perfil, adaptado a oscuro) ── */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-25">
+        <EtherealShadowBG color="rgba(80,95,140,1)" scale={55} speed={40} />
+      </div>
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-30"
+        style={{ maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, white 40%, transparent 100%)' }}>
+        <FlickeringGrid
+          squareSize={2}
+          gridGap={5}
+          flickerChance={0.08}
+          color="rgb(180,190,220)"
+          maxOpacity={0.15}
+        />
+      </div>
+
       {/* BG watermark */}
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none">
-        <span className="font-bebas text-[22vw] leading-none whitespace-nowrap text-ink/[0.03]">
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0">
+        <span className="font-bebas text-[22vw] leading-none whitespace-nowrap text-white/[0.02]">
           MI TRABAJO
         </span>
       </div>
@@ -1092,7 +1108,7 @@ function Trabajo() {
         <div className="mb-8 text-center w-full max-w-5xl">
           <h2 className="font-akshar font-bold text-[10vw] md:text-[7vw] leading-none tracking-tight">
             <span className="text-blue font-bristol uppercase">CONOCE </span>
-            <span className="text-ink uppercase">MI TRABAJO</span>
+            <span className="text-cream uppercase">MI TRABAJO</span>
           </h2>
         </div>
 
