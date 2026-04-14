@@ -733,29 +733,7 @@ function BentoImageModal({ src, title, onClose }) {
 
 function ProyectoGallery({ proyecto }) {
   const [selectedImg, setSelectedImg] = useState(null)
-  const [dragConstraint, setDragConstraint] = useState(0)
-  const containerRef = useRef(null)
-  const gridRef = useRef(null)
-
-  // Mapear las imágenes del proyecto al formato del BentoGallery
-  const imageItems = proyecto.images.map((src, i) => ({
-    id: i,
-    src,
-    title: `${proyecto.name} — ${String(i + 1).padStart(2, '0')}`,
-  }))
-
-  useEffect(() => {
-    const calc = () => {
-      if (gridRef.current && containerRef.current) {
-        const cw = containerRef.current.offsetWidth
-        const gw = gridRef.current.scrollWidth
-        setDragConstraint(Math.min(0, cw - gw - 32))
-      }
-    }
-    calc()
-    window.addEventListener('resize', calc)
-    return () => window.removeEventListener('resize', calc)
-  }, [proyecto])
+  const [hoveredIdx, setHoveredIdx] = useState(null)
 
   return (
     <motion.div
@@ -764,56 +742,60 @@ function ProyectoGallery({ proyecto }) {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 16 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-2 h-full"
     >
-      {/* Draggable horizontal bento gallery */}
-      <div
-        ref={containerRef}
-        className="relative w-full overflow-hidden rounded-xl cursor-grab active:cursor-grabbing"
-      >
-        <motion.div
-          className="w-max"
-          drag="x"
-          dragConstraints={{ left: dragConstraint, right: 0 }}
-          dragElastic={0.05}
-        >
-          <motion.div
-            ref={gridRef}
-            className="flex gap-2"
-            variants={bentoContainerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {imageItems.map((item) => (
-              <motion.div
-                key={item.id}
-                variants={bentoItemVariants}
-                className="group relative shrink-0 w-[240px] h-[300px] overflow-hidden bg-ink/5 cursor-pointer"
-                style={{ borderRadius: '8px' }}
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                onClick={() => setSelectedImg(item)}
+      {/* Expand on hover gallery */}
+      <div className="flex w-full items-center gap-1 overflow-hidden rounded-xl" style={{ height: '300px' }}>
+        {proyecto.images.map((src, idx) => {
+          const isHovered = hoveredIdx === idx
+          const noneHovered = hoveredIdx === null
+          // expanded card: flex 4, collapsed: flex 1
+          const flex = isHovered ? 4 : noneHovered ? 1 : 1
+          return (
+            <div
+              key={idx}
+              className="relative overflow-hidden rounded-xl cursor-pointer h-full"
+              style={{
+                flex,
+                transition: 'flex 0.5s ease',
+                minWidth: 0,
+              }}
+              onMouseEnter={() => setHoveredIdx(idx)}
+              onMouseLeave={() => setHoveredIdx(null)}
+              onClick={() => setSelectedImg({ src, title: `${proyecto.name} — ${String(idx + 1).padStart(2, '0')}` })}
+            >
+              <img
+                src={src}
+                alt={`${proyecto.name} ${idx + 1}`}
+                className="w-full h-full object-cover"
+                draggable={false}
+                style={{ transition: 'transform 0.5s ease', transform: isHovered ? 'scale(1.04)' : 'scale(1)' }}
+              />
+              {/* Gradient overlay */}
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
+                style={{ opacity: isHovered ? 1 : 0, transition: 'opacity 0.4s ease' }}
+              />
+              {/* Label */}
+              <div
+                className="absolute bottom-0 left-0 right-0 p-3 z-10"
+                style={{
+                  opacity: isHovered ? 1 : 0,
+                  transform: isHovered ? 'translateY(0)' : 'translateY(8px)',
+                  transition: 'opacity 0.4s ease, transform 0.4s ease',
+                }}
               >
-                <img
-                  src={item.src}
-                  alt={item.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  draggable={false}
-                />
-                {/* Gradient overlay on hover */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                {/* Text slide up on hover */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 z-10">
-                  <p className="font-akshar font-bold text-xs text-white uppercase tracking-widest">{item.title}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
+                <p className="font-akshar font-bold text-[11px] text-white uppercase tracking-widest whitespace-nowrap overflow-hidden text-ellipsis">
+                  {proyecto.name} — {String(idx + 1).padStart(2, '0')}
+                </p>
+              </div>
+            </div>
+          )
+        })}
       </div>
 
-      <p className="font-barlow text-[10px] text-ink/30 uppercase tracking-widest mt-2">
-        Arrastra para explorar · Click para expandir
+      <p className="font-barlow text-[10px] text-ink/30 uppercase tracking-widest">
+        Hover para explorar · Click para expandir
       </p>
 
       {/* Modal */}
