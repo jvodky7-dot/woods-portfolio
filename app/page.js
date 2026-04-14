@@ -427,7 +427,7 @@ function About() {
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden">
         <span
           className="font-bristol text-blue uppercase leading-none"
-          style={{ fontSize: 'clamp(100px, 22vw, 280px)', opacity: 0.06, letterSpacing: '-0.02em' }}
+          style={{ fontSize: 'clamp(180px, 40vw, 600px)', opacity: 0.06, letterSpacing: '-0.02em' }}
         >
           About
         </span>
