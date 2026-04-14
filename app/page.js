@@ -453,7 +453,7 @@ function About() {
                 {content.about.headline}
               </p>
 
-              <p className="font-bristol text-2xl text-ink tracking-tight mb-4">
+              <p className="font-bristol text-2xl text-blue tracking-tight mb-4 uppercase">
                 {content.hero.role}
               </p>
 
