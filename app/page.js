@@ -1078,29 +1078,24 @@ function Trabajo() {
   const ref = useFadeIn()
 
   return (
-    <section id="trabajo" className="bg-ink py-24 md:py-32 relative overflow-hidden">
+    <section id="trabajo" className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: '#050508' }}>
 
       {/* ── Fondo fusionado (mismo que Perfil, adaptado a oscuro) ── */}
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-25">
-        <EtherealShadowBG color="rgba(80,95,140,1)" scale={55} speed={40} />
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
+        <EtherealShadowBG color="rgba(60,75,130,1)" scale={55} speed={40} />
       </div>
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-30"
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-20"
         style={{ maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, white 40%, transparent 100%)' }}>
         <FlickeringGrid
           squareSize={2}
           gridGap={5}
-          flickerChance={0.08}
-          color="rgb(180,190,220)"
-          maxOpacity={0.15}
+          flickerChance={0.06}
+          color="rgb(140,155,200)"
+          maxOpacity={0.12}
         />
       </div>
 
-      {/* BG watermark */}
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0">
-        <span className="font-bebas text-[22vw] leading-none whitespace-nowrap text-white/[0.02]">
-          MI TRABAJO
-        </span>
-      </div>
+
 
       <div ref={ref} className="fade-in relative z-10 w-full flex flex-col items-center px-6 md:px-10">
 
