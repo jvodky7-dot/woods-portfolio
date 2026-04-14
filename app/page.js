@@ -403,12 +403,174 @@ function GlobeBars({ className = '', speed = 0.003 }) {
   )
 }
 
+// ── FLICKERING GRID ───────────────────────────────────────────────
+function FlickeringGrid({
+  squareSize = 4,
+  gridGap = 6,
+  flickerChance = 0.3,
+  color = 'rgb(0,0,0)',
+  maxOpacity = 0.3,
+  className = '',
+}) {
+  const canvasRef = useRef(null)
+  const containerRef = useRef(null)
+  const [isInView, setIsInView] = useState(false)
+
+  const memoColor = useCallback(() => {
+    if (typeof window === 'undefined') return 'rgba(0,0,0,'
+    const c = document.createElement('canvas')
+    c.width = c.height = 1
+    const ctx = c.getContext('2d')
+    ctx.fillStyle = color
+    ctx.fillRect(0, 0, 1, 1)
+    const [r, g, b] = Array.from(ctx.getImageData(0, 0, 1, 1).data)
+    return `rgba(${r},${g},${b},`
+  }, [color])
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const container = containerRef.current
+    if (!canvas || !container) return
+    const ctx = canvas.getContext('2d')
+    const colorPrefix = memoColor()
+    let animId
+    let cols, rows, squares, dpr
+
+    const setup = () => {
+      dpr = window.devicePixelRatio || 1
+      const w = container.clientWidth
+      const h = container.clientHeight
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
+      cols = Math.floor(w / (squareSize + gridGap))
+      rows = Math.floor(h / (squareSize + gridGap))
+      squares = new Float32Array(cols * rows)
+      for (let i = 0; i < squares.length; i++) squares[i] = Math.random() * maxOpacity
+    }
+
+    setup()
+
+    let last = 0
+    const draw = (time) => {
+      if (!isInView) return
+      const delta = (time - last) / 1000
+      last = time
+      for (let i = 0; i < squares.length; i++) {
+        if (Math.random() < flickerChance * delta) squares[i] = Math.random() * maxOpacity
+      }
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          ctx.fillStyle = `${colorPrefix}${squares[i * rows + j]})`
+          ctx.fillRect(
+            i * (squareSize + gridGap) * dpr,
+            j * (squareSize + gridGap) * dpr,
+            squareSize * dpr,
+            squareSize * dpr,
+          )
+        }
+      }
+      animId = requestAnimationFrame(draw)
+    }
+
+    const ro = new ResizeObserver(setup)
+    ro.observe(container)
+
+    const io = new IntersectionObserver(([e]) => setIsInView(e.isIntersecting), { threshold: 0 })
+    io.observe(canvas)
+
+    if (isInView) animId = requestAnimationFrame(draw)
+
+    return () => {
+      cancelAnimationFrame(animId)
+      ro.disconnect()
+      io.disconnect()
+    }
+  }, [squareSize, gridGap, flickerChance, maxOpacity, memoColor, isInView])
+
+  return (
+    <div ref={containerRef} className={`h-full w-full ${className}`}>
+      <canvas ref={canvasRef} className="pointer-events-none" />
+    </div>
+  )
+}
+
+// ── ETHEREAL SHADOW BG ────────────────────────────────────────────
+function EtherealShadowBG({ color = 'rgba(180,170,155,1)', scale = 60, speed = 60 }) {
+  const id = `eth-${Math.random().toString(36).slice(2, 7)}`
+  const idRef = useRef(id)
+  const feRef = useRef(null)
+  const hue = useMotionValue(0)
+
+  const displace = ((scale / 100) * 80)
+  const duration = 1000 / speed
+
+  useEffect(() => {
+    const ctrl = animate(hue, 360, {
+      duration,
+      repeat: Infinity,
+      repeatType: 'loop',
+      ease: 'linear',
+      onUpdate: (v) => { if (feRef.current) feRef.current.setAttribute('values', String(v)) },
+    })
+    return () => ctrl.stop()
+  }, [duration])
+
+  const freq = `${0.001 + (scale / 100) * 0.002},${0.003 + (scale / 100) * 0.004}`
+
+  return (
+    <div style={{ position: 'absolute', inset: -displace, overflow: 'hidden', filter: `url(#${idRef.current}) blur(6px)` }}>
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <defs>
+          <filter id={idRef.current}>
+            <feTurbulence result="undulation" numOctaves="2" baseFrequency={freq} seed="0" type="turbulence" />
+            <feColorMatrix ref={feRef} in="undulation" type="hueRotate" values="0" />
+            <feColorMatrix in="dist" result="circulation" type="matrix"
+              values="4 0 0 0 1  4 0 0 0 1  4 0 0 0 1  1 0 0 0 0" />
+            <feDisplacementMap in="SourceGraphic" in2="circulation" scale={displace} result="dist" />
+            <feDisplacementMap in="dist" in2="undulation" scale={displace} result="output" />
+          </filter>
+        </defs>
+      </svg>
+      <div style={{
+        backgroundColor: color,
+        maskImage: `url('https://framerusercontent.com/images/ceBGguIpUU8luwByxuQz79t7To.png')`,
+        maskSize: 'cover',
+        maskRepeat: 'no-repeat',
+        maskPosition: 'center',
+        width: '100%',
+        height: '100%',
+      }} />
+    </div>
+  )
+}
+
 // ── ABOUT ─────────────────────────────────────────────────────────
 function About() {
   const ref = useFadeIn()
   return (
-    <section id="about" className="bg-[#EBEBEB] py-24 md:py-32">
-      <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
+    <section id="about" className="bg-[#EBEBEB] py-24 md:py-32 relative overflow-hidden">
+
+      {/* ── Fondo fusionado: Ethereal shadow + Flickering grain ── */}
+      {/* Capa 1: sombra etérea en esquina izquierda — tono arena/cálido */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-30">
+        <EtherealShadowBG color="rgba(160,148,130,1)" scale={55} speed={40} />
+      </div>
+      {/* Capa 2: grid parpadeante — grano de papel viejo */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-40"
+        style={{ maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, white 40%, transparent 100%)' }}>
+        <FlickeringGrid
+          squareSize={2}
+          gridGap={5}
+          flickerChance={0.08}
+          color="rgb(80,65,50)"
+          maxOpacity={0.18}
+        />
+      </div>
+
+      <div ref={ref} className="fade-in relative z-10 max-w-7xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
           {/* Left: Globe */}
