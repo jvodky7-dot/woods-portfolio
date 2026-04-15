@@ -5,7 +5,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import createGlobe from 'cobe'
 import { motion, useMotionValue, useMotionTemplate, animate, AnimatePresence, useScroll, useTransform } from 'framer-motion'
-import { Layers, Grid2X2, Lightbulb, Settings2, ChevronRight, Folder, FolderOpen, X } from 'lucide-react'
+import { Layers, Grid2X2, Lightbulb, Settings2, ChevronLeft, ChevronRight, Folder, FolderOpen, X } from 'lucide-react'
 import useMeasure from 'react-use-measure'
 
 if (typeof window !== 'undefined') {
@@ -733,46 +733,115 @@ const bentoItemVariants = {
   },
 }
 
-function BentoImageModal({ src, title, onClose }) {
+function ProyectoLightbox({ images, projectName, startIndex, onClose }) {
+  const [current, setCurrent] = useState(startIndex)
+  const [direction, setDirection] = useState(0)
+
+  const go = (dir) => {
+    setDirection(dir)
+    setCurrent((prev) => (prev + dir + images.length) % images.length)
+  }
+
   useEffect(() => {
-    const handleKey = (e) => { if (e.key === 'Escape') onClose() }
+    const handleKey = (e) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowRight') go(1)
+      if (e.key === 'ArrowLeft') go(-1)
+    }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
   }, [onClose])
+
+  const variants = {
+    enter: (dir) => ({ x: dir > 0 ? '8%' : '-8%', opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir) => ({ x: dir > 0 ? '-8%' : '8%', opacity: 0 }),
+  }
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+      style={{ background: 'rgba(5,5,8,0.95)', backdropFilter: 'blur(12px)' }}
       onClick={onClose}
     >
-      <motion.div
-        initial={{ scale: 0.9, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.9, y: 20 }}
-        className="relative w-full max-w-4xl p-4"
+      {/* Header */}
+      <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-6 py-5 z-10" onClick={(e) => e.stopPropagation()}>
+        <span className="font-akshar font-bold text-[11px] text-white/50 uppercase tracking-widest">{projectName}</span>
+        <button onClick={onClose} className="text-white/50 hover:text-white transition-colors">
+          <X size={20} />
+        </button>
+      </div>
+
+      {/* Image */}
+      <div
+        className="relative w-full flex items-center justify-center px-16"
+        style={{ maxHeight: '80vh' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <img
-          src={src}
-          alt={title}
-          className="h-auto max-h-[90vh] w-full rounded-lg object-contain"
-        />
-      </motion.div>
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.img
+            key={current}
+            src={images[current]}
+            alt={`${projectName} ${current + 1}`}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="max-h-[80vh] max-w-full rounded-lg object-contain"
+            draggable={false}
+          />
+        </AnimatePresence>
+      </div>
+
+      {/* Nav arrows */}
       <button
-        onClick={onClose}
-        className="absolute right-4 top-4 text-white/80 hover:text-white transition-colors"
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors"
+        onClick={(e) => { e.stopPropagation(); go(-1) }}
       >
-        <X size={24} />
+        <ChevronLeft size={28} />
       </button>
+      <button
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors"
+        onClick={(e) => { e.stopPropagation(); go(1) }}
+      >
+        <ChevronRight size={28} />
+      </button>
+
+      {/* Counter */}
+      <div className="absolute bottom-6 right-6 z-10" onClick={(e) => e.stopPropagation()}>
+        <span className="font-akshar text-[11px] text-white/30 tracking-widest">
+          {String(current + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
+        </span>
+      </div>
+
+      {/* Dot indicators */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2" onClick={(e) => e.stopPropagation()}>
+        {images.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i) }}
+            className="transition-all duration-300"
+            style={{
+              width: i === current ? '20px' : '6px',
+              height: '3px',
+              borderRadius: '2px',
+              background: i === current ? '#1440FF' : 'rgba(255,255,255,0.25)',
+            }}
+          />
+        ))}
+      </div>
     </motion.div>
   )
 }
 
 function ProyectoGallery({ proyecto }) {
-  const [selectedImg, setSelectedImg] = useState(null)
+  const [lightbox, setLightbox] = useState(null) // { startIndex }
   const [hoveredIdx, setHoveredIdx] = useState(null)
 
   return (
@@ -802,7 +871,7 @@ function ProyectoGallery({ proyecto }) {
               }}
               onMouseEnter={() => setHoveredIdx(idx)}
               onMouseLeave={() => setHoveredIdx(null)}
-              onClick={() => setSelectedImg({ src, title: `${proyecto.name} — ${String(idx + 1).padStart(2, '0')}` })}
+              onClick={() => setLightbox({ startIndex: idx })}
             >
               <img
                 src={src}
@@ -838,13 +907,14 @@ function ProyectoGallery({ proyecto }) {
         Hover para explorar · Click para expandir
       </p>
 
-      {/* Modal */}
+      {/* Lightbox slideshow */}
       <AnimatePresence>
-        {selectedImg && (
-          <BentoImageModal
-            src={selectedImg.src}
-            title={selectedImg.title}
-            onClose={() => setSelectedImg(null)}
+        {lightbox && (
+          <ProyectoLightbox
+            images={proyecto.images}
+            projectName={proyecto.name}
+            startIndex={lightbox.startIndex}
+            onClose={() => setLightbox(null)}
           />
         )}
       </AnimatePresence>
