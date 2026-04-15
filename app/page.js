@@ -667,55 +667,103 @@ const proyectos = [
     id: 'biking-village',
     name: 'Biking Village',
     files: ['brief.md', 'identidad.fig', 'contenido.pdf', 'entrega.zip'],
-    images: [
-      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80',
-      'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=900&q=80',
-      'https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=900&q=80',
-      'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=900&q=80',
+    carruseles: [
+      {
+        cover: '/trabajo/biking-village/1/1.jpg',
+        images: [
+          '/trabajo/biking-village/1/1.jpg',
+          '/trabajo/biking-village/1/2.jpg',
+          '/trabajo/biking-village/1/3.jpg',
+          '/trabajo/biking-village/1/4.jpg',
+          '/trabajo/biking-village/1/5.jpg',
+          '/trabajo/biking-village/1/6.jpg',
+        ],
+      },
+      {
+        cover: '/trabajo/biking-village/2/1.jpg',
+        images: [
+          '/trabajo/biking-village/2/1.jpg',
+          '/trabajo/biking-village/2/2.jpg',
+          '/trabajo/biking-village/2/3.jpg',
+          '/trabajo/biking-village/2/4.jpg',
+        ],
+      },
+      {
+        cover: '/trabajo/biking-village/3/1.jpg',
+        images: [
+          '/trabajo/biking-village/3/1.jpg',
+          '/trabajo/biking-village/3/2.jpg',
+          '/trabajo/biking-village/3/3.jpg',
+          '/trabajo/biking-village/3/4.jpg',
+          '/trabajo/biking-village/3/5.jpg',
+          '/trabajo/biking-village/3/7.jpg',
+        ],
+      },
+      {
+        cover: '/trabajo/biking-village/4/1.jpg',
+        images: [
+          '/trabajo/biking-village/4/1.jpg',
+          '/trabajo/biking-village/4/2.jpg',
+          '/trabajo/biking-village/4/3.jpg',
+          '/trabajo/biking-village/4/4.jpg',
+          '/trabajo/biking-village/4/5.jpg',
+          '/trabajo/biking-village/4/6.jpg',
+        ],
+      },
+      {
+        cover: '/trabajo/biking-village/5/1.jpg',
+        images: [
+          '/trabajo/biking-village/5/1.jpg',
+          '/trabajo/biking-village/5/2.jpg',
+          '/trabajo/biking-village/5/3.jpg',
+          '/trabajo/biking-village/5/4.jpg',
+          '/trabajo/biking-village/5/5.jpg',
+        ],
+      },
     ],
   },
   {
     id: 'jicara',
     name: 'Jicara',
     files: ['brief.md', 'marca.ai', 'aplicaciones.fig', 'entrega.pdf'],
-    images: [
-      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80',
-      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=80',
-      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=80',
-      'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=900&q=80',
+    carruseles: [
+      { cover: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80', images: ['https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=80', images: ['https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=80', images: ['https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=900&q=80', images: ['https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=900&q=80'] },
     ],
   },
   {
     id: 'swear-art',
     name: 'Swear.art',
     files: ['brief.md', 'estrategia.pdf', 'contenido.fig', 'entrega.zip'],
-    images: [
-      'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=900&q=80',
-      'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&q=80',
-      'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=900&q=80',
-      'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=900&q=80',
+    carruseles: [
+      { cover: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=900&q=80', images: ['https://images.unsplash.com/photo-1626785774573-4b799315345d?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&q=80', images: ['https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=900&q=80', images: ['https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=900&q=80', images: ['https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=900&q=80'] },
     ],
   },
   {
     id: 'valentina-ramirez',
     name: 'Valentina Ramírez',
     files: ['brief.md', 'identidad.fig', 'piezas.psd', 'entrega.pdf'],
-    images: [
-      'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80',
-      'https://images.unsplash.com/photo-1553484771-371a605b060b?w=900&q=80',
-      'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&q=80',
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80',
+    carruseles: [
+      { cover: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80', images: ['https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1553484771-371a605b060b?w=900&q=80', images: ['https://images.unsplash.com/photo-1553484771-371a605b060b?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&q=80', images: ['https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80', images: ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80'] },
     ],
   },
   {
     id: 'coopsominas',
     name: 'Coopsominas',
     files: ['brief.md', 'estrategia.pdf', 'tableros.xls', 'entrega.zip'],
-    images: [
-      'https://images.unsplash.com/photo-1629901925121-8a141c2a42f4?w=900&q=80',
-      'https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=900&q=80',
-      'https://images.unsplash.com/photo-1510925758641-869d353cecc7?w=900&q=80',
-      'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80',
+    carruseles: [
+      { cover: 'https://images.unsplash.com/photo-1629901925121-8a141c2a42f4?w=900&q=80', images: ['https://images.unsplash.com/photo-1629901925121-8a141c2a42f4?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=900&q=80', images: ['https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1510925758641-869d353cecc7?w=900&q=80', images: ['https://images.unsplash.com/photo-1510925758641-869d353cecc7?w=900&q=80'] },
+      { cover: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80', images: ['https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80'] },
     ],
   },
 ]
@@ -853,13 +901,11 @@ function ProyectoGallery({ proyecto }) {
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className="flex flex-col gap-2 h-full"
     >
-      {/* Expand on hover gallery */}
+      {/* Expand on hover gallery — cada card es un carrusel */}
       <div className="flex w-full items-center gap-1 overflow-hidden rounded-xl" style={{ height: '300px' }}>
-        {proyecto.images.map((src, idx) => {
+        {proyecto.carruseles.map((c, idx) => {
           const isHovered = hoveredIdx === idx
-          const noneHovered = hoveredIdx === null
-          // expanded card: flex 4, collapsed: flex 1
-          const flex = isHovered ? 4 : noneHovered ? 1 : 1
+          const flex = isHovered ? 4 : 1
           return (
             <div
               key={idx}
@@ -871,10 +917,10 @@ function ProyectoGallery({ proyecto }) {
               }}
               onMouseEnter={() => setHoveredIdx(idx)}
               onMouseLeave={() => setHoveredIdx(null)}
-              onClick={() => setLightbox({ startIndex: idx })}
+              onClick={() => setLightbox({ images: c.images })}
             >
               <img
-                src={src}
+                src={c.cover}
                 alt={`${proyecto.name} ${idx + 1}`}
                 className="w-full h-full object-cover"
                 draggable={false}
@@ -894,8 +940,8 @@ function ProyectoGallery({ proyecto }) {
                   transition: 'opacity 0.4s ease, transform 0.4s ease',
                 }}
               >
-                <p className="font-akshar font-bold text-[11px] text-white uppercase tracking-widest whitespace-nowrap overflow-hidden text-ellipsis">
-                  {proyecto.name} — {String(idx + 1).padStart(2, '0')}
+                <p className="font-akshar font-bold text-[11px] text-white uppercase tracking-widest">
+                  {String(idx + 1).padStart(2, '0')} · {c.images.length} {c.images.length === 1 ? 'imagen' : 'imágenes'}
                 </p>
               </div>
             </div>
@@ -904,16 +950,16 @@ function ProyectoGallery({ proyecto }) {
       </div>
 
       <p className="font-barlow text-[10px] text-ink/30 uppercase tracking-widest">
-        Hover para explorar · Click para expandir
+        Hover para explorar · Click para ver galería
       </p>
 
       {/* Lightbox slideshow */}
       <AnimatePresence>
         {lightbox && (
           <ProyectoLightbox
-            images={proyecto.images}
+            images={lightbox.images}
             projectName={proyecto.name}
-            startIndex={lightbox.startIndex}
+            startIndex={0}
             onClose={() => setLightbox(null)}
           />
         )}
