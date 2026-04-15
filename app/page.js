@@ -6,7 +6,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import createGlobe from 'cobe'
 import { motion, useMotionValue, useMotionTemplate, animate, AnimatePresence, useScroll, useTransform } from 'framer-motion'
-import { Layers, Grid2X2, Lightbulb, Settings2, ChevronLeft, ChevronRight, Folder, FolderOpen, X } from 'lucide-react'
+import { Layers, Grid2X2, Lightbulb, Settings2, ChevronLeft, ChevronRight, Folder, FolderOpen, X, Shirt, UtensilsCrossed, User, Palette } from 'lucide-react'
 import useMeasure from 'react-use-measure'
 
 if (typeof window !== 'undefined') {
@@ -1170,12 +1170,28 @@ function ShuffleGrid() {
   )
 }
 
-// ── PLANIFICACIÓN ─────────────────────────────────────────────────
-const planeacionItems = [
-  { title: 'Tableros Creativos',       subtitle: 'Organización visual de ideas',       icon: <Layers size={16} className="text-ink/40" /> },
-  { title: 'Sistemas de Organización', subtitle: 'Estructura que sostiene el proceso', icon: <Grid2X2 size={16} className="text-ink/40" /> },
-  { title: 'Conceptualización',        subtitle: 'De la idea al sistema',              icon: <Lightbulb size={16} className="text-ink/40" /> },
-  { title: 'Estructuras Operativas',   subtitle: 'Flujo claro de ejecución',           icon: <Settings2 size={16} className="text-ink/40" /> },
+// ── INDUSTRIAS ────────────────────────────────────────────────────
+const industriasItems = [
+  {
+    title: 'Moda y streetwear',
+    subtitle: 'Dirección visual, identidad y desarrollo de colecciones.',
+    icon: <Shirt size={18} />,
+  },
+  {
+    title: 'Gastronomía y restaurantes',
+    subtitle: 'Contenido, fotografía y lenguaje visual aplicado a marca.',
+    icon: <UtensilsCrossed size={18} />,
+  },
+  {
+    title: 'Marca personal',
+    subtitle: 'Identidad, estrategia de contenido y claridad de comunicación.',
+    icon: <User size={18} />,
+  },
+  {
+    title: 'Proyectos creativos y culturales',
+    subtitle: 'Conceptualización, identidad y construcción de universos visuales.',
+    icon: <Palette size={18} />,
+  },
 ]
 
 function Planeacion() {
@@ -1185,46 +1201,41 @@ function Planeacion() {
       <div ref={ref} className="fade-in max-w-7xl mx-auto px-6 md:px-10">
 
         {/* Título centrado */}
-        <div className="text-center mb-16">
-          <h2 className="font-akshar font-bold text-[7vw] md:text-[5vw] leading-[1] text-ink">
-            EXISTE UNA
-          </h2>
-          <h2 className="font-bristol text-[7vw] md:text-[5vw] leading-[1.2] text-blue uppercase">
-            PLANIFICACIÓN
-          </h2>
-          <h2 className="font-akshar font-bold text-[7vw] md:text-[5vw] leading-[1] text-ink">
-            PARA TODO
+        <div className="text-center mb-14">
+          <p className="font-bristol text-blue text-2xl md:text-3xl leading-none uppercase mb-1">Industrias</p>
+          <h2 className="font-akshar font-bold text-[10vw] md:text-[6vw] leading-[0.92] text-ink uppercase">
+            EN LAS QUE HE<br />TRABAJADO
           </h2>
         </div>
 
-        {/* 2 columnas */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-
-          {/* Izquierda: lista animada */}
-          <div className="relative h-[380px] overflow-hidden rounded-lg border border-black/8 bg-white shadow-sm">
+        {/* Card centrada con lista animada */}
+        <div className="max-w-xl mx-auto">
+          <div className="relative h-[320px] overflow-hidden rounded-2xl border border-black/8 bg-white shadow-lg">
             <motion.div
               className="flex flex-col absolute w-full"
               animate={{ y: ['0%', '-50%'] }}
-              transition={{ repeat: Infinity, repeatType: 'loop', duration: 10, ease: 'linear' }}
+              transition={{ repeat: Infinity, repeatType: 'loop', duration: 12, ease: 'linear' }}
             >
-              {[...planeacionItems, ...planeacionItems].map((item, i) => (
-                <div key={i} className="flex items-center justify-between gap-3 px-5 py-4 border-b border-gray-100">
-                  <div>
-                    <p className="font-barlow font-semibold text-sm text-gray-900">{item.title}</p>
-                    <p className="font-barlow text-xs text-gray-400 mt-0.5">{item.subtitle}</p>
+              {[...industriasItems, ...industriasItems].map((item, i) => (
+                <div key={i} className="flex items-center justify-between gap-4 px-6 py-4 border-b border-gray-100 last:border-0">
+                  <div className="flex items-center gap-4">
+                    <div className="w-9 h-9 rounded-full bg-ink/5 flex items-center justify-center shrink-0 text-ink/40">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <p className="font-barlow font-semibold text-sm text-gray-900 leading-tight">{item.title}</p>
+                      <p className="font-barlow text-xs text-gray-400 mt-0.5 leading-snug">{item.subtitle}</p>
+                    </div>
                   </div>
-                  {item.icon}
+                  <div className="text-blue/40 shrink-0">{item.icon}</div>
                 </div>
               ))}
             </motion.div>
-            <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
-            <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
+            <div className="absolute top-0 left-0 w-full h-14 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
+            <div className="absolute bottom-0 left-0 w-full h-14 bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
           </div>
-
-          {/* Derecha: shuffle grid */}
-          <ShuffleGrid />
-
         </div>
+
       </div>
     </section>
   )
