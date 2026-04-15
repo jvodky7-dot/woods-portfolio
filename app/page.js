@@ -937,10 +937,10 @@ function ProyectoGallery({ proyecto }) {
                 src={c.cover}
                 alt={`${proyecto.name} ${idx + 1}`}
                 fill
-                className="object-cover"
+                className="object-contain"
                 sizes="(max-width: 768px) 50vw, 20vw"
                 draggable={false}
-                style={{ transition: 'transform 0.5s ease', transform: isHovered ? 'scale(1.04)' : 'scale(1)' }}
+                style={{ transition: 'transform 0.5s ease', transform: isHovered ? 'scale(1.04)' : 'scale(1)', padding: '8px' }}
               />
               {/* Gradient overlay */}
               <div
