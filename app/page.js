@@ -762,16 +762,6 @@ const proyectos = [
     ],
   },
   {
-    id: 'truzt',
-    name: 'Truzt',
-    files: ['brief.md', 'identidad.fig', 'entrega.pdf'],
-    carruseles: [
-      carrusel('truzt', '1', 2),
-      carrusel('truzt', '2', 2),
-      carrusel('truzt', '3', 1),
-    ],
-  },
-  {
     id: 'valentina-ramirez',
     name: 'Valentina Ramírez',
     files: ['brief.md', 'identidad.fig', 'piezas.psd', 'entrega.pdf'],
