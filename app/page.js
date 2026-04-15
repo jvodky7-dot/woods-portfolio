@@ -899,10 +899,10 @@ function ProyectoGallery({ proyecto }) {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 16 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="flex flex-col gap-2 h-full"
+      className="flex flex-col gap-2 h-full min-h-0"
     >
       {/* Expand on hover gallery — cada card es un carrusel */}
-      <div className="flex w-full items-center gap-1 overflow-hidden rounded-xl" style={{ height: '300px' }}>
+      <div className="flex w-full items-center gap-1 overflow-hidden rounded-xl flex-1 min-h-0">
         {proyecto.carruseles.map((c, idx) => {
           const isHovered = hoveredIdx === idx
           const flex = isHovered ? 4 : 1
@@ -972,10 +972,10 @@ function WorkExplorer() {
   const [selected, setSelected] = useState(null)
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 mt-10 items-stretch">
+    <div className="flex flex-col md:flex-row gap-6 mt-10" style={{ height: '420px' }}>
 
       {/* Explorer panel — modo oscuro */}
-      <div className="w-full md:w-[280px] shrink-0 rounded-xl border border-cream/10 bg-cream/[0.05] overflow-hidden select-none backdrop-blur-sm">
+      <div className="w-full md:w-[280px] shrink-0 rounded-xl border border-cream/10 bg-cream/[0.05] overflow-y-auto select-none backdrop-blur-sm">
         {/* Barra título VS Code style */}
         <div className="flex items-center gap-1.5 px-4 py-3 border-b border-cream/10">
           <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
@@ -1038,7 +1038,7 @@ function WorkExplorer() {
       </div>
 
       {/* Panel derecho: galería o placeholder — modo oscuro */}
-      <div className="flex-1">
+      <div className="flex-1 min-w-0 h-full">
         <AnimatePresence mode="wait">
           {selected ? (
             <ProyectoGallery key={selected.id} proyecto={selected} />
