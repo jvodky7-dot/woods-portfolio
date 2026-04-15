@@ -663,97 +663,40 @@ function Herramientas() {
 }
 
 // ── MI TRABAJO ────────────────────────────────────────────────────
+function imgs(project, folder, count) {
+  return Array.from({ length: count }, (_, i) => `/trabajo/${project}/${folder}/${i + 1}.jpg`)
+}
+function carrusel(project, folder, count) {
+  const images = imgs(project, folder, count)
+  return { cover: images[0], images }
+}
+
 const proyectos = [
   {
     id: 'biking-village',
     name: 'Biking Village',
     files: ['brief.md', 'identidad.fig', 'contenido.pdf', 'entrega.zip'],
     carruseles: [
-      {
-        cover: '/trabajo/biking-village/1/1.jpg',
-        images: [
-          '/trabajo/biking-village/1/1.jpg',
-          '/trabajo/biking-village/1/2.jpg',
-          '/trabajo/biking-village/1/3.jpg',
-          '/trabajo/biking-village/1/4.jpg',
-          '/trabajo/biking-village/1/5.jpg',
-          '/trabajo/biking-village/1/6.jpg',
-        ],
-      },
-      {
-        cover: '/trabajo/biking-village/2/1.jpg',
-        images: [
-          '/trabajo/biking-village/2/1.jpg',
-          '/trabajo/biking-village/2/2.jpg',
-          '/trabajo/biking-village/2/3.jpg',
-          '/trabajo/biking-village/2/4.jpg',
-        ],
-      },
-      {
-        cover: '/trabajo/biking-village/3/1.jpg',
-        images: [
-          '/trabajo/biking-village/3/1.jpg',
-          '/trabajo/biking-village/3/2.jpg',
-          '/trabajo/biking-village/3/3.jpg',
-          '/trabajo/biking-village/3/4.jpg',
-          '/trabajo/biking-village/3/5.jpg',
-          '/trabajo/biking-village/3/7.jpg',
-        ],
-      },
-      {
-        cover: '/trabajo/biking-village/4/1.jpg',
-        images: [
-          '/trabajo/biking-village/4/1.jpg',
-          '/trabajo/biking-village/4/2.jpg',
-          '/trabajo/biking-village/4/3.jpg',
-          '/trabajo/biking-village/4/4.jpg',
-          '/trabajo/biking-village/4/5.jpg',
-          '/trabajo/biking-village/4/6.jpg',
-        ],
-      },
-      {
-        cover: '/trabajo/biking-village/5/1.jpg',
-        images: [
-          '/trabajo/biking-village/5/1.jpg',
-          '/trabajo/biking-village/5/2.jpg',
-          '/trabajo/biking-village/5/3.jpg',
-          '/trabajo/biking-village/5/4.jpg',
-          '/trabajo/biking-village/5/5.jpg',
-        ],
-      },
+      carrusel('biking-village', '1', 6),
+      carrusel('biking-village', '2', 4),
+      carrusel('biking-village', '3', 6),
+      carrusel('biking-village', '4', 6),
+      carrusel('biking-village', '5', 5),
+      carrusel('biking-village', '6', 1),
     ],
   },
   {
-    id: 'jicara',
-    name: 'Jicara',
-    files: ['brief.md', 'marca.ai', 'aplicaciones.fig', 'entrega.pdf'],
+    id: 'coldness',
+    name: 'Coldness',
+    files: ['brief.md', 'concepto.pdf', 'direccion.fig', 'entrega.zip'],
     carruseles: [
-      { cover: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80', images: ['https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=80', images: ['https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=80', images: ['https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=900&q=80', images: ['https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=900&q=80'] },
-    ],
-  },
-  {
-    id: 'swear-art',
-    name: 'Swear.art',
-    files: ['brief.md', 'estrategia.pdf', 'contenido.fig', 'entrega.zip'],
-    carruseles: [
-      { cover: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=900&q=80', images: ['https://images.unsplash.com/photo-1626785774573-4b799315345d?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&q=80', images: ['https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=900&q=80', images: ['https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=900&q=80', images: ['https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=900&q=80'] },
-    ],
-  },
-  {
-    id: 'valentina-ramirez',
-    name: 'Valentina Ramírez',
-    files: ['brief.md', 'identidad.fig', 'piezas.psd', 'entrega.pdf'],
-    carruseles: [
-      { cover: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80', images: ['https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1553484771-371a605b060b?w=900&q=80', images: ['https://images.unsplash.com/photo-1553484771-371a605b060b?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&q=80', images: ['https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80', images: ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80'] },
+      carrusel('coldness', '1', 4),
+      carrusel('coldness', '2', 2),
+      carrusel('coldness', '3', 2),
+      carrusel('coldness', '4', 1),
+      carrusel('coldness', '5', 2),
+      carrusel('coldness', '6', 5),
+      carrusel('coldness', '7', 1),
     ],
   },
   {
@@ -761,10 +704,83 @@ const proyectos = [
     name: 'Coopsominas',
     files: ['brief.md', 'estrategia.pdf', 'tableros.xls', 'entrega.zip'],
     carruseles: [
-      { cover: 'https://images.unsplash.com/photo-1629901925121-8a141c2a42f4?w=900&q=80', images: ['https://images.unsplash.com/photo-1629901925121-8a141c2a42f4?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=900&q=80', images: ['https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1510925758641-869d353cecc7?w=900&q=80', images: ['https://images.unsplash.com/photo-1510925758641-869d353cecc7?w=900&q=80'] },
-      { cover: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80', images: ['https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80'] },
+      carrusel('coopsominas', '1', 4),
+      carrusel('coopsominas', '2', 3),
+    ],
+  },
+  {
+    id: 'elena-rubtso',
+    name: 'Elena Rubtso',
+    files: ['brief.md', 'identidad.fig', 'entrega.pdf'],
+    carruseles: [
+      carrusel('elena-rubtso', '1', 1),
+      carrusel('elena-rubtso', '2', 1),
+      carrusel('elena-rubtso', '3', 1),
+    ],
+  },
+  {
+    id: 'isabela-londono',
+    name: 'Isabela Londoño',
+    files: ['brief.md', 'identidad.fig', 'entrega.pdf'],
+    carruseles: [
+      carrusel('isabela-londono', '1', 1),
+    ],
+  },
+  {
+    id: 'jicara',
+    name: 'Jícara',
+    files: ['brief.md', 'marca.ai', 'aplicaciones.fig', 'entrega.pdf'],
+    carruseles: [
+      carrusel('jicara', '1', 4),
+      carrusel('jicara', '2', 1),
+      carrusel('jicara', '3', 1),
+      carrusel('jicara', '4', 7),
+      carrusel('jicara', '5', 3),
+      carrusel('jicara', '6', 1),
+    ],
+  },
+  {
+    id: 'la-competencia',
+    name: 'La Competencia',
+    files: ['brief.md', 'estrategia.pdf', 'contenido.fig', 'entrega.zip'],
+    carruseles: [
+      carrusel('la-competencia', '1', 5),
+      carrusel('la-competencia', '2', 5),
+      carrusel('la-competencia', '3', 4),
+      carrusel('la-competencia', '4', 6),
+      carrusel('la-competencia', '6', 1),
+      carrusel('la-competencia', '7', 3),
+    ],
+  },
+  {
+    id: 'swear-art',
+    name: 'Swear.art',
+    files: ['brief.md', 'estrategia.pdf', 'contenido.fig', 'entrega.zip'],
+    carruseles: [
+      carrusel('swear-art', '1', 4),
+      carrusel('swear-art', '2', 3),
+    ],
+  },
+  {
+    id: 'truzt',
+    name: 'Truzt',
+    files: ['brief.md', 'identidad.fig', 'entrega.pdf'],
+    carruseles: [
+      carrusel('truzt', '1', 2),
+      carrusel('truzt', '2', 2),
+      carrusel('truzt', '3', 1),
+    ],
+  },
+  {
+    id: 'valentina-ramirez',
+    name: 'Valentina Ramírez',
+    files: ['brief.md', 'identidad.fig', 'piezas.psd', 'entrega.pdf'],
+    carruseles: [
+      carrusel('valentina-ramirez', '1', 4),
+      carrusel('valentina-ramirez', '2', 4),
+      carrusel('valentina-ramirez', '3', 4),
+      carrusel('valentina-ramirez', '4', 5),
+      carrusel('valentina-ramirez', '5', 1),
     ],
   },
 ]
