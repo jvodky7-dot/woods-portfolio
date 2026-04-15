@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useState, useCallback } from 'react'
+import Image from 'next/image'
 import { content } from '../content'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -826,24 +827,31 @@ function ProyectoLightbox({ images, projectName, startIndex, onClose }) {
 
       {/* Image */}
       <div
-        className="relative w-full flex items-center justify-center px-16"
-        style={{ maxHeight: '80vh' }}
+        className="relative w-full px-16"
+        style={{ height: '80vh' }}
         onClick={(e) => e.stopPropagation()}
       >
         <AnimatePresence mode="wait" custom={direction}>
-          <motion.img
+          <motion.div
             key={current}
-            src={images[current]}
-            alt={`${projectName} ${current + 1}`}
             custom={direction}
             variants={variants}
             initial="enter"
             animate="center"
             exit="exit"
             transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="max-h-[80vh] max-w-full rounded-lg object-contain"
-            draggable={false}
-          />
+            className="absolute inset-0"
+          >
+            <Image
+              src={images[current]}
+              alt={`${projectName} ${current + 1}`}
+              fill
+              className="object-contain rounded-lg"
+              sizes="(max-width: 768px) 100vw, 90vw"
+              priority
+              draggable={false}
+            />
+          </motion.div>
         </AnimatePresence>
       </div>
 
@@ -919,10 +927,12 @@ function ProyectoGallery({ proyecto }) {
               onMouseLeave={() => setHoveredIdx(null)}
               onClick={() => setLightbox({ images: c.images })}
             >
-              <img
+              <Image
                 src={c.cover}
                 alt={`${proyecto.name} ${idx + 1}`}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 50vw, 20vw"
                 draggable={false}
                 style={{ transition: 'transform 0.5s ease', transform: isHovered ? 'scale(1.04)' : 'scale(1)' }}
               />
